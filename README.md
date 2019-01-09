@@ -1,3 +1,3 @@
-# 132nd Web Backend
+# 132nd Web Application
 
-This node+express application will serve the client web app with information via a REST API. Othe applications can also access the data by passing having an authenticated user.
+This application is a React based webclient that will be served to the user. It communicates with the 132nd backend (web-server).
