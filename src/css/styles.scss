@@ -1,0 +1,190 @@
+// Resource Imports
+@import url('https://fonts.googleapis.com/css?family=Oswald|Roboto');
+
+// BOOTSTRAP4: Color Overrides
+$white:    #fff !default;
+// $gray-100: #f8f9fa !default;
+// $gray-200: #e9ecef !default;
+// $gray-300: #dee2e6 !default;
+// $gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+// $gray-600: #6c757d !default;
+// $gray-700: #495057 !default;
+// $gray-800: #343a40 !default;
+// $gray-900: #212529 !default;
+// $black:    #000 !default;
+
+$darkblue:    #072d4d !default;
+$orange:      #f99924 !default;
+// $blue:    #007bff !default;
+// $indigo:  #6610f2 !default;
+// $purple:  #6f42c1 !default;
+// $pink:    #e83e8c !default;
+// $orange:  #fd7e14 !default;
+// $red:     #dc3545 !default;
+// $yellow:  #ffc107 !default;
+// $green:   #28a745 !default;
+// $teal:    #20c997 !default;
+// $cyan:    #17a2b8 !default;
+
+// Additional colors
+$darkred:         #6D2A30 !default;
+$darkredfaded:    #75595C !default;
+
+
+$primary:       $white !default;
+$info:          $orange !default;
+// $secondary:     $gray-600 !default;
+// $success:       $green !default;
+// $warning:       $yellow !default;
+// $danger:        $red !default;
+// $light:         $gray-100 !default;
+// $dark:          $gray-800 !default;
+
+
+// BOOTSTRAP4: Other Overrides
+$font-family-sans-serif:  -apple-system, BlinkMacSystemFont, "Roboto", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
+$link-hover-color:        $info;
+
+// 132ND ADDITIONAL STYLES
+
+// Variables should follow the `$component-state-property-size` formula for
+// consistent naming. Ex: $nav-link-disabled-color and $modal-content-box-shadow-xs.
+$font-family-headers : -apple-system, BlinkMacSystemFont, "Oswald", "Roboto", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
+
+// HTML element classes
+body {
+  background-color: #b4c8d8 !important;
+}
+
+h1 {
+  font-family: $font-family-headers;
+  font-size: 5rem !important;
+}
+
+h2 {
+  font-family: $font-family-headers;
+  font-size: 3.4rem !important;
+}
+
+h3 {
+  font-family: $font-family-headers;
+  font-size: 2.2rem !important;
+}
+
+h4 {
+  font-family: $font-family-headers;
+  font-size: 1.25rem !important;
+}
+
+h5 {
+  font-family: $font-family-headers;
+  font-size: 1rem !important;
+}
+
+h6 {
+  font-family: $font-family-headers;
+  font-size: 0.75rem !important;
+}
+
+// Admin Page classes
+.admin-nav .nav-link {
+  color: $gray-500;
+  // background-color: $gray-500;
+}
+
+// NOTAM Classes
+.notam-feed {
+  position: absolute;
+  top: 1rem;
+  right: 5rem;
+  background: SlateBlue;
+	border-left: 1px solid DarkSlateBlue;
+  border-right: 1px solid DarkSlateBlue;
+  z-index: 2001;
+  min-width: 9vw;
+}
+
+.notam-feed.expanded {
+  min-width: 25vw;
+}
+
+.notam-feed small {
+  color: #c1c1c1;
+}
+
+.notam-feed .notam-link::before {
+  content: url(../img/assets/chevron_white.png);
+  padding-right: .2rem;
+}
+
+.notam-feed .notam-link {
+  font-size: .75rem;
+}
+
+.notam-feed .modal-header, .notam-feed .modal-body  {
+  color: black;
+}
+
+.notam-feed .modal-header:before  {
+  content: url(../img/assets/chevron_black.png);
+  padding-right: .2rem;
+}
+
+.notam-collapse-icon {
+  position: absolute;
+  top: .1rem;
+  right: .5rem;
+  cursor: pointer;
+}
+
+.notam-feed-title {
+  letter-spacing: .2rem;
+}
+
+.notam-feed .modal-header  {
+  font-size: 1rem !important;
+}
+
+.notam-feed .modal-body  {
+  font-size: .75rem !important;
+}
+
+// Sidenav Classes
+.main-nav {
+  background-color: $darkblue;
+  font-family: $font-family-headers;
+}
+
+@media (min-width: 768px) {
+  .main-nav {
+    min-height: 100vh !important;
+  }
+}
+
+// Page Item (Landing etc.) Classes
+.page-item-list {
+  background: none !important;
+}
+
+.page-item-list .list-group-item {
+  height: .80rem !important;
+  width: .80rem !important;
+  // border-radius: 1.5rem !important ;
+  padding: 0;
+  border: none !important;
+  color: white !important;
+  opacity: .5;
+}
+
+.page-item-list .list-group-item.active {
+  border-color: white !important;
+  background-color: white !important;
+  color: white !important;
+  opacity: unset;
+}
+
+// Include BOOTSTRAP4 styles
+@import "../../node_modules/bootstrap/scss/bootstrap.scss"
+
+
