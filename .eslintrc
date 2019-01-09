@@ -1,6 +1,6 @@
 {
   "parser": "babel-eslint",
-  "extends": ["airbnb-base", "prettier"],
+  "extends": ["react-app", "airbnb-base", "prettier"],
   "parserOptions": {
     "ecmaVersion": 6
   },
