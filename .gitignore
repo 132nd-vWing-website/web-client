@@ -8,6 +8,7 @@
 
 # production
 /build
+app.bundle.js
 /_old
 
 # misc
