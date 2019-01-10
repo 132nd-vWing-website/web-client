@@ -9,17 +9,13 @@ import { getSliders } from '../../actions/staticsActions';
 import './style.css';
 
 class HeaderCarousel extends Component {
-  state = {
-    slides: [],
-  };
-
   componentDidMount() {
     const { fetchSlides } = this.props;
     fetchSlides();
   }
 
   shouldComponentUpdate(nextProps) {
-    const { slides } = this.state;
+    const { slides } = this.props;
     if (slides !== nextProps.slides) return true;
     return false;
   }
@@ -33,20 +29,15 @@ class HeaderCarousel extends Component {
   };
 
   render() {
+    const { slides } = this.props;
+
+    const carouselitems = slides.map((slide) => (
+      <CarouselItem key={slide._id} title={slide.heading} body={slide.body} img={slide.bg} />
+    ));
+
     return (
-      <Carousel effect='fade' autoplay>
-        <div>
-          <h3>1</h3>
-        </div>
-        <div>
-          <h3>2</h3>
-        </div>
-        <div>
-          <h3>3</h3>
-        </div>
-        <div>
-          <h3>4</h3>
-        </div>
+      <Carousel effect='fade' autoplay lazyLoad>
+        {carouselitems}
       </Carousel>
     );
   }
@@ -65,3 +56,30 @@ export default connect(
   mapStateToProps,
   { fetchSlides: getSliders },
 )(HeaderCarousel);
+
+/** CAROUSEL ITEM COMPONENT */
+const CarouselItem = (props) => {
+  const { title, body, img } = props;
+
+  console.log(props);
+
+  return (
+    <div>
+      <img src={img} alt={title} style={{ maxHeight: '70vh', objectFit: 'cover' }} />
+      <h1 className='text-uppercase'>{title}</h1>
+      <h3>{body}</h3>
+    </div>
+  );
+};
+
+CarouselItem.propTypes = {
+  title: PropTypes.string,
+  body: PropTypes.string,
+  img: PropTypes.string,
+};
+
+CarouselItem.defaultProps = {
+  title: '',
+  body: '',
+  img: '',
+};
