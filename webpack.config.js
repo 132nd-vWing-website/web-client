@@ -12,10 +12,7 @@ module.exports = {
   devServer: {
     contentBase: './public',
     proxy: {
-      '/api': {
-        target: 'http://localhost:5000',
-        pathRewrite: { '^/api': '' },
-      },
+      '/api/v1': 'http://localhost:5000',
     },
   },
   resolve: {
