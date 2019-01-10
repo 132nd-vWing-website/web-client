@@ -5,12 +5,12 @@ module.exports = {
     app: './src/App.js',
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'public'),
     filename: '[name].bundle.js',
   },
   devtool: 'inline-source-map',
   devServer: {
-    contentBase: './dist',
+    contentBase: './public',
   },
   resolve: {
     extensions: ['.js', '.jsx'],
@@ -18,7 +18,6 @@ module.exports = {
   module: {
     rules: [
       {
-        // test: /\.js$/,
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         loader: 'babel-loader',

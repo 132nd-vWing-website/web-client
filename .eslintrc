@@ -1,6 +1,6 @@
 {
   "parser": "babel-eslint",
-  "extends": ["react-app", "airbnb-base", "prettier"],
+  "extends": ["airbnb", "prettier"],
   "parserOptions": {
     "ecmaVersion": 6
   },
@@ -10,7 +10,8 @@
   "plugins": ["prettier"],
   "rules": {
     "prettier/prettier": "error",
-    "no-console": 0,
-    "no-underscore-dangle": 0
+    "react/forbid-prop-types": false,
+    "no-return-assign": "off",
+    "react/jsx-closing-bracket-location": "enabled"
   }
 }
