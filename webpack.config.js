@@ -11,6 +11,12 @@ module.exports = {
   devtool: 'inline-source-map',
   devServer: {
     contentBase: './public',
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5000',
+        pathRewrite: { '^/api': '' },
+      },
+    },
   },
   resolve: {
     extensions: ['.js', '.jsx'],
