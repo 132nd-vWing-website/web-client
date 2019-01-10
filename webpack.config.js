@@ -51,9 +51,9 @@ module.exports = {
             loader: 'less-loader',
             options: {
               modifyVars: {
-                'primary-color': '#1DA57A',
+                /* For all available AntD LESS Variables, see https://github.com/ant-design/ant-design/blob/master/components/style/themes/default.less */
+                'primary-color': '#C9793A',
                 'link-color': '#1DA57A',
-                'border-radius-base': '2px',
               },
               javascriptEnabled: true,
             },

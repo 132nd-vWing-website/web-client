@@ -8,8 +8,6 @@ import ReactDOM from 'react-dom';
 // import { Layout, Button } from 'antd';
 import { Button } from 'antd';
 
-import './App.less';
-
 // const { Header, Content, Footer } = Layout;
 
 function App() {
