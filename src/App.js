@@ -1,4 +1,7 @@
 /* eslint react/jsx-filename-extension: 0 */
+/* eslint no-console: 0 */
+import './App.css';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -14,6 +17,7 @@ import store from './store';
 const { Header, Content, Footer, Sider } = Layout;
 
 function App() {
+  console.log('App reloaded at ', new Date());
   return (
     <Provider store={store}>
       <Layout style={{ minHeight: '100vh' }}>
@@ -54,7 +58,7 @@ function App() {
           </Menu>
         </Sider>
         <Layout>
-          <Header style={{ background: '#fff', padding: 0 }}>
+          <Header style={{ background: '#fff', padding: 0, minHeight: '350px' }}>
             <HeaderCarousel />
           </Header>
           <Content style={{ margin: '24px 16px 0' }}>
