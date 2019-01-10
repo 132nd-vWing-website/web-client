@@ -36,7 +36,6 @@ function App() {
               <Icon type='compass' />
               <span className='nav-text'>Events</span>
             </Menu.Item>
-            <div style={{ paddingTop: '2em' }} />
             <Menu.Item key='5'>
               <span className='nav-text'>Profiles</span>
             </Menu.Item>
