@@ -43,6 +43,13 @@ const newsItems = [
     title: 'Card Title',
     body: 'This is the card body',
   },
+  {
+    key: generateKey(),
+    avatarUrl: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+    cover: slider5,
+    title: 'Card Title',
+    body: 'This is the card body',
+  },
 ];
 
 /**
