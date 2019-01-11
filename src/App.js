@@ -8,7 +8,8 @@ import { Provider } from 'react-redux';
 // import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 import { Layout, Menu, Icon } from 'antd';
-import HeaderCarousel from './components/HeaderCarousel/HeaderCarousel';
+import HeaderCarousel from './components/headercarousel/HeaderCarousel';
+import Landing from './components/landing/Landing';
 
 import store from './store';
 
@@ -57,14 +58,17 @@ function App() {
             </Menu.Item>
           </Menu>
         </Sider>
-        <Layout>
-          <Header style={{ background: '#fff', padding: 0, minHeight: '350px' }}>
+        <Layout style={{ background: '#272727' }}>
+          <Header
+            style={{ background: '#fff', padding: 0, minHeight: '350px', margin: '1em 1em 0' }}>
             <HeaderCarousel />
           </Header>
-          <Content style={{ margin: '24px 16px 0' }}>
-            <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>content</div>
+          <Content style={{ margin: '1em 1em 0' }}>
+            <Landing />
           </Content>
-          <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+          <Footer style={{ textAlign: 'center', background: '#272727', color: '#aaa' }}>
+            132nd Virtual Wing ©2019
+          </Footer>
         </Layout>
       </Layout>
     </Provider>
