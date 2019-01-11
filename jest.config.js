@@ -58,10 +58,10 @@ module.exports = {
   // globals: {},
 
   // An array of directory names to be searched recursively up from the requiring module's location
-  moduleDirectories: ['node_modules'],
+  // moduleDirectories: ['node_modules'],
 
   // An array of file extensions your modules use
-  moduleFileExtensions: ['js', 'json', 'jsx', 'node'],
+  // moduleFileExtensions: ['js', 'json', 'jsx', 'node'],
 
   // A map from regular expressions to module names that allow to stub out resources with a single module
   moduleNameMapper: {
@@ -120,8 +120,8 @@ module.exports = {
   // A list of paths to snapshot serializer modules Jest should use for snapshot testing
   // snapshotSerializers: [],
 
-  // The test environment that will be used for testing
-  testEnvironment: 'node',
+  // The test environment that will be used for testing (node or jsdom)
+  testEnvironment: 'jsdom',
 
   // Options that will be passed to the testEnvironment
   // testEnvironmentOptions: {},
@@ -152,7 +152,7 @@ module.exports = {
   // timers: "real",
 
   // A map from regular expressions to paths to transformers
-  transform: { '^.+\\.js$': 'babel-jest' },
+  // transform: { '^.+\\.js$': 'babel-jest' },
   // transform: {
   //   '^.+\\.(js|jsx|mjs)$': '<rootDir>/src/__mocks__/babelTransform.js',
   //   '^.+\\.css$': '<rootDir>/src/__mocks__/cssTransform.js',

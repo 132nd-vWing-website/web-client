@@ -1,9 +1,8 @@
-/* eslint react/jsx-filename-extension: 0 */
 /* eslint no-console: 0 */
 import './App.css';
 
 import React from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 // import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
@@ -74,6 +73,8 @@ function App() {
     </Provider>
   );
 }
+
+export default App;
 // function App() {
 //   return (
 //     <Router>
@@ -120,5 +121,5 @@ function App() {
 // }
 
 /* eslint no-undef: 0 */
-ReactDOM.render(<App />, document.getElementById('root'));
+// ReactDOM.render(<App />, document.getElementById('root'));
 // registerServiceWorker();
