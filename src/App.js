@@ -21,7 +21,7 @@ function App() {
   return (
     <Provider store={store}>
       <Layout style={{ minHeight: '100vh' }}>
-        <Sider breakpoint='lg' collapsedWidth='0'>
+        <Sider breakpoint='lg' collapsedWidth='0' className='sider-main'>
           <div className='logo' />
           <Menu theme='dark' mode='inline' defaultSelectedKeys={['4']}>
             <Menu.Item key='1'>

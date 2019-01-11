@@ -1,3 +1,7 @@
+.sider-main {
+  z-index: 100;
+}
+
 .ant-carousel .slick-slide {
   text-align: center;
   height: 350px;
@@ -6,14 +10,14 @@
   overflow: hidden;
 }
 
-.ant-carousel .slick-slide h3 {
+.ant-carousel .slick-slide .header-carousel-item h3 {
   font-family: -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, Arial, sans-serif;
   color: #fff;
   text-shadow: '1px 1px 8px #000000cc';
   padding: 0 2em 0 2em;
 }
 
-.ant-carousel .slick-slide h1 {
+.ant-carousel .slick-slide .header-carousel-item h1 {
   font-family: -apple-system, BlinkMacSystemFont, Oswald, Roboto, Helvetica Neue, Arial, sans-serif !important;
   color: #fff;
   text-shadow: '1px 1px 8px #000000cc';
