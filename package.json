@@ -33,6 +33,7 @@
     "css-loader": "^2.0.2",
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.7.1",
+    "enzyme-to-json": "^3.3.5",
     "eslint": "^5.10.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-prettier": "^3.3.0",
@@ -58,7 +59,9 @@
   "scripts": {
     "start": "webpack-dev-server --open --mode=development",
     "dev": "webpack --watch --mode=development",
-    "test": "jest --runInBand --watchAll",
+    "test": "jest --watchAll",
+    "test:coverage": "jest --coverage",
+    "test:runInBand": "jest --runInBand --watchAll",
     "build": "webpack --mode=production",
     "babel": "babel ./src/App.js -d public",
     "serve": "npm run build && serve -l 80 public",
