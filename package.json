@@ -53,8 +53,7 @@
   "scripts": {
     "start": "webpack-dev-server --open --mode=development",
     "dev": "webpack --watch --mode=development",
-    "test": "jest --runInBand",
-    "test:watch": "jest --testPathIgnorePatterns _old public node_modules .git --watchAll --runInBand",
+    "test": "jest --runInBand --watchAll",
     "build": "webpack --mode=production",
     "babel": "babel ./src/App.js -d public",
     "serve": "npm run build && serve -l 80 public",
