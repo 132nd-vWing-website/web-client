@@ -48,7 +48,7 @@ class HeaderCarousel extends Component {
     const carouselitems = slides.map((slide) => {
       const randSlider = sliders[Math.floor(Math.random() * sliders.length)];
       return (
-        <CarouselItem key={slide._id} title={slide.heading} body={slide.body} img={randSlider} />
+        <CarouselItem key={slide._id} title={slide.heading} body={slide.body} imgUrl={randSlider} />
       );
     });
 
@@ -74,40 +74,39 @@ export default connect(
   { fetchSlides: getSliders },
 )(HeaderCarousel);
 
-/** CAROUSEL ITEM COMPONENT */
+/**
+ * CarouselItem Component
+ * @param {string} title
+ * @param {string} body
+ * @param {string} imgUrl
+ */
 const CarouselItem = (props) => {
-  const { title, body, img } = props;
+  const { title, body, imgUrl } = props;
 
   return (
     <div
       className='header-carousel-item'
-      style={{ background: `url(${img})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
+      style={{
+        background: `url(${imgUrl})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+      }}>
       <div>
         <h1>{title}</h1>
         <h3>{body}</h3>
       </div>
     </div>
   );
-
-  // return (
-  //   <div className='header-carousel-item'>
-  //     <img src={img} alt={title} />
-  //     <div>
-  //       <h1 className='header-carousel-item-content'>{title}</h1>
-  //       <h3>{body}</h3>
-  //     </div>
-  //   </div>
-  // );
 };
 
 CarouselItem.propTypes = {
   title: PropTypes.string,
   body: PropTypes.string,
-  img: PropTypes.string,
+  imgUrl: PropTypes.string,
 };
 
 CarouselItem.defaultProps = {
   title: '',
   body: '',
-  img: '',
+  imgUrl: '',
 };
