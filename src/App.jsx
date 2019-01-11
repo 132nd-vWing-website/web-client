@@ -2,79 +2,110 @@
 import './App.css';
 
 import React from 'react';
-// import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-// import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { Provider, connect } from 'react-redux';
+import jwtDecode from 'jwt-decode';
 
-import { Layout, Menu, Icon } from 'antd';
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+
+// UI Components
+import { Layout } from 'antd';
+import Sidebar from './components/sidebar/Sidebar';
+
+// Redux Store
+import store from './store';
+
+// Redux Actions
+import { setCurrentUser, logoutUser } from './actions/authActions';
+import { clearCurrentProfile } from './actions/profileActions';
+import { getUnreadNotams } from './actions/postActions';
+
+// Public Routes
 import HeaderCarousel from './components/headercarousel/HeaderCarousel';
 import Landing from './components/landing/Landing';
 
-import store from './store';
+// Private Routes
+import PrivateRoute from './components/auth/PrivateRoute';
+// import Register from './components/auth/Register';
+// import Login from './components/auth/Login';
 
-// import registerServiceWorker from './registerServiceWorker';
+// Utils
+import setAuthToken from './utils/setAuthToken';
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Footer } = Layout;
 
+/**
+ * Check for token to keep a loged in user authenticated
+ */
+if (localStorage.jwtToken) {
+  // Set auth token header
+  setAuthToken(localStorage.jwtToken);
+
+  // Decode token and get user info
+  const decoded = jwtDecode(localStorage.jwtToken);
+
+  // Set user and isAuthenticated
+  store.dispatch(setCurrentUser(decoded));
+
+  // Get all NOTAMs
+  store.dispatch(getUnreadNotams());
+
+  // Check for expired token
+  const currentTime = Date.now() / 1000;
+  if (decoded.exp < currentTime) {
+    store.dispatch(logoutUser());
+    store.dispatch(clearCurrentProfile());
+    // Redirect to login
+    window.location.href = '/login';
+  }
+}
+
+/**
+ * App Component
+ */
 function App() {
   console.log('App reloaded at ', new Date());
   return (
     <Provider store={store}>
-      <Layout style={{ minHeight: '100vh' }}>
-        <Sider breakpoint='lg' collapsedWidth='0' className='sider-main'>
-          <div className='logo' />
-          <Menu theme='dark' mode='inline' defaultSelectedKeys={['4']}>
-            <Menu.Item key='1'>
-              <Icon type='plus' />
-              <span className='nav-text'>Sign Up</span>
-            </Menu.Item>
-            <Menu.Item key='2'>
-              <Icon type='user' />
-              <span className='nav-text'>Login</span>
-            </Menu.Item>
-            <Menu.Item key='3'>
-              <Icon type='home' />
-              <span className='nav-text'>Home</span>
-            </Menu.Item>
-            <Menu.Item key='4'>
-              <Icon type='compass' />
-              <span className='nav-text'>Events</span>
-            </Menu.Item>
-            <Menu.Item key='5'>
-              <span className='nav-text'>Profiles</span>
-            </Menu.Item>
-            <Menu.Item key='6'>
-              <span className='nav-text'>About Us</span>
-            </Menu.Item>
-            <Menu.Item key='7'>
-              <span className='nav-text'>Squadrons</span>
-            </Menu.Item>
-            <Menu.Item key='8'>
-              <span className='nav-text'>Recruitment</span>
-            </Menu.Item>
-            <Menu.Item key='9'>
-              <span className='nav-text'>Contact Us</span>
-            </Menu.Item>
-          </Menu>
-        </Sider>
-        <Layout style={{ background: '#272727' }}>
-          <Header
-            style={{ background: '#fff', padding: 0, minHeight: '350px', margin: '1em 1em 0' }}>
-            <HeaderCarousel />
-          </Header>
-          <Content style={{ margin: '1em 1em 0' }}>
-            <Landing />
-          </Content>
-          <Footer style={{ textAlign: 'center', background: '#272727', color: '#aaa' }}>
-            132nd Virtual Wing ©2019
-          </Footer>
+      <Router>
+        <Layout style={{ minHeight: '100vh' }}>
+          <Sidebar />
+          <Layout style={{ background: '#272727' }}>
+            <HeaderComponent />
+            <Content style={{ margin: '1em 1em 0' }}>
+              <Route exact path='/' component={Landing} />
+              <Switch>
+                <PrivateRoute exact path='/dashboard' component={<div>DASHBOARD</div>} />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path='/create-profile'
+                  component={<div>CREATE A PROFILE</div>}
+                />
+              </Switch>
+            </Content>
+            <Footer style={{ textAlign: 'center', background: '#272727', color: '#aaa' }}>
+              132nd Virtual Wing ©2019
+            </Footer>
+          </Layout>
         </Layout>
-      </Layout>
+      </Router>
     </Provider>
   );
 }
 
 export default App;
+
+/**
+ * Header Component
+ */
+const HeaderComponent = () => (
+  <Header style={{ background: '#fff', padding: 0, minHeight: '350px', margin: '1em 1em 0' }}>
+    <HeaderCarousel />
+  </Header>
+);
+
 // function App() {
 //   return (
 //     <Router>
@@ -119,7 +150,3 @@ export default App;
 //     </Router>
 //   );
 // }
-
-/* eslint no-undef: 0 */
-// ReactDOM.render(<App />, document.getElementById('root'));
-// registerServiceWorker();

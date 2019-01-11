@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import PropType from 'prop-types';
 
-import { Card, Icon, Avatar } from 'antd';
+import LandingCard from './LandingCard';
 
 /** These should be loaded via the API in the future! Used to display a random image for each slide */
 import slider1 from '../../img/sliders/slider1.png';
@@ -9,8 +9,6 @@ import slider2 from '../../img/sliders/slider2.png';
 import slider3 from '../../img/sliders/slider3.png';
 import slider4 from '../../img/sliders/slider4.png';
 import slider5 from '../../img/sliders/slider5.png';
-
-const { Meta } = Card;
 
 const generateKey = () => new Date().getUTCMilliseconds() + Math.random();
 
@@ -59,68 +57,39 @@ const newsItems = [
  * @param {string} avatarUrl
  * @param {string} cover
  */
-const Landing = () => {
-  const news = newsItems.map((item) => (
-    <LandingCard
-      key={item.key}
-      title={item.title}
-      body={item.body}
-      avatarUrl={item.avatarUrl}
-      cover={item.cover}
-    />
-  ));
-  return news;
-};
-
-export default Landing;
-
-class LandingCard extends Component {
+export default class Landing extends Component {
   state = {
-    isLoading: true,
+    news: [],
   };
 
   componentDidMount() {
-    this.setState({ isLoading: false });
+    const { news } = this.props;
+    this.updateNews(news);
   }
 
+  updateNews = (news) => {
+    this.setState({ news });
+  };
+
   render() {
-    const { isLoading } = this.state;
-    const { title, body, avatarUrl, cover } = this.props;
-
-    const coverComponent = (
-      <div
-        style={{
-          minWidth: '100%',
-          maxHeight: '200px',
-          minHeight: '200px',
-          background: `url(${cover}) center center no-repeat`,
-          backgroundSize: 'cover',
-        }}
+    const { news } = this.state;
+    const newsCards = news.map((item) => (
+      <LandingCard
+        key={item.key}
+        title={item.title}
+        body={item.body}
+        avatarUrl={item.avatarUrl}
+        cover={item.cover}
       />
-    );
-
-    const avatarComponent = <Avatar src={avatarUrl} />;
-    const actionsComponent = [
-      <Icon type='setting' />,
-      <Icon type='edit' />,
-      <Icon type='ellipsis' />,
-    ];
-
-    return (
-      <Card
-        style={{ width: '100%', margin: '0 0 1em 0' }}
-        cover={coverComponent}
-        actions={actionsComponent}
-        loading={isLoading}>
-        <Meta avatar={avatarComponent} title={title} description={body} />
-      </Card>
-    );
+    ));
+    return newsCards;
   }
 }
 
-LandingCard.propTypes = {
-  title: PropTypes.string.isRequired,
-  body: PropTypes.string.isRequired,
-  avatarUrl: PropTypes.string.isRequired,
-  cover: PropTypes.string.isRequired,
+Landing.propTypes = {
+  news: PropType.array, // isRequired
+};
+
+Landing.defaultProps = {
+  news: newsItems,
 };
