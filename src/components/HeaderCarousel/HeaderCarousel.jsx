@@ -87,8 +87,7 @@ const CarouselItem = (props) => {
     <div
       className='header-carousel-item'
       style={{
-        background: `url(${imgUrl})`,
-        backgroundRepeat: 'no-repeat',
+        background: `url(${imgUrl})  center center no-repeat`,
         backgroundSize: 'cover',
       }}>
       <div>
