@@ -24,7 +24,9 @@
     "@babel/plugin-proposal-class-properties": "^7.2.3",
     "@babel/preset-env": "^7.2.3",
     "@babel/preset-react": "^7.0.0",
+    "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
+    "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.4",
     "babel-plugin-import": "^1.11.0",
     "css-loader": "^2.0.2",
@@ -48,17 +50,10 @@
     "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^3.1.14"
   },
-  "jest": {
-    "testURL": "http://localhost/",
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/public/"
-    ]
-  },
   "scripts": {
     "start": "webpack-dev-server --open --mode=development",
     "dev": "webpack --watch --mode=development",
-    "test": "jest --testPathIgnorePatterns _old public node_modules .git --runInBand",
+    "test": "jest --runInBand",
     "test:watch": "jest --testPathIgnorePatterns _old public node_modules .git --watchAll --runInBand",
     "build": "webpack --mode=production",
     "babel": "babel ./src/App.js -d public",
