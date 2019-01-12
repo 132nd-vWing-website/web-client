@@ -25,7 +25,7 @@ import Landing from './components/landing/Landing';
 
 // Private Routes
 import PrivateRoute from './components/auth/PrivateRoute';
-// import Register from './components/auth/Register';
+import Register from './components/auth/Register';
 // import Login from './components/auth/Login';
 
 // Utils
@@ -73,6 +73,7 @@ function App() {
             <HeaderComponent />
             <Content style={{ margin: '1em 1em 0' }}>
               <Route exact path='/' component={Landing} />
+              <Route exact path='/register' component={Register} />
               <Switch>
                 <PrivateRoute exact path='/dashboard' component={<div>DASHBOARD</div>} />
               </Switch>
