@@ -73,8 +73,10 @@ const Sidebar = (props) => {
         </Link>
       </Menu.Item>
       <Menu.Item key='2'>
-        <Icon type='user' />
-        <span className='nav-text'>Login</span>
+        <Link to='/login'>
+          <Icon type='user' />
+          <span className='nav-text'>Login</span>
+        </Link>
       </Menu.Item>
       <Menu.Item key='3'>
         <Link to='/'>

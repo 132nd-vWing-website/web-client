@@ -26,7 +26,7 @@ import Landing from './components/landing/Landing';
 // Private Routes
 import PrivateRoute from './components/auth/PrivateRoute';
 import Register from './components/auth/Register';
-// import Login from './components/auth/Login';
+import Login from './components/auth/Login';
 
 // Utils
 import setAuthToken from './utils/setAuthToken';
@@ -74,6 +74,7 @@ function App() {
             <Content style={{ margin: '1em 1em 0' }}>
               <Route exact path='/' component={Landing} />
               <Route exact path='/register' component={Register} />
+              <Route exact path='/login' component={Login} />
               <Switch>
                 <PrivateRoute exact path='/dashboard' component={<div>DASHBOARD</div>} />
               </Switch>
