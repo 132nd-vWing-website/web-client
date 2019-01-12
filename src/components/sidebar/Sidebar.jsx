@@ -1,5 +1,5 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -65,8 +65,10 @@ const Sidebar = (props) => {
   const guestLinks = (
     <Menu theme='dark' mode='inline' defaultSelectedKeys={['4']} style={{ marginTop: '3em' }}>
       <Menu.Item key='1'>
-        <Icon type='plus' />
-        <span className='nav-text'>Sign Up</span>
+        <Link to='/register'>
+          <Icon type='plus' />
+          <span className='nav-text'>Sign Up</span>
+        </Link>
       </Menu.Item>
       <Menu.Item key='2'>
         <Icon type='user' />
