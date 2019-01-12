@@ -2,11 +2,10 @@
 import './App.css';
 
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Provider, connect } from 'react-redux';
+import { Provider } from 'react-redux';
 import jwtDecode from 'jwt-decode';
 
-import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 // UI Components
 import { Layout } from 'antd';
