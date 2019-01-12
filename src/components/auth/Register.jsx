@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 
 /* UI Components */
 import { Row, Col, Card, Button, Form, Input, Icon } from 'antd';
-import TextInput from '../ui/data-entry/TextInput';
 
 // Redux Actions
 import { registerUser } from '../../actions/authActions';
@@ -45,10 +44,7 @@ class Register extends Component {
     const { regUser, history } = this.props;
 
     const newUser = { name, email, password, password2 };
-
-    console.log(newUser);
-
-    // regUser(newUser, history);
+    regUser(newUser, history);
   };
 
   render() {
@@ -139,7 +135,7 @@ class Register extends Component {
                 help={errors.password2}>
                 <Input
                   prefix={<Icon type='lock' style={{ color: 'rgba(0,0,0,.25)' }} />}
-                  type='password2'
+                  type='password'
                   placeholder='Confirm Password'
                   name='password2'
                   value={password2}
