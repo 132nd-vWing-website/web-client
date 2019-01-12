@@ -32,13 +32,15 @@ const Sidebar = (props) => {
         <Icon type='setting' />
         <span className='nav-text'>Profile</span>
       </Menu.Item>
-      <Menu.Item key='2'>
+      <Menu.Item key='2' onClick={onLogoutClick}>
         <Icon type='close-circle ' />
         <span className='nav-text'>Logout</span>
       </Menu.Item>
       <Menu.Item key='3'>
-        <Icon type='home' />
-        <span className='nav-text'>Home</span>
+        <Link to='/'>
+          <Icon type='home' />
+          <span className='nav-text'>Home</span>
+        </Link>
       </Menu.Item>
       <Menu.Item key='4'>
         <Icon type='compass' />
@@ -75,8 +77,10 @@ const Sidebar = (props) => {
         <span className='nav-text'>Login</span>
       </Menu.Item>
       <Menu.Item key='3'>
-        <Icon type='home' />
-        <span className='nav-text'>Home</span>
+        <Link to='/'>
+          <Icon type='home' />
+          <span className='nav-text'>Home</span>
+        </Link>
       </Menu.Item>
       <Menu.Item key='4'>
         <Icon type='compass' />
