@@ -17,7 +17,6 @@ export const setCurrentUser = (decoded) => ({
 
 // Register User action
 export const registerUser = (userData, history) => (dispatch) => {
-  console.log('Register User: ', userData);
   axios
     .post(`${API_ROOT}/users/register`, userData)
     .then(() => history.push('/login'))
