@@ -16,8 +16,7 @@ const { Sider } = Layout;
  * Sidebar Componet
  */
 const Sidebar = (props) => {
-  const onLogoutClick = (e) => {
-    e.preventDefault();
+  const onLogoutClick = () => {
     props.clearProfile();
     props.logUserOut();
   };
@@ -27,13 +26,14 @@ const Sidebar = (props) => {
 
   const authLinks = (
     <Menu theme='dark' mode='inline' defaultSelectedKeys={['4']} style={{ marginTop: '3em' }}>
-      <span>{user.name}</span>
       <Menu.Item key='1'>
-        <Icon type='setting' />
-        <span className='nav-text'>Profile</span>
+        <span className='primary-color'>
+          <Icon type='user' />
+          {user.name}
+        </span>
       </Menu.Item>
       <Menu.Item key='2' onClick={onLogoutClick}>
-        <Icon type='close-circle ' />
+        <Icon type='coffee' />
         <span className='nav-text'>Logout</span>
       </Menu.Item>
       <Menu.Item key='3'>
