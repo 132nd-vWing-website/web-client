@@ -19,12 +19,10 @@ class Register extends Component {
   };
 
   componentDidMount() {
-    const { auth, history } = this.props;
-    if (auth.isAuthenticated) {
-      history.push('/dasboard');
-    }
-    // if (this.props.auth.isAuthenticated) {
-    //   this.props.history.push('/dasboard');
+    /** Turn off redirection on mount for now */
+    // const { auth, history } = this.props;
+    // if (auth.isAuthenticated) {
+    //   history.push('/dasboard');
     // }
   }
 
