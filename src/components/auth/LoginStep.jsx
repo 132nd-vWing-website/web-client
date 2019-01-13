@@ -18,6 +18,14 @@ class LoginStep extends Component {
     errors: {},
   };
 
+  componentDidMount() {
+    const { auth, onNext } = this.props;
+    if (auth.isAuthenticated) {
+      // Send the user to the next page if he is allready logged in
+      onNext();
+    }
+  }
+
   componentDidUpdate(prevProps) {
     const { errors, currentStep, auth, onNext } = this.props;
     if (errors !== prevProps.errors) this.setState({ errors });

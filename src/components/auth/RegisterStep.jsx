@@ -17,10 +17,22 @@ class RegisterStep extends Component {
     errors: {},
   };
 
+  componentDidMount() {
+    const { auth, onNext } = this.props;
+    if (auth.isAuthenticated) {
+      // Send the user to the next page if he is allready logged in
+      onNext();
+    }
+  }
+
   componentDidUpdate(prevProps) {
-    const { errors, currentStep } = this.props;
+    const { errors, currentStep, auth, onNext } = this.props;
     if (errors !== prevProps.errors) this.setState({ errors });
     if (currentStep !== prevProps.currentStep) this.setState({ currentStep });
+    if (auth.isAuthenticated) {
+      // Send the user to the next page if he is allready logged in
+      onNext();
+    }
   }
 
   onChange = (e) => {
@@ -68,10 +80,12 @@ RegisterStep.propTypes = {
   currentStep: PropTypes.number.isRequired,
   onNext: PropTypes.func.isRequired,
   regUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
+  auth: state.auth,
   errors: state.errors,
 });
 
