@@ -179,7 +179,7 @@ const RegisterForm = (props) => {
                 })(
                   <Input
                     prefix={<Icon type='lock' style={{ color: 'rgba(0,0,0,.25)' }} />}
-                    type='password2'
+                    type='password'
                     placeholder='Confirm Password'
                     name='password2'
                     onChange={onChange}
