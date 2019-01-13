@@ -27,10 +27,12 @@ const Sidebar = (props) => {
   const authLinks = (
     <Menu theme='dark' mode='inline' defaultSelectedKeys={['4']} style={{ marginTop: '3em' }}>
       <Menu.Item key='1'>
-        <span className='primary-color'>
-          <Icon type='user' />
-          {user.name}
-        </span>
+        <Link to='/dashboard'>
+          <span style={{ textTransform: 'uppercase', fontWeight: 'bold' }}>
+            <Icon type='user' />
+            {user.name}
+          </span>
+        </Link>
       </Menu.Item>
       <Menu.Item key='2' onClick={onLogoutClick}>
         <Icon type='coffee' />
