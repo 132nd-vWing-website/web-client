@@ -15,18 +15,25 @@ export const setCurrentUser = (decoded) => ({
   payload: decoded,
 });
 
-// Register User action
-export const registerUser = (userData, history) => (dispatch) => {
-  axios
-    .post(`${API_ROOT}/users/register`, userData)
-    .then(() => history.push('/login'))
-    .catch((err) =>
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data,
-      }),
-    );
-};
+/**
+ * Register User Action
+ * @returns {Promise}
+ */
+export const registerUser = (userData, history) => (dispatch) =>
+  new Promise((resolve) => {
+    axios
+      .post(`${API_ROOT}/users/register`, userData)
+      .then((res) => {
+        if (history) history.push('/login');
+        resolve(res.status);
+      })
+      .catch((err) =>
+        dispatch({
+          type: GET_ERRORS,
+          payload: err.response.data,
+        }),
+      );
+  });
 
 // Login - Get User Token
 export const loginUser = (userData) => (dispatch) => {
