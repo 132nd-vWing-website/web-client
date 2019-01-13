@@ -4,11 +4,14 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 /* UI Components */
-import { Row, Col, Card, Button, Form, Input, Icon } from 'antd';
+import { Row, Col, Card, Button, Form, Input, Icon, Checkbox, Alert } from 'antd';
 
 /* Redux Actions */
 import { loginUser } from '../../actions/authActions';
 
+/**
+ * Login (Main) Component
+ */
 class Login extends Component {
   state = {
     email: '',
@@ -51,16 +54,6 @@ class Login extends Component {
   };
 
   render() {
-    // const formItemLayout = {
-    //   labelCol: {
-    //     xs: { span: 24 },
-    //     sm: { span: 5 },
-    //   },
-    //   wrapperCol: {
-    //     xs: { span: 24 },
-    //     sm: { span: 12 },
-    //   },
-    // };
     const { errors, email, password } = this.state;
 
     return (
@@ -112,7 +105,31 @@ const LoginForm = (props) => {
     },
   };
 
-  console.log(props);
+  const tailFormItemLayout = {
+    wrapperCol: {
+      xs: {
+        span: 24,
+        offset: 0,
+      },
+      sm: {
+        span: 12,
+        offset: 5,
+      },
+    },
+  };
+
+  const alerts = [];
+  Object.keys(errors).forEach((err) => {
+    alerts.push(
+      <Alert
+        key={err}
+        description={errors[err]}
+        type='error'
+        showIcon
+        style={{ margin: '1em 0' }}
+      />,
+    );
+  });
 
   return (
     <Card title='Login'>
@@ -120,14 +137,23 @@ const LoginForm = (props) => {
         <Col className='gutter-row' span={24} md={12}>
           <Form onSubmit={handleSubmit}>
             <Form.Item {...formItemLayout} label='Account Name'>
-              <Input
-                prefix={<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
-                placeholder='Account Name'
-                name='name'
-              />
+              {getFieldDecorator('email', {
+                setFieldsValue: email,
+                rules: [{ required: true, message: 'Please input your email!' }],
+              })(
+                <Input
+                  prefix={<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
+                  type='text'
+                  placeholder='Account Name'
+                  name='email'
+                  onChange={onChange}
+                  autoComplete='username'
+                />,
+              )}
             </Form.Item>
-            <Form.Item>
+            <Form.Item {...formItemLayout} label='Password'>
               {getFieldDecorator('password', {
+                setFieldsValue: password,
                 rules: [{ required: true, message: 'Please input your Password!' }],
               })(
                 <Input
@@ -135,48 +161,36 @@ const LoginForm = (props) => {
                   type='password'
                   placeholder='Password'
                   name='password'
-                  value={password}
                   onChange={onChange}
+                  autoComplete='current-password'
                 />,
               )}
             </Form.Item>
-            <Link className='text-secondary' to='/register'>
-              <small>Don&apos;t have an account yet? Click here to register!</small>
-            </Link>
+            <Form.Item {...tailFormItemLayout}>
+              {getFieldDecorator('remember', {
+                valuePropName: 'checked',
+                initialValue: true,
+              })(<Checkbox>Remember me</Checkbox>)}
+              <Link to='/login' style={{ float: 'right' }}>
+                Forgot password
+              </Link>
+              <Button
+                type='primary'
+                htmlType='submit'
+                className='login-form-button'
+                style={{ width: '100%' }}>
+                Log in
+              </Button>
+              <Link to='/register'>
+                <small>Don&apos;t have an account yet? Click here to register!</small>
+              </Link>
+            </Form.Item>
+            <Form.Item {...tailFormItemLayout}>{alerts}</Form.Item>
           </Form>
         </Col>
       </Row>
     </Card>
   );
-
-  // return (
-  //   <Card title='Login'>
-  //     <Row>
-  //       <Col className='gutter-row' span={24} md={12}>
-  //         <Form handleSubmit={this.handleSubmit}>
-  //           <Form.Item
-  //             {...formItemLayout}
-  //             label='Account Name'
-  //             validateStatus={errors.name ? 'error' : 'success'}
-  //             help={errors.name}>
-  //             <Input
-  //               prefix={<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
-  //               placeholder='Account Name'
-  //               name='name'
-  //               value={name}
-  //               onChange={this.onChange}
-  //             />
-  //           </Form.Item>
-  //           <small>
-  //             <Link className='text-secondary' to='/register'>
-  //               Don't have an account yet? Click here to register!
-  //             </Link>
-  //           </small>
-  //         </Form>
-  //       </Col>
-  //     </Row>
-  //   </Card>
-  // );
 };
 
 /**
