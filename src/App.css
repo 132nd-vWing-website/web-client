@@ -1,2 +1,11 @@
 /* FONTS */
 @import url('https://fonts.googleapis.com/css?family=Oswald|Roboto|Roboto+Condensed');
+/* @import '~antd/dist/antd.less';
+@import './styles.less'; */
+
+/* Note that the above import of antd.less overrides the function of babel-plugin-import */
+
+/* The below styles should be made dynamic by using LESS or something...*/
+.primary-color {
+  color: #c9793a;
+}
