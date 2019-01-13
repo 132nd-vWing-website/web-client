@@ -112,7 +112,9 @@ class Register extends Component {
                   name='email'
                   value={email}
                   onChange={this.onChange}
+                  autoComplete='username'
                 />
+                <small>Your email address will also be your account username</small>
               </Form.Item>
               <Form.Item
                 {...formItemLayout}
@@ -126,6 +128,7 @@ class Register extends Component {
                   name='password'
                   value={password}
                   onChange={this.onChange}
+                  autoComplete='new-password'
                 />
               </Form.Item>
               <Form.Item
@@ -140,6 +143,7 @@ class Register extends Component {
                   name='password2'
                   value={password2}
                   onChange={this.onChange}
+                  autoComplete='new-password'
                 />
               </Form.Item>
               <Form.Item {...tailFormItemLayout}>
