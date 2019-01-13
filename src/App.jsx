@@ -22,11 +22,12 @@ import { getUnreadNotams } from './actions/postActions';
 // Public Routes
 import HeaderCarousel from './components/headercarousel/HeaderCarousel';
 import Landing from './components/landing/Landing';
+import Register from './components/auth/Register';
+import Login from './components/auth/Login';
 
 // Private Routes
 import PrivateRoute from './components/auth/PrivateRoute';
-import Register from './components/auth/Register';
-import Login from './components/auth/Login';
+import ProfileDashboard from './components/profile-dashboard/ProfileDashboard';
 
 // Utils
 import setAuthToken from './utils/setAuthToken';
@@ -76,7 +77,7 @@ function App() {
               <Route exact path='/register' component={Register} />
               <Route exact path='/login' component={Login} />
               <Switch>
-                <PrivateRoute exact path='/dashboard' component={<div>DASHBOARD</div>} />
+                <PrivateRoute exact path='/dashboard' component={ProfileDashboard} />
               </Switch>
               <Switch>
                 <PrivateRoute
