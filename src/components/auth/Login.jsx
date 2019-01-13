@@ -87,9 +87,7 @@ export default connect(
 
 /**
  * LoginForm Component
- * @param {object} props
  */
-
 const LoginForm = (props) => {
   const { email, password, errors, form, onChange, handleSubmit } = props;
   const { getFieldDecorator } = form;
@@ -196,4 +194,4 @@ const LoginForm = (props) => {
 /**
  * WrappedLoginForm - For enabling AntD Form decorators on LoginForm
  */
-const WrappedLoginForm = Form.create({ name: 'loginForm' })(LoginForm);
+export const WrappedLoginForm = Form.create({ name: 'loginForm' })(LoginForm);
