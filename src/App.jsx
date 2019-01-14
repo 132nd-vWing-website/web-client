@@ -22,8 +22,7 @@ import { getUnreadNotams } from './actions/postActions';
 // Public Routes
 import HeaderCarousel from './components/headercarousel/HeaderCarousel';
 import Landing from './components/landing/Landing';
-// import Register from './components/auth/Register';
-import NewAccount from './components/auth/NewAccount';
+import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 
 // Private Routes
@@ -75,7 +74,7 @@ function App() {
             <HeaderComponent />
             <Content style={{ margin: '1em 1em 0' }}>
               <Route exact path='/' component={Landing} />
-              <Route exact path='/register' component={NewAccount} />
+              <Route exact path='/register' component={Register} />
               <Route exact path='/login' component={Login} />
               <Switch>
                 <PrivateRoute exact path='/dashboard' component={ProfileDashboard} />

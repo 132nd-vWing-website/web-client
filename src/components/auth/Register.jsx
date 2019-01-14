@@ -1,155 +1,93 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
+// import PropTypes from 'prop-types';
+// import { connect } from 'react-redux';
 
-/* UI Components */
-import { Row, Col, Card, Button, Form, Input, Icon } from 'antd';
+/** UI Components */
+import { Card, Row, Col, Steps, Button, message } from 'antd';
 
-// Redux Actions
-import { registerUser } from '../../actions/authActions';
+/** Components */
+import RegisterStep from './RegisterStep';
+import LoginStep from './LoginStep';
 
+const { Step } = Steps;
+
+/**
+ * Register Component
+ */
 class Register extends Component {
   state = {
-    name: '',
-    email: '',
-    password: '',
-    password2: '',
+    current: 0,
     errors: {},
   };
 
-  componentDidMount() {
-    /** Turn off redirection on mount for now */
-    // const { auth, history } = this.props;
-    // if (auth.isAuthenticated) {
-    //   history.push('/dasboard');
-    // }
-  }
+  onNext = () => {
+    const { current } = this.state;
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
-    }
-  }
-
-  onChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
+    /** Should wait with incrementing until profile is ACTUALLY created */
+    this.setState({ current: current + 1 });
   };
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    const { name, email, password, password2 } = this.state;
-    const { regUser, history } = this.props;
-
-    const newUser = { name, email, password, password2 };
-    regUser(newUser, history);
+  onPrev = () => {
+    /* Most likely need to have own functions pr. step and then trigger them from here based on state.current */
+    const { current } = this.state;
+    this.setState({ current: current - 1 });
   };
 
   render() {
-    const { errors, name, email, password, password2 } = this.state;
+    const { current, errors } = this.state;
 
-    const formItemLayout = {
-      labelCol: {
-        xs: { span: 24 },
-        sm: { span: 5 },
+    const steps = [
+      {
+        title: 'Register',
+        content: <RegisterStep stepKey={0} currentStep={current} onNext={this.onNext} />,
       },
-      wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 12 },
+      {
+        title: 'Log In',
+        content: <LoginStep stepKey={0} currentStep={current} onNext={this.onNext} />,
       },
+      {
+        title: 'Create Profile',
+        content: 'Create Pilot Profile',
+      },
+    ];
+
+    const contentStyle = {
+      margin: '1em 0',
     };
 
-    const tailFormItemLayout = {
-      wrapperCol: {
-        xs: {
-          span: 24,
-          offset: 0,
-        },
-        sm: {
-          span: 12,
-          offset: 5,
-        },
-      },
-    };
+    let disableNext = false;
+    if (Object.keys(errors).length > 0) disableNext = true;
 
     return (
-      <Card title='Register Account'>
+      <Card title='Profile'>
         <Row>
-          <Col className='gutter-row' span={24} md={12}>
-            <p>
-              An account is needed in order to create a pilot profile and be able to apply for
-              squadrons, events etc.
-            </p>
-            <p>Create your account by filling out the form below:</p>
-          </Col>
-        </Row>
-        <Row>
-          <Col className='gutter-row' span={24} md={12}>
-            <Form onSubmit={this.handleSubmit}>
-              <Form.Item
-                {...formItemLayout}
-                label='Account Name'
-                validateStatus={errors.name ? 'error' : 'success'}
-                help={errors.name}>
-                <Input
-                  prefix={<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
-                  placeholder='Account Name'
-                  name='name'
-                  value={name}
-                  onChange={this.onChange}
-                />
-              </Form.Item>
-              <Form.Item
-                {...formItemLayout}
-                label='E-mail'
-                validateStatus={errors.email ? 'error' : 'success'}
-                help={errors.email}>
-                <Input
-                  prefix={<Icon type='mail' style={{ color: 'rgba(0,0,0,.25)' }} />}
-                  placeholder='Provide a valid email address'
-                  name='email'
-                  value={email}
-                  onChange={this.onChange}
-                  autoComplete='username'
-                />
-                <small>Your email address will also be your account username</small>
-              </Form.Item>
-              <Form.Item
-                {...formItemLayout}
-                label='Password'
-                validateStatus={errors.password ? 'error' : 'success'}
-                help={errors.password}>
-                <Input
-                  prefix={<Icon type='lock' style={{ color: 'rgba(0,0,0,.25)' }} />}
-                  type='password'
-                  placeholder='Password'
-                  name='password'
-                  value={password}
-                  onChange={this.onChange}
-                  autoComplete='new-password'
-                />
-              </Form.Item>
-              <Form.Item
-                {...formItemLayout}
-                label='Confirm Password'
-                validateStatus={errors.password2 ? 'error' : 'success'}
-                help={errors.password2}>
-                <Input
-                  prefix={<Icon type='lock' style={{ color: 'rgba(0,0,0,.25)' }} />}
-                  type='password'
-                  placeholder='Confirm Password'
-                  name='password2'
-                  value={password2}
-                  onChange={this.onChange}
-                  autoComplete='new-password'
-                />
-              </Form.Item>
-              <Form.Item {...tailFormItemLayout}>
-                <Button type='primary' htmlType='submit' style={{ width: '100%' }}>
-                  Register Account
+          <Col className='gutter-row' span={24} md={24}>
+            <Steps current={current}>
+              {steps.map((item) => (
+                <Step key={item.title} title={item.title} />
+              ))}
+            </Steps>
+            <div style={contentStyle}>{steps[current].content}</div>
+            <div className='steps-action'>
+              {current < steps.length - 1 && (
+                <Button type='primary' disabled={disableNext} onClick={() => this.onNext()}>
+                  Next
                 </Button>
-              </Form.Item>
-            </Form>
+              )}
+              {current === steps.length - 1 && (
+                <Button
+                  type='primary'
+                  disabled={disableNext}
+                  onClick={() => message.success('Processing complete!')}>
+                  Done
+                </Button>
+              )}
+              {current > 0 && (
+                <Button style={{ marginLeft: 8 }} onClick={() => this.onPrev()}>
+                  Previous
+                </Button>
+              )}
+            </div>
           </Col>
         </Row>
       </Card>
@@ -157,19 +95,19 @@ class Register extends Component {
   }
 }
 
-Register.propTypes = {
-  regUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
-};
+// Register.propTypes = {
+//   auth: PropTypes.object.isRequired,
+//   errors: PropTypes.object.isRequired,
+// };
 
-const mapStateToProps = (state) => ({
-  auth: state.auth,
-  errors: state.errors,
-});
+// const mapStateToProps = (state) => ({
+//   auth: state.auth,
+//   errors: state.errors,
+// });
 
-export default connect(
-  mapStateToProps,
-  { regUser: registerUser },
-)(withRouter(Register));
+// export default connect(
+//   mapStateToProps,
+//   {},
+// )(Register);
+
+export default Register;
