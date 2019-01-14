@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 /* UI Components */
-import { Row, Col, Card, Button, Form, Input, Icon, Checkbox, Alert } from 'antd';
+import { Row, Col, Card, Button, Form, Input, Icon, Checkbox } from 'antd';
 
 /* Redux Actions */
 import { loginUser } from '../../actions/authActions';
@@ -119,19 +119,6 @@ const LoginForm = (props) => {
     },
   };
 
-  const alerts = [];
-  Object.keys(errors).forEach((err) => {
-    alerts.push(
-      <Alert
-        key={err}
-        description={errors[err]}
-        type='error'
-        showIcon
-        style={{ margin: '1em 0' }}
-      />,
-    );
-  });
-
   return (
     <React.Fragment>
       <Card title='Login'>
@@ -143,7 +130,11 @@ const LoginForm = (props) => {
         <Row>
           <Col className='gutter-row' span={24} md={12}>
             <Form onSubmit={onSubmit}>
-              <Form.Item {...formItemLayout} label='Account Name'>
+              <Form.Item
+                {...formItemLayout}
+                label='Username'
+                validateStatus={errors.email ? 'error' : 'success'}
+                help={errors.email}>
                 {getFieldDecorator('email', {
                   setFieldsValue: email,
                   rules: [{ required: true, message: 'Please input your email!' }],
@@ -158,7 +149,11 @@ const LoginForm = (props) => {
                   />,
                 )}
               </Form.Item>
-              <Form.Item {...formItemLayout} label='Password'>
+              <Form.Item
+                {...formItemLayout}
+                label='Password'
+                validateStatus={errors.password ? 'error' : 'success'}
+                help={errors.password}>
                 {getFieldDecorator('password', {
                   setFieldsValue: password,
                   rules: [{ required: true, message: 'Please input your Password!' }],
@@ -179,7 +174,6 @@ const LoginForm = (props) => {
                   initialValue: true,
                 })(<Checkbox>Remember me</Checkbox>)}
               </Form.Item>
-              <Form.Item {...tailFormItemLayout}>{alerts}</Form.Item>
             </Form>
           </Col>
         </Row>
@@ -198,4 +192,4 @@ const LoginForm = (props) => {
 /**
  * WrappedLoginForm - For enabling AntD Form decorators on LoginForm
  */
-const WrappedLoginForm = Form.create({ name: 'loginForm' })(LoginForm);
+const WrappedLoginForm = Form.create({ name: 'login-form' })(LoginForm);
