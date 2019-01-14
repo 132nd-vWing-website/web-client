@@ -69,7 +69,7 @@ class Register extends Component {
               ))}
             </Steps>
             <div style={contentStyle}>{steps[current].content}</div>
-            <div className='steps-action'>
+            {/* <div className='steps-action'>
               {current < steps.length - 1 && (
                 <Button type='primary' disabled={disableNext} onClick={() => this.onNext()}>
                   Next
@@ -88,7 +88,7 @@ class Register extends Component {
                   Previous
                 </Button>
               )}
-            </div>
+            </div> */}
           </Col>
         </Row>
       </Card>

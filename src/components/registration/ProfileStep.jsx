@@ -25,13 +25,14 @@ class ProfileStep extends Component {
 
   componentDidMount() {
     const { auth, profile, onPrev, fetchCurrentProfile, history } = this.props;
+    const { handle } = profile.profile || false;
     fetchCurrentProfile();
 
     if (!auth.isAuthenticated) {
       /** If the user is not logged in, then we send him back one step */
       onPrev();
     }
-    if (profile.profile.handle) {
+    if (handle) {
       /** If a profile allready exists, redirect the user to the dashboard */
       history.push('/dashboard');
     }
@@ -39,9 +40,11 @@ class ProfileStep extends Component {
 
   componentDidUpdate(prevProps) {
     const { errors, currentStep, profile, history } = this.props;
+    const { handle } = profile.profile || false;
+
     if (errors !== prevProps.errors) this.setState({ errors });
     if (currentStep !== prevProps.currentStep) this.setState({ currentStep });
-    if (profile.profile.handle) {
+    if (handle) {
       /** If a profile allready exists, redirect the user to the dashboard */
       history.push('/dashboard');
     }
