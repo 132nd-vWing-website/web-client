@@ -219,4 +219,4 @@ const RegisterForm = (props) => {
 /**
  * WrappedRegisterForm - For enabling AntD Form decorators on LoginForm
  */
-const WrappedRegisterForm = Form.create({ name: 'loginForm' })(RegisterForm);
+const WrappedRegisterForm = Form.create({ name: 'register-form' })(RegisterForm);
