@@ -33,7 +33,6 @@ class ProfileStep extends Component {
     }
     if (profile.profile.handle) {
       /** If a profile allready exists, redirect the user to the dashboard */
-      console.log('foo');
       history.push('/dashboard');
     }
   }
@@ -44,7 +43,6 @@ class ProfileStep extends Component {
     if (currentStep !== prevProps.currentStep) this.setState({ currentStep });
     if (profile.profile.handle) {
       /** If a profile allready exists, redirect the user to the dashboard */
-      console.log('bar');
       history.push('/dashboard');
     }
   }
