@@ -22,7 +22,7 @@ import { getUnreadNotams } from './actions/postActions';
 // Public Routes
 import HeaderCarousel from './components/headercarousel/HeaderCarousel';
 import Landing from './components/landing/Landing';
-import Register from './components/auth/Register';
+import Register from './components/registration/Register';
 import Login from './components/auth/Login';
 
 // Private Routes
