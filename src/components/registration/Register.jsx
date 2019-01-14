@@ -8,6 +8,7 @@ import { Card, Row, Col, Steps, Button, message } from 'antd';
 /** Components */
 import RegisterStep from './RegisterStep';
 import LoginStep from './LoginStep';
+import ProfileStep from './ProfileStep';
 
 const { Step } = Steps;
 
@@ -43,11 +44,11 @@ class Register extends Component {
       },
       {
         title: 'Log In',
-        content: <LoginStep stepKey={0} currentStep={current} onNext={this.onNext} />,
+        content: <LoginStep stepKey={1} currentStep={current} onNext={this.onNext} />,
       },
       {
         title: 'Create Profile',
-        content: 'Create Pilot Profile',
+        content: <ProfileStep stepKey={2} currentStep={current} onPrev={this.onPrev} />,
       },
     ];
 
