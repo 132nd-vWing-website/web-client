@@ -22,6 +22,7 @@ export const getAllEvents = (limit, desc) => (dispatch) => {
   axios
     .get(`${API_ROOT}/events/all?limit=${limit}&desc=${desc}`)
     .then((res) => dispatch({ type: GET_ALL_EVENTS, payload: res.data }))
+    // .then((res) => console.log(res.data))
     .catch(() => dispatch({ type: GET_ALL_EVENTS, payload: {} }));
 };
 
