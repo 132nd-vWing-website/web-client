@@ -15,6 +15,7 @@
     "prettier/prettier": "error",
     "no-return-assign": "off",
     "no-underscore-dangle": "off",
+    "class-methods-use-this": "off",
     "react/forbid-prop-types": false,
     "react/jsx-closing-bracket-location": "enabled",
     "react/no-did-update-set-state": "off"
