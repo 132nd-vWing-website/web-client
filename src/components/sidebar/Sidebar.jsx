@@ -45,8 +45,10 @@ const Sidebar = (props) => {
         </Link>
       </Menu.Item>
       <Menu.Item key='4'>
-        <Icon type='compass' />
-        <span className='nav-text'>Events</span>
+        <Link to='/events'>
+          <Icon type='compass' />
+          <span className='nav-text'>Events</span>
+        </Link>
       </Menu.Item>
       <Menu.Item key='5' style={{ marginTop: '3em' }}>
         <span className='nav-text'>Profiles</span>
@@ -87,8 +89,10 @@ const Sidebar = (props) => {
         </Link>
       </Menu.Item>
       <Menu.Item key='4'>
-        <Icon type='compass' />
-        <span className='nav-text'>Events</span>
+        <Link to='/events'>
+          <Icon type='compass' />
+          <span className='nav-text'>Events</span>
+        </Link>
       </Menu.Item>
       <Menu.Item key='5' style={{ marginTop: '3em' }}>
         <span className='nav-text'>Profiles</span>

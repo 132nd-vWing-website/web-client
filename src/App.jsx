@@ -24,6 +24,7 @@ import HeaderCarousel from './components/headercarousel/HeaderCarousel';
 import Landing from './components/landing/Landing';
 import Register from './components/registration/Register';
 import Login from './components/auth/Login';
+import Events from './components/events/Events';
 
 // Private Routes
 import PrivateRoute from './components/auth/PrivateRoute';
@@ -76,6 +77,7 @@ function App() {
               <Route exact path='/' component={Landing} />
               <Route exact path='/register' component={Register} />
               <Route exact path='/login' component={Login} />
+              <Route exact path='/events' component={Events} />
               <Switch>
                 <PrivateRoute exact path='/dashboard' component={ProfileDashboard} />
               </Switch>
