@@ -6,6 +6,7 @@ import errorReducer from './errorReducer';
 import profileReducer from './profileReducer';
 import postReducer from './postReducer';
 import staticsReducer from './staticsReducer';
+import eventReducer from './eventReducer';
 
 export default combineReducers({
   auth: authReducer,
@@ -13,4 +14,5 @@ export default combineReducers({
   profile: profileReducer,
   posts: postReducer,
   statics: staticsReducer,
+  events: eventReducer,
 });
