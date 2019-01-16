@@ -77,7 +77,7 @@ function App() {
               <Route exact path='/' component={Landing} />
               <Route exact path='/register' component={Register} />
               <Route exact path='/login' component={Login} />
-              <Route exact path='/events' component={Events} />
+              <Route path='/events' component={Events} />
               <Switch>
                 <PrivateRoute exact path='/dashboard' component={ProfileDashboard} />
               </Switch>
