@@ -74,10 +74,13 @@ function App() {
           <Layout style={{ background: '#272727' }}>
             <HeaderComponent />
             <Content style={{ margin: '1em 1em 0' }}>
-              <Route exact path='/' component={Landing} />
-              <Route exact path='/register' component={Register} />
-              <Route exact path='/login' component={Login} />
-              <Route path='/events' component={Events} />
+              <Switch>
+                <Route exact path='/' component={Landing} />
+                <Route exact path='/register' component={Register} />
+                <Route exact path='/login' component={Login} />
+                <Route path='/events' component={Events} />
+                <Route component={Landing} />
+              </Switch>
               <Switch>
                 <PrivateRoute exact path='/dashboard' component={ProfileDashboard} />
               </Switch>
