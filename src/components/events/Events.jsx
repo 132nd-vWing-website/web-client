@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
 import { Route } from 'react-router-dom';
 
+/* Components */
 import EventList from './EventList';
 import Event from './Event';
-
-/**
- * TEMP EVENT COMPONENT
- */
 
 /**
  * EVENTS LIST COMPONENT
