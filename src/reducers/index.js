@@ -7,6 +7,7 @@ import profileReducer from './profileReducer';
 import postReducer from './postReducer';
 import staticsReducer from './staticsReducer';
 import eventReducer from './eventReducer';
+import missionReducer from './missionReducer';
 
 export default combineReducers({
   auth: authReducer,
@@ -15,4 +16,5 @@ export default combineReducers({
   posts: postReducer,
   statics: staticsReducer,
   events: eventReducer,
+  missions: missionReducer,
 });
