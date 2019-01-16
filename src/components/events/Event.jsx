@@ -7,6 +7,7 @@ import moment from 'moment';
 import { Card, Row, Col, Tabs, Spin } from 'antd';
 
 import { getEvent } from '../../actions/eventActions';
+import { getMission } from '../../actions/missionActions';
 
 import './event.css';
 
@@ -16,6 +17,13 @@ class Event extends Component {
   componentDidMount() {
     const { fetchEvent, match } = this.props;
     fetchEvent(match.params.id);
+    // fetchMission(match.params.id);
+  }
+
+  componentDidUpdate(prevProps) {
+    const { fetchMission, events } = this.props;
+    const { msn_id } = events.event || false;
+    if (events !== prevProps.events) fetchMission(msn_id);
   }
 
   handleTabChange = (key) => {
@@ -47,12 +55,13 @@ class Event extends Component {
   }
 
   render() {
-    const { events } = this.props;
+    const { events, missions } = this.props;
     const { event } = events;
+    const { mission } = missions;
 
     let eventContent;
 
-    if (!event) {
+    if (!events || !mission) {
       eventContent = (
         <div style={{ minWidth: '100%', textAlign: 'center' }}>
           <Spin />
@@ -85,9 +94,10 @@ class Event extends Component {
                     </tbody>
                   </table>
                   <hr />
-                  <br />
-                  <h3>Event Description</h3>
+                  <h3 style={{ marginTop: '1em' }}>Event Description</h3>
                   <div>{event.ev_descr}</div>
+                  <h3 style={{ marginTop: '1em' }}>Mission Summary</h3>
+                  <div>{mission.msn_summary}</div>
                 </TabPane>
                 <TabPane tab='Briefing' key='2'>
                   Content of Tab Pane 2
@@ -108,15 +118,21 @@ class Event extends Component {
 
 Event.propTypes = {
   fetchEvent: PropTypes.func.isRequired,
+  fetchMission: PropTypes.func.isRequired,
   events: PropTypes.object.isRequired,
+  missions: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   events: state.events,
+  missions: state.missions,
 });
 
 export default connect(
   mapStateToProps,
-  { fetchEvent: getEvent },
+  {
+    fetchEvent: getEvent,
+    fetchMission: getMission,
+  },
 )(Event);
