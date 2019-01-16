@@ -58,7 +58,7 @@ class Events extends Component {
     return (
       <Card title='Event Schedule'>
         <Row>
-          <Col className='gutter-row' span={24} md={12}>
+          <Col className='gutter-row' span={24} md={24}>
             <p>
               This is a listing of upcoming 132nd hosted events. Click on an event title to view
               details and sign up.
