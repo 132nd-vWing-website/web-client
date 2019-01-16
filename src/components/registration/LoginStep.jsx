@@ -182,7 +182,7 @@ const LoginForm = (props) => {
         type='primary'
         disabled={allowNext}
         onClick={() => onSubmit()}
-        style={{ margin: '1em 0' }}>
+        style={{ margin: '1em 0', float: 'right' }}>
         Next
       </Button>
     </React.Fragment>
