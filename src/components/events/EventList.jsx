@@ -12,7 +12,8 @@ import { Card, Row, Col, Spin, Table } from 'antd';
 import { getAllEvents } from '../../actions/eventActions';
 
 /**
- * EventList COMPONENT
+ * EventList Component
+ * @param {bool} activeOnly Will filter out inactive events on render
  */
 class EventList extends Component {
   componentDidMount() {

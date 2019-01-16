@@ -17,7 +17,7 @@ export default class Events extends Component {
     return (
       <React.Fragment>
         <Route path={`${match.path}/:id`} component={Event} />
-        <Route exact path={match.path} component={EventList} />
+        <Route exact path={match.path} render={(props) => <EventList {...props} activeOnly />} />
       </React.Fragment>
     );
   }
