@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import { Link } from 'react-router-dom';
+
 import moment from 'moment';
 
 import { Card, Row, Col, Spin, Table } from 'antd';
@@ -24,7 +26,7 @@ class Events extends Component {
   }
 
   render() {
-    const { events } = this.props;
+    const { events, match } = this.props;
     let content;
 
     const columns = [
@@ -42,8 +44,12 @@ class Events extends Component {
 
     const dataSource = [];
     if (events.all) {
-      events.all.forEach((event, key) => {
-        dataSource.push({ key, date: this.formatTime(event.ev_ctime), title: event.ev_title });
+      events.all.forEach((event) => {
+        dataSource.push({
+          key: event.event_id,
+          date: this.formatTime(event.ev_ctime),
+          title: <Link to={`${match.url}/event?id=${event.event_id}`}>{event.ev_title}</Link>,
+        });
       });
 
       content = <Table dataSource={dataSource} columns={columns} />;
@@ -74,6 +80,7 @@ class Events extends Component {
 Events.propTypes = {
   fetchAllEvents: PropTypes.func.isRequired,
   events: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
