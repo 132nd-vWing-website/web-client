@@ -33,7 +33,7 @@ export const getAllEvents = (limit, desc) => (dispatch) => {
 export const getEvent = (eventId) => (dispatch) => {
   dispatch(setEventsLoading());
   axios
-    .get(`${API_ROOT}events/event?id=${eventId}`)
+    .get(`${API_ROOT}/events/event?id=${eventId}`)
     .then((res) => dispatch({ type: GET_EVENT, payload: res.data }))
     .catch(() => dispatch({ type: GET_EVENT, payload: {} }));
 };

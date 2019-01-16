@@ -13,7 +13,7 @@ export default (state = initialState, action) => {
     case GET_ALL_EVENTS:
       return { ...state, all: action.payload, loading: false };
     case GET_EVENT:
-      return { ...state, event: action.payload, loading: false };
+      return { ...state, event: action.payload[0], loading: false };
     default:
       return state;
   }
