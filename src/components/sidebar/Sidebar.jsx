@@ -11,6 +11,7 @@ import { clearCurrentProfile } from '../../actions/profileActions';
 import Logo from '../../img/132nd-logo-web-100.png';
 
 const { Sider } = Layout;
+const { SubMenu, MenuItemGroup } = Menu;
 
 /**
  * Sidebar Componet
@@ -24,8 +25,20 @@ const Sidebar = (props) => {
   const { auth } = props;
   const { isAuthenticated, user } = auth;
 
+  const FlySubmenuTitle = (
+    <span>
+      <Icon type='compass' />
+      <span className='nav-text'>Go fly!</span>
+    </span>
+  );
+
   const authLinks = (
-    <Menu theme='dark' mode='inline' defaultSelectedKeys={['4']} style={{ marginTop: '3em' }}>
+    <Menu
+      theme='dark'
+      mode='inline'
+      defaultSelectedKeys={['4']}
+      defaultOpenKeys={['FlySubmenu']}
+      style={{ marginTop: '3em' }}>
       <Menu.Item key='1'>
         <Link to='/dashboard'>
           <span style={{ textTransform: 'uppercase', fontWeight: 'bold' }}>
@@ -47,7 +60,7 @@ const Sidebar = (props) => {
       <Menu.Item key='4'>
         <Link to='/events'>
           <Icon type='compass' />
-          <span className='nav-text'>Events</span>
+          <span className='nav-text'>Go Fly!</span>
         </Link>
       </Menu.Item>
       <Menu.Item key='5' style={{ marginTop: '3em' }}>
@@ -69,7 +82,12 @@ const Sidebar = (props) => {
   );
 
   const guestLinks = (
-    <Menu theme='dark' mode='inline' defaultSelectedKeys={['4']} style={{ marginTop: '3em' }}>
+    <Menu
+      theme='dark'
+      mode='inline'
+      defaultSelectedKeys={['4']}
+      defaultOpenKeys={['FlySubmenu']}
+      style={{ marginTop: '3em' }}>
       <Menu.Item key='1'>
         <Link to='/register'>
           <Icon type='plus' />
@@ -88,12 +106,26 @@ const Sidebar = (props) => {
           <span className='nav-text'>Home</span>
         </Link>
       </Menu.Item>
-      <Menu.Item key='4'>
-        <Link to='/events'>
-          <Icon type='compass' />
-          <span className='nav-text'>Events</span>
-        </Link>
-      </Menu.Item>
+      <SubMenu key='FlySubmenu' title={FlySubmenuTitle}>
+        <Menu.Item key='FlySubmenu_1'>
+          <Link to='/events'>
+            <Icon type='compass' />
+            <span className='nav-text'>Events</span>
+          </Link>
+        </Menu.Item>
+        <Menu.Item key='FlySubmenu_2'>
+          <Link to='/events'>
+            <Icon type='form' />
+            <span className='nav-text'>Taskings</span>
+          </Link>
+        </Menu.Item>
+        <Menu.Item key='FlySubmenu_3'>
+          <Link to='/events'>
+            <Icon type='table' />
+            <span className='nav-text'>View ATO</span>
+          </Link>
+        </Menu.Item>
+      </SubMenu>
       <Menu.Item key='5' style={{ marginTop: '3em' }}>
         <span className='nav-text'>Profiles</span>
       </Menu.Item>
