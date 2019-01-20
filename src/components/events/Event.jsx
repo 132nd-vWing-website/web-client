@@ -90,10 +90,11 @@ class Event extends Component {
                   <h3 style={{ marginTop: '1em' }}>Mission Summary</h3>
                   <div>{event.msn_summary}</div>
                 </TabPane>
-                <TabPane tab='Briefing' key='2'>
-                  Content of Tab Pane 2
+                <TabPane tab='Mission Briefing' key='2'>
+                  <h3 style={{ marginTop: '1em' }}>Mission Briefing</h3>
+                  <div>{event.msn_fullbrief}</div>
                 </TabPane>
-                <TabPane tab='Flights' key='3'>
+                <TabPane tab='Tasking' key='3'>
                   Content of Tab Pane 3
                 </TabPane>
               </Tabs>
