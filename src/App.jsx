@@ -33,6 +33,9 @@ import ProfileDashboard from './components/profile-dashboard/ProfileDashboard';
 // Utils
 import setAuthToken from './utils/setAuthToken';
 
+// LazyLoading
+const MissionBriefingAsPDF = React.lazy(() => import('./components/pdf/MissionBriefingAsPDF'));
+
 const { Header, Content, Footer } = Layout;
 
 /**
@@ -61,6 +64,12 @@ if (localStorage.jwtToken) {
   }
 }
 
+const PDFComponent = (
+  <React.Suspense fallback={<p>Loading...</p>}>
+    <MissionBriefingAsPDF />
+  </React.Suspense>
+);
+
 /**
  * App Component
  */
@@ -79,6 +88,7 @@ function App() {
                 <Route exact path='/register' component={Register} />
                 <Route exact path='/login' component={Login} />
                 <Route path='/events' component={Events} />
+                <Route path='/pdf' component={() => PDFComponent} />
                 <Route component={Landing} />
               </Switch>
               <Switch>
