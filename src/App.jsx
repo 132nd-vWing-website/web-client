@@ -25,6 +25,7 @@ import Landing from './components/landing/Landing';
 import Register from './components/registration/Register';
 import Login from './components/auth/Login';
 import Events from './components/events/Events';
+import MDCBuilder from './components/taskings/MDCBuilder';
 
 // Private Routes
 import PrivateRoute from './components/auth/PrivateRoute';
@@ -88,6 +89,7 @@ function App() {
                 <Route exact path='/register' component={Register} />
                 <Route exact path='/login' component={Login} />
                 <Route path='/events' component={Events} />
+                <Route path='/taskings' component={MDCBuilder} />
                 <Route path='/pdf' component={() => PDFComponent} />
                 <Route component={Landing} />
               </Switch>

@@ -114,7 +114,7 @@ const Sidebar = (props) => {
           </Link>
         </Menu.Item>
         <Menu.Item key='FlySubmenu_2'>
-          <Link to='/events'>
+          <Link to='/taskings'>
             <Icon type='form' />
             <span className='nav-text'>Taskings</span>
           </Link>

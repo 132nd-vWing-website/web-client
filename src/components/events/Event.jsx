@@ -102,7 +102,7 @@ class Event extends Component {
                 </TabPane>
                 <TabPane tab='Download PDF' key='4'>
                   <React.Suspense fallback={<p>Loading...</p>}>
-                    <MDCDemo eventDate={eventDate} briefingTime={briefingTime} event={event} />
+                    <MDCDemo />
                   </React.Suspense>
                 </TabPane>
               </Tabs>
