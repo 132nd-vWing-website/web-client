@@ -10,6 +10,9 @@ import { getEvent } from '../../actions/eventActions';
 
 import './event.css';
 
+// LazyLoading
+const MissionBriefingAsPDF = React.lazy(() => import('../pdf/MissionBriefingAsPDF'));
+
 const { TabPane } = Tabs;
 
 class Event extends Component {
@@ -96,6 +99,15 @@ class Event extends Component {
                 </TabPane>
                 <TabPane tab='Tasking' key='3'>
                   Content of Tab Pane 3
+                </TabPane>
+                <TabPane tab='Download PDF' key='4'>
+                  <React.Suspense fallback={<p>Loading...</p>}>
+                    <MissionBriefingAsPDF
+                      eventDate={eventDate}
+                      briefingTime={briefingTime}
+                      event={event}
+                    />
+                  </React.Suspense>
                 </TabPane>
               </Tabs>
             </Col>
