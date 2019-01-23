@@ -6,5 +6,6 @@
 
 # production
 /build
-app.bundle.js
+/public/bundle.js
 /_old
+/_server
