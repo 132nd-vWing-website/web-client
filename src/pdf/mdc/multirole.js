@@ -1,163 +1,10 @@
 import pdfMake from 'pdfmake/build/pdfmake';
 import Bahnschrift from '../fonts/bahnschrift';
 
+import missionData from './multirole.demo';
+
 /** MDC TEMPLATE FOR MULTIROLE AIRCRAFT (F/A-18C) */
 const multirole = {};
-
-// DUMMY DATA
-const airfieldData = [
-  {
-    label: 'DEP',
-    icao: 'UGKO',
-    tcn: '44X',
-    gnd: '134.100',
-    twr: '134.200',
-    elev: '68 ft',
-    rwy: '08',
-    ils: '109.750',
-  },
-  {
-    label: 'ARR',
-    icao: 'UGTB',
-    tcn: '25X',
-    gnd: '138.100',
-    twr: '138.200',
-    elev: '121 ft',
-    rwy: '13R',
-    ils: '110.300',
-  },
-  {
-    label: 'ALTN',
-    icao: 'UGKO',
-    tcn: '44X',
-    gnd: '132.100',
-    twr: '132.200',
-    elev: '88 ft',
-    rwy: '09',
-    ils: '108.900',
-  },
-];
-
-const flightData = [
-  {
-    pilot: 'DEX',
-    tcn: '33X',
-    laser: '1680',
-    mode: '4401',
-  },
-  {
-    pilot: 'BULLDOG',
-    tcn: '96X',
-    laser: '1681',
-    mode: '4402',
-  },
-  {
-    pilot: 'NECK',
-    tcn: '96X',
-    laser: '1682',
-    mode: '4403',
-  },
-  {
-    pilot: 'HAMSTER',
-    tcn: '96X',
-    laser: '1683',
-    mode: '4404',
-  },
-];
-
-const packageData = [
-  {
-    callsign: 'Falcon-2',
-    numberOfAC: 4,
-    ACtype: 'F/A-18C',
-    uhf: '000.000',
-    vhf: '000.000',
-    tcn: '33X/96X',
-    tasking: 'TRAINING',
-  },
-  {
-    callsign: '',
-    numberOfAC: 0,
-    ACtype: 'N/A',
-    uhf: '000.000',
-    vhf: '000.000',
-    tcn: '',
-    tasking: '',
-  },
-  {
-    callsign: '',
-    numberOfAC: 0,
-    ACtype: 'N/A',
-    uhf: '000.000',
-    vhf: '000.000',
-    tcn: '',
-    tasking: '',
-  },
-  {
-    callsign: '',
-    numberOfAC: 0,
-    ACtype: 'N/A',
-    uhf: '000.000',
-    vhf: '000.000',
-    tcn: '',
-    tasking: '',
-  },
-  {
-    callsign: '',
-    numberOfAC: 0,
-    ACtype: 'N/A',
-    uhf: '000.000',
-    vhf: '000.000',
-    tcn: '',
-    tasking: '',
-  },
-];
-
-const makePlan = () => {
-  const lines = 20;
-  const collection = [];
-
-  let n = 0;
-  while (n !== lines) {
-    collection.push({
-      name: '',
-      tos: '00:00:00Z',
-      hdg: '000°',
-      dist: '000NM',
-      gs: '000KTS',
-      alt: 'FL000',
-      action: '-',
-    });
-    n += 1;
-  }
-
-  return collection;
-};
-
-const sequenceData = [
-  { sequence: '1-2-3-4-5-6-7-8-9-10' },
-  { sequence: '1-2-3-4-5-6-7-8-9-10' },
-  { sequence: '1-2-3-4-5-6-7-8-9-10' },
-];
-
-const presetsData = [
-  { label: 'INT PRI', preset: 'PRI2' },
-  { label: 'INT AUX', preset: '133.500' },
-  { label: 'GND', preset: 'AUX1' },
-  { label: 'TWR:', preset: 'AUX2' },
-  { label: 'APP', preset: '126.900' },
-  { label: 'PACKG', preset: '229.250' },
-  { label: 'TANK 1', preset: 'PRI7' },
-  { label: 'TANK 2', preset: 'PRI8' },
-  { label: 'AWACS', preset: 'AUX4' },
-  { label: 'MAGIC', preset: 'AUX5' },
-  { label: 'OVRLRD', preset: 'AUX6' },
-  { label: 'CSAR', preset: '140.250' },
-  { label: 'JTAC 1', preset: '031.000' },
-  { label: 'JTAC 2', preset: '666.000' },
-  { label: 'REPORT', preset: '--' },
-  { label: 'SPARE', preset: '--' },
-];
 
 /** DEFAULTS */
 pdfMake.vfs = { ...Bahnschrift };
@@ -188,15 +35,18 @@ multirole.colors = colors;
 multirole.styles = styles;
 
 /**
- * COMPONENT: Page Header
+ * Page Header
  * @param {string} msnNumber - Mission Number
+ * @example
+ * multirole.pageHeader({ pageNumber: 1, msnNumber: 'TR1234' });
+ * @retuns {object} Returns a makePDF table definition
  */
-multirole.pageHeader = ({ msnNumber }) => ({
+multirole.pageHeader = ({ pageNumber, msnNumber }) => ({
   table: {
     widths: [60, '*', 50, 60],
     body: [
       [
-        { text: 'PAGE #1', style: styles.pageHeader },
+        { text: `PAGE #${pageNumber}`, style: styles.pageHeader },
         { text: 'GENERAL INFORMATION', style: styles.pageHeader },
         { text: 'MSN NR:', style: styles.pageHeader },
         { text: msnNumber, style: styles.pageHeader },
@@ -210,6 +60,8 @@ multirole.pageHeader = ({ msnNumber }) => ({
  * @param {string} callsign - flight callsign, i.e. 'FALCON-2'
  * @param {string} packageName - package name, i.e. 'ALHPA'
  * @param {string} atis - ATIS Weather information
+ * @example
+ * multirole.flightinfoShort({ callsign: 'Mavrick', packageName: 'Alpha', atis: 'UNKN'})
  */
 multirole.flightinfoShort = ({ callsign, packageName, atis }) => ({
   table: {
@@ -236,6 +88,8 @@ multirole.flightinfoShort = ({ callsign, packageName, atis }) => ({
 /**
  * Airfield information
  * @param {array} airfields - Data for each airfield
+ * @example
+ * mutirole.airfieldInfo({label, icao, tcn, gnd, twr, elev, rwy, ils})
  */
 multirole.airfieldInfo = (airfields) => {
   const td = {
@@ -312,6 +166,9 @@ multirole.flightInfo = (flights) => {
   return td;
 };
 
+/** Package Information
+ * @param {array} packageInfo - Data for the package
+ */
 multirole.packageInfo = (packageInfo) => {
   const td = {
     table: {
@@ -349,6 +206,9 @@ multirole.packageInfo = (packageInfo) => {
   return td;
 };
 
+/** Short version of the Flight Plan
+ * @param {array} flightplan - Data for the flightplan
+ */
 multirole.flightplanShort = (flightplan) => {
   const td = {
     layout: {
@@ -406,6 +266,9 @@ multirole.flightplanShort = (flightplan) => {
   return td;
 };
 
+/** Sequences Information
+ * @param {array} sequences - Steerpoint sequences
+ */
 multirole.sequenceShort = (sequences) => {
   const collection = [];
   const td = {
@@ -427,6 +290,9 @@ multirole.sequenceShort = (sequences) => {
   return td;
 };
 
+/** Presets Information
+ * @param {array} presets - Radio presets
+ */
 multirole.presetsShort = (presets) => {
   const td = {
     table: {
@@ -450,42 +316,60 @@ multirole.presetsShort = (presets) => {
   return td;
 };
 
+/** DEFINTIONS FOR PAGES */
+multirole.pages = {};
+
+/**
+ * MDC Frontpage for the Multirole Template
+ * @param {object} missionData - Mission data structure, see multirole.demo.js
+ */
+multirole.pages.frontPage = ({
+  flightplan,
+  airfieldInfo,
+  elementData,
+  navigationData,
+  radioPresets,
+  packageData,
+}) => {
+  const pageNumber = 1;
+  const { missionNumber, atis } = flightplan;
+  const { callsign, flights } = elementData;
+  const { packageName, elements } = packageData;
+  const { sequences, navpoints } = navigationData;
+
+  const pageHeader = multirole.pageHeader({ pageNumber, missionNumber });
+  const flightinfoShort = multirole.flightinfoShort({ callsign, packageName, atis });
+  const airfieldList = multirole.airfieldInfo(airfieldInfo);
+  const flightInfo = multirole.flightInfo(flights);
+  const packageInfo = multirole.packageInfo(elements);
+  const flightplanShort = multirole.flightplanShort(navpoints);
+  const sequenceShort = multirole.sequenceShort(sequences);
+  const presetsShort = multirole.presetsShort(radioPresets);
+
+  const content = [
+    pageHeader,
+    flightinfoShort,
+    airfieldList,
+    flightInfo,
+    packageInfo,
+    flightplanShort,
+    sequenceShort,
+    presetsShort,
+  ];
+
+  return content;
+};
+
 /**
  * Generates and returns a pdfMake Object (PDF)
+ * @param {string} title - Page/filename
+ * @param {array} content - An array of makePDF content
  */
-multirole.makePdf = () => {
-  // Page Header
-  const pageHeader = multirole.pageHeader({ msnNumber: 'TR6666' });
 
-  // Short flight info
-  const flightinfoShort = multirole.flightinfoShort({
-    callsign: 'Falcon-2',
-    packageName: 'Alpha',
-    atis: 'LLRD INFO: E 0655LT RWY30 TL110 360/5KT BLU 30/25 Q1040 NOSIG',
-  });
-
-  // Airfields Information
-  const airfieldInfo = multirole.airfieldInfo(airfieldData);
-
-  // Flight Information
-  const flightInfo = multirole.flightInfo(flightData);
-
-  // Package Information
-  const packageInfo = multirole.packageInfo(packageData);
-
-  // Flightplan Short
-  const plan = makePlan();
-  const flightplanShort = multirole.flightplanShort(plan);
-
-  // Steerpoint Sequence
-  const sequenceShort = multirole.sequenceShort(sequenceData);
-
-  const presetsShort = multirole.presetsShort(presetsData);
-
-  // Document Definition
-  const template = {
+multirole.makePdf = (title, content) => {
+  const docDefinition = {
     info: {
-      title: 'MDC-494TH-TR9999',
+      title,
       author: '132nd vWing',
       subject: 'Flight Planning',
     },
@@ -495,16 +379,7 @@ multirole.makePdf = () => {
       font: 'Bahnschrift',
       fontSize: 11,
     },
-    content: [
-      pageHeader,
-      flightinfoShort,
-      airfieldInfo,
-      flightInfo,
-      packageInfo,
-      flightplanShort,
-      sequenceShort,
-      presetsShort,
-    ],
+    content,
   };
 
   // Set fonts
@@ -518,8 +393,9 @@ multirole.makePdf = () => {
   };
 
   // Compile and return PDF
-  const pdf = pdfMake.createPdf(template);
+  const pdf = pdfMake.createPdf(docDefinition);
   return pdf;
 };
 
+export { missionData as defaultData };
 export default multirole;
