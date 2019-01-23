@@ -34,7 +34,7 @@ import ProfileDashboard from './components/profile-dashboard/ProfileDashboard';
 import setAuthToken from './utils/setAuthToken';
 
 // LazyLoading
-const MissionBriefingAsPDF = React.lazy(() => import('./components/pdf/MissionBriefingAsPDF'));
+const MDCDemo = React.lazy(() => import('./components/pdf/MDCDemo'));
 
 const { Header, Content, Footer } = Layout;
 
@@ -66,7 +66,7 @@ if (localStorage.jwtToken) {
 
 const PDFComponent = (
   <React.Suspense fallback={<p>Loading...</p>}>
-    <MissionBriefingAsPDF />
+    <MDCDemo />
   </React.Suspense>
 );
 
