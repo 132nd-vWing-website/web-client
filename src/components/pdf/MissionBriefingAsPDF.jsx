@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 
-import { mdc } from './templates';
+import { mdc } from '../../pdf/templates';
 
 export default class MissionBriefingAsPDF extends Component {
   pdfPreviewFrame = React.createRef();
 
   componentDidMount() {
-    const pdf = mdc.panthers.makePdf();
+    const pdf = mdc.multirole.makePdf();
 
     pdf.getDataUrl((dataUrl) => {
       this.pdfPreviewFrame.current.src = dataUrl;

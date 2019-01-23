@@ -1,54 +1,50 @@
 import pdfMake from 'pdfmake/build/pdfmake';
+import Bahnschrift from '../fonts/bahnschrift';
 
-// Fonts
-import fontsBahn from './fonts-bahnschrift';
+/** MDC: MULTIROLE AIRCRAFT */
+const multirole = {};
 
-// Assign fornts
-pdfMake.vfs = { ...fontsBahn };
+/** DEFAULTS */
+pdfMake.vfs = { ...Bahnschrift };
 
-/** PDF templates object  */
-const templates = {};
-
-/** MDC Templates object */
-export const mdc = {};
-
-/** MDC - 494th Panthers */
-mdc.panthers = {};
-mdc.panthers.colors = {
+const colors = {
   white: '#ffffff',
   black: '#000000',
   darkBlue: '#44546a',
 };
 
-mdc.panthers.styles = {
+const styles = {
   pageHeader: {
     alignment: 'center',
-    fillColor: mdc.panthers.colors.darkBlue,
-    color: mdc.panthers.colors.white,
+    fillColor: colors.darkBlue,
+    color: colors.white,
   },
   tableHeader: {
     alignment: 'center',
-    fillColor: mdc.panthers.colors.black,
-    color: mdc.panthers.colors.white,
+    fillColor: colors.black,
+    color: colors.white,
   },
   default: {
     alignment: 'center',
   },
 };
 
+multirole.colors = colors;
+multirole.styles = styles;
+
 /**
- * Generates a Page Header for the 494th MDC
+ * COMPONENT: Page Header
  * @param {string} msnNumber - Mission Number
  */
-mdc.panthers.pageHeader = ({ msnNumber }) => ({
+multirole.pageHeader = ({ msnNumber }) => ({
   table: {
     widths: [60, '*', 50, 60],
     body: [
       [
-        { text: 'PAGE #1:', style: mdc.panthers.styles.pageHeader },
-        { text: 'GENERAL INFORMATION', style: mdc.panthers.styles.pageHeader },
-        { text: 'MSN NR:', style: mdc.panthers.styles.pageHeader },
-        { text: msnNumber, style: mdc.panthers.styles.pageHeader },
+        { text: 'PAGE #1:', style: styles.pageHeader },
+        { text: 'GENERAL INFORMATION', style: styles.pageHeader },
+        { text: 'MSN NR:', style: styles.pageHeader },
+        { text: msnNumber, style: styles.pageHeader },
       ],
     ],
   },
@@ -60,21 +56,21 @@ mdc.panthers.pageHeader = ({ msnNumber }) => ({
  * @param {string} packageName - package name, i.e. 'ALHPA'
  * @param {string} atis - ATIS Weather information
  */
-mdc.panthers.flightinfoShort = ({ callsign, packageName, atis }) => ({
+multirole.flightinfoShort = ({ callsign, packageName, atis }) => ({
   table: {
     widths: [60, '*', 60, '*'],
     body: [
       [
-        { text: 'CALLSIGN:', style: mdc.panthers.styles.tableHeader },
-        { text: callsign.toUpperCase(), style: mdc.panthers.styles.default },
-        { text: 'PACKAGE:', style: mdc.panthers.styles.tableHeader },
-        { text: packageName.toUpperCase(), style: mdc.panthers.styles.default },
+        { text: 'CALLSIGN:', style: styles.tableHeader },
+        { text: callsign.toUpperCase(), style: styles.default },
+        { text: 'PACKAGE:', style: styles.tableHeader },
+        { text: packageName.toUpperCase(), style: styles.default },
       ],
       [
-        { text: 'ATIS:', style: mdc.panthers.styles.tableHeader },
+        { text: 'ATIS:', style: styles.tableHeader },
         {
           text: atis.toUpperCase(),
-          style: mdc.panthers.styles.default,
+          style: styles.default,
           colSpan: 3,
         },
       ],
@@ -85,34 +81,34 @@ mdc.panthers.flightinfoShort = ({ callsign, packageName, atis }) => ({
 /**
  * Generates and returns a pdfMake Object (PDF)
  */
-mdc.panthers.makePdf = () => {
+multirole.makePdf = () => {
   // Document colors & styles
-  const colors = {
-    white: '#ffffff',
-    black: '#000000',
-    darkBlue: '#44546a',
-  };
+  // const colors = {
+  //   white: '#ffffff',
+  //   black: '#000000',
+  //   darkBlue: '#44546a',
+  // };
 
-  const styles = {
-    pageHeader: {
-      alignment: 'center',
-      fillColor: colors.darkBlue,
-      color: colors.white,
-    },
-    tableHeader: {
-      alignment: 'center',
-      fillColor: colors.black,
-      color: colors.white,
-    },
-    default: {
-      alignment: 'center',
-    },
-  };
+  // const styles = {
+  //   pageHeader: {
+  //     alignment: 'center',
+  //     fillColor: colors.darkBlue,
+  //     color: colors.white,
+  //   },
+  //   tableHeader: {
+  //     alignment: 'center',
+  //     fillColor: colors.black,
+  //     color: colors.white,
+  //   },
+  //   default: {
+  //     alignment: 'center',
+  //   },
+  // };
 
   // Document Components
-  const pageHeader = mdc.panthers.pageHeader({ msnNumber: 'TR6666' });
+  const pageHeader = multirole.pageHeader({ msnNumber: 'TR6666' });
 
-  const flightinfoShort = mdc.panthers.flightinfoShort({
+  const flightinfoShort = multirole.flightinfoShort({
     callsign: 'Falcon-2',
     packageName: 'Alpha',
     atis: 'LLRD INFO: E 0655LT RWY30 TL110 360/5KT BLU 30/25 Q1040 NOSIG',
@@ -455,5 +451,4 @@ mdc.panthers.makePdf = () => {
   return pdf;
 };
 
-templates.mdc = mdc;
-export default templates;
+export default multirole;
