@@ -36,12 +36,12 @@ multirole.styles = styles;
 
 /**
  * Page Header
- * @param {string} msnNumber - Mission Number
+ * @param {string} missionNumber - Mission Number
  * @example
- * multirole.pageHeader({ pageNumber: 1, msnNumber: 'TR1234' });
+ * multirole.pageHeader({ pageNumber: 1, missionNumber: 'TR1234' });
  * @retuns {object} Returns a makePDF table definition
  */
-multirole.pageHeader = ({ pageNumber, msnNumber }) => ({
+multirole.pageHeader = ({ pageNumber, missionNumber }) => ({
   table: {
     widths: [60, '*', 50, 60],
     body: [
@@ -49,7 +49,7 @@ multirole.pageHeader = ({ pageNumber, msnNumber }) => ({
         { text: `PAGE #${pageNumber}`, style: styles.pageHeader },
         { text: 'GENERAL INFORMATION', style: styles.pageHeader },
         { text: 'MSN NR:', style: styles.pageHeader },
-        { text: msnNumber, style: styles.pageHeader },
+        { text: missionNumber, style: styles.pageHeader },
       ],
     ],
   },
