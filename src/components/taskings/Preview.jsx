@@ -12,8 +12,6 @@ export default class Preview extends Component {
   };
 
   componentDidMount() {
-    // const { data } = this.props;
-
     const frontPage = mdc.multirole.pages.frontPage(missionData);
     const pdf = mdc.multirole.makePdf('494th-MDC', frontPage);
 
@@ -33,16 +31,9 @@ export default class Preview extends Component {
   componentDidUpdate(prevProps) {
     const { data } = this.props;
 
-    console.log('an update!', data !== prevProps.data);
-
     if (data !== prevProps.data) {
-      console.log('data', data, prevProps.data);
       const frontPage = mdc.multirole.pages.frontPage(data);
       const pdf = mdc.multirole.makePdf('494th-MDC', frontPage);
-
-      // pdf.getDataUrl((dataUrl) => {
-      //   this.pdfPreviewFrame.current.src = dataUrl;
-      // });
 
       this.setState({ pdf });
     }
