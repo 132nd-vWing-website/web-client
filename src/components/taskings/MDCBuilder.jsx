@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
-import { Card, Tabs, Row, Col, Form, Button, Input } from 'antd';
+import { Card, Tabs, Row, Col, Select, Button } from 'antd';
 
 import PageForm from './PageForm';
 
 import pdfBuilder, { mdc } from '../../pdf/pdfBuilder';
 
+// Antd Destructuring
 const { TabPane } = Tabs;
+const { Option } = Select;
 
 /** MDC BUILDER */
 export default class MDCBuilder extends Component {
@@ -26,25 +27,19 @@ export default class MDCBuilder extends Component {
         title: 'Instructions',
         key: '1',
         closable: false,
-        content: (
-          <Form style={{ margin: '0 1em' }}>
-            <Form.Item>
-              <p>Some instructions here, followed by the add/remove/rearrange pages</p>
-            </Form.Item>
-            <Form.Item>
-              <Button type='primary' onClick={this.generatePDF}>
-                Generate MDC
-              </Button>
-            </Form.Item>
-          </Form>
-        ),
+        content: <p>Some instructions here, followed by the add/remove/rearrange pages</p>,
       },
       {
         title: 'MDC Frontpage',
         key: '2',
         closable: false,
+        create: mdc.pages.frontPage.create,
         content: (
-          <PageForm form={mdc.frontPage.form} onChange={this.onChange} missionData={defaultData} />
+          <PageForm
+            form={mdc.pages.frontPage.form}
+            onChange={this.onChange}
+            missionData={defaultData}
+          />
         ),
       },
     ];
@@ -54,11 +49,19 @@ export default class MDCBuilder extends Component {
   }
 
   generatePDF = () => {
-    const { missionData } = this.state;
+    const { missionData, panes } = this.state;
 
-    /** Generate and open the pdf */
-    const frontPage = mdc.frontPage.create(missionData);
-    const pdf = pdfBuilder.makePdf('494th-MDC', [frontPage]);
+    /** Create content from panes */
+    const content = [];
+    panes.forEach((pane) => {
+      if (pane.create) {
+        content.push(pane.create(missionData));
+      }
+      return null;
+    });
+
+    /**  Generate and then open the pdf */
+    const pdf = pdfBuilder.makePdf('494th-MDC', content);
     pdf.open();
 
     /** Update State */
@@ -76,7 +79,6 @@ export default class MDCBuilder extends Component {
   };
 
   onTabEdit = (targetKey, action) => {
-    // this[action](targetKey);
     switch (action) {
       case 'add':
         this.addTab();
@@ -89,10 +91,24 @@ export default class MDCBuilder extends Component {
     }
   };
 
-  addTab = () => {
-    const { panes } = this.state;
+  addTab = (key) => {
+    const { panes, missionData } = this.state;
+    const page = mdc.pages[key];
     const activeKey = `newTab${(this.newTabIndex += 1)}`;
-    panes.push({ title: 'New Tab', content: 'Content of new Tab', key: activeKey });
+
+    let newPane;
+    if (page) {
+      newPane = {
+        title: page.title,
+        key: activeKey,
+        create: page.create,
+        content: <PageForm form={page.form} onChange={this.onChange} missionData={missionData} />,
+      };
+    } else {
+      newPane = { title: 'New Tab', content: 'Content of new Tab', key: activeKey };
+    }
+
+    panes.push(newPane);
     this.setState({ panes, activeKey });
   };
 
@@ -125,7 +141,26 @@ export default class MDCBuilder extends Component {
       </TabPane>
     ));
 
-    const addNewPage = <Button onClick={this.addTab}>Add Page</Button>;
+    const options = Object.keys(mdc.pages).map((page) => {
+      const pageObj = mdc.pages[page];
+      return (
+        <Option key={page} value={page}>
+          {pageObj.title}
+        </Option>
+      );
+    });
+
+    const tabActions = (
+      <React.Fragment>
+        <Select defaultValue='Add Page' onChange={this.addTab} style={{ width: 150 }}>
+          <Option value={null}>fooooo</Option>
+          {options}
+        </Select>
+        <Button type='primary' onClick={this.generatePDF} style={{ marginLeft: '0.5em' }}>
+          Print MDC
+        </Button>
+      </React.Fragment>
+    );
 
     return (
       <Card title='MDC Builder'>
@@ -137,7 +172,7 @@ export default class MDCBuilder extends Component {
               onChange={this.onTabChange}
               activeKey={activeKey}
               onEdit={this.onTabEdit}
-              tabBarExtraContent={addNewPage}>
+              tabBarExtraContent={tabActions}>
               {tabPanes}
             </Tabs>
           </Col>
@@ -146,7 +181,3 @@ export default class MDCBuilder extends Component {
     );
   }
 }
-
-// MDCBuilder.propTypes = {
-//   prop: PropTypes,
-// };
