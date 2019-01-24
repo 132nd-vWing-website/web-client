@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
-import { Card, Tabs, Row, Col, Form, Button, Input, Spin } from 'antd';
+import { Card, Tabs, Row, Col, Form, Button, Input } from 'antd';
 
 import { mdc } from '../../pdf/templates';
 import defaultData from '../../pdf/mdc/multirole.demo';
-
-// LazyLoading
-const Preview = React.lazy(() => import('./Preview'));
 
 const { TabPane } = Tabs;
 
@@ -24,13 +21,18 @@ export default class MDCBuilder extends Component {
   }
 
   handleSubmit = () => {
-    console.log('this should re-render the preview');
-
     const { missionData, missionNumber, callsign } = this.state;
 
+    // Update the missionData object with current state
     missionData.flightplan.missionNumber = missionNumber;
     missionData.elementData.callsign = callsign;
 
+    // Generate and open the pdf
+    const frontPage = mdc.multirole.pages.frontPage(missionData);
+    const pdf = mdc.multirole.makePdf('494th-MDC', frontPage);
+    pdf.open();
+
+    // Update state
     this.setState(missionData);
   };
 
@@ -40,10 +42,7 @@ export default class MDCBuilder extends Component {
 
   render() {
     const { missionData, missionNumber, callsign } = this.state;
-
     if (!missionData) return <div>Loading...</div>;
-
-    console.log('re render!', missionData);
 
     return (
       <Card title='MDC Builder'>
@@ -72,15 +71,10 @@ export default class MDCBuilder extends Component {
                   </Form.Item>
                   <Form.Item>
                     <Button type='primary' onClick={this.handleSubmit}>
-                      Update Preview
+                      Generate MDC
                     </Button>
                   </Form.Item>
                 </Form>
-              </TabPane>
-              <TabPane tab='Mission Data Card' key='2'>
-                <React.Suspense fallback={<p>Loading...</p>}>
-                  <Preview data={missionData} />
-                </React.Suspense>
               </TabPane>
             </Tabs>
           </Col>
