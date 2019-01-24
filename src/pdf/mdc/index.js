@@ -9,7 +9,7 @@ import frontPage from './pages/frontPage';
 
 const mdc = {
   defaultData,
-  frontPage,
+  pages: { frontPage },
 };
 
 export default mdc;
