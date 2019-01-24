@@ -1,10 +1,24 @@
 import pdfMake from 'pdfmake/build/pdfmake';
 import Bahnschrift from '../../fonts/bahnschrift';
 
-// import missionData from '../multirole.demo';
+/** MDC FRONTPAGE */
+const frontPage = {
+  title: 'MDC Frontpage',
+};
 
-/** MDC TEMPLATE FOR MULTIROLE AIRCRAFT (F/A-18C) */
-const frontPage = {};
+/** Input form definition (parsed by React) */
+frontPage.form = [
+  {
+    label: 'Mission Number',
+    type: 'input',
+    name: 'missionNumber',
+  },
+  {
+    label: 'Callsign',
+    type: 'input',
+    name: 'callsign',
+  },
+];
 
 /** DEFAULTS */
 pdfMake.vfs = { ...Bahnschrift };
