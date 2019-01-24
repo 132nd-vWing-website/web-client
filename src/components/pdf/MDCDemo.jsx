@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 
 import PDFPreviewer from './PDFPreviewer';
 
-import { mdc } from '../../pdf/templates';
-import missionData from '../../pdf/mdc/multirole.demo';
+import pdfBuilder, { mdc } from '../../pdf/pdfBuilder';
 
 export default class MDCDemo extends Component {
   state = {
@@ -11,8 +10,10 @@ export default class MDCDemo extends Component {
   };
 
   componentDidMount() {
-    const frontPage = mdc.multirole.pages.frontPage(missionData);
-    const pdf = mdc.multirole.makePdf('494th-MDC', frontPage);
+    const { defaultData } = mdc;
+
+    const frontPage = mdc.frontPage.create(defaultData);
+    const pdf = pdfBuilder.makePdf('494th-MDC', frontPage);
 
     pdf.getDataUrl((dataUrl) => {
       this.pdfPreviewFrame.current.src = dataUrl;

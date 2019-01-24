@@ -10,9 +10,6 @@ import { getEvent } from '../../actions/eventActions';
 
 import './event.css';
 
-// LazyLoading
-const MDCDemo = React.lazy(() => import('../pdf/MDCDemo'));
-
 const { TabPane } = Tabs;
 
 class Event extends Component {
@@ -101,9 +98,7 @@ class Event extends Component {
                   Content of Tab Pane 3
                 </TabPane>
                 <TabPane tab='Download PDF' key='4'>
-                  <React.Suspense fallback={<p>Loading...</p>}>
-                    <MDCDemo />
-                  </React.Suspense>
+                  content tbd
                 </TabPane>
               </Tabs>
             </Col>

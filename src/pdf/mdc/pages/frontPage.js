@@ -1,10 +1,10 @@
 import pdfMake from 'pdfmake/build/pdfmake';
-import Bahnschrift from '../fonts/bahnschrift';
+import Bahnschrift from '../../fonts/bahnschrift';
 
-import missionData from './multirole.demo';
+// import missionData from '../multirole.demo';
 
 /** MDC TEMPLATE FOR MULTIROLE AIRCRAFT (F/A-18C) */
-const multirole = {};
+const frontPage = {};
 
 /** DEFAULTS */
 pdfMake.vfs = { ...Bahnschrift };
@@ -31,17 +31,17 @@ const styles = {
   },
 };
 
-multirole.colors = colors;
-multirole.styles = styles;
+frontPage.colors = colors;
+frontPage.styles = styles;
 
 /**
  * Page Header
  * @param {string} missionNumber - Mission Number
  * @example
- * multirole.pageHeader({ pageNumber: 1, missionNumber: 'TR1234' });
+ * frontPage.pageHeader({ pageNumber: 1, missionNumber: 'TR1234' });
  * @retuns {object} Returns a makePDF table definition
  */
-multirole.pageHeader = ({ pageNumber, missionNumber }) => ({
+frontPage.pageHeader = ({ pageNumber, missionNumber }) => ({
   table: {
     widths: [60, '*', 50, 60],
     body: [
@@ -61,9 +61,9 @@ multirole.pageHeader = ({ pageNumber, missionNumber }) => ({
  * @param {string} packageName - package name, i.e. 'ALHPA'
  * @param {string} atis - ATIS Weather information
  * @example
- * multirole.flightinfoShort({ callsign: 'Mavrick', packageName: 'Alpha', atis: 'UNKN'})
+ * frontPage.flightinfoShort({ callsign: 'Mavrick', packageName: 'Alpha', atis: 'UNKN'})
  */
-multirole.flightinfoShort = ({ callsign, packageName, atis }) => ({
+frontPage.flightinfoShort = ({ callsign, packageName, atis }) => ({
   table: {
     widths: [60, '*', 60, '*'],
     body: [
@@ -91,7 +91,7 @@ multirole.flightinfoShort = ({ callsign, packageName, atis }) => ({
  * @example
  * mutirole.airfieldInfo({label, icao, tcn, gnd, twr, elev, rwy, ils})
  */
-multirole.airfieldInfo = (airfields) => {
+frontPage.airfieldInfo = (airfields) => {
   const td = {
     table: {
       widths: ['*', '*', '*', '*', '*', '*', '*', '*'],
@@ -131,7 +131,7 @@ multirole.airfieldInfo = (airfields) => {
 /** Flight Information
  * @param {array} flights - Data for each flight
  */
-multirole.flightInfo = (flights) => {
+frontPage.flightInfo = (flights) => {
   const td = {
     table: {
       widths: ['*', '*', '*', '*', '*', '*', '*', '*'],
@@ -169,7 +169,7 @@ multirole.flightInfo = (flights) => {
 /** Package Information
  * @param {array} packageInfo - Data for the package
  */
-multirole.packageInfo = (packageInfo) => {
+frontPage.packageInfo = (packageInfo) => {
   const td = {
     table: {
       widths: ['*', '*', '*', '*', '*', '*', '*', '*'],
@@ -209,7 +209,7 @@ multirole.packageInfo = (packageInfo) => {
 /** Short version of the Flight Plan
  * @param {array} flightplan - Data for the flightplan
  */
-multirole.flightplanShort = (flightplan) => {
+frontPage.flightplanShort = (flightplan) => {
   const td = {
     layout: {
       fillColor: function zebraCells(rowIndex) {
@@ -269,7 +269,7 @@ multirole.flightplanShort = (flightplan) => {
 /** Sequences Information
  * @param {array} sequences - Steerpoint sequences
  */
-multirole.sequenceShort = (sequences) => {
+frontPage.sequenceShort = (sequences) => {
   const collection = [];
   const td = {
     table: {
@@ -293,7 +293,7 @@ multirole.sequenceShort = (sequences) => {
 /** Presets Information
  * @param {array} presets - Radio presets
  */
-multirole.presetsShort = (presets) => {
+frontPage.presetsShort = (presets) => {
   const td = {
     table: {
       widths: ['*', '*', '*', '*', '*', '*', '*', '*'],
@@ -316,35 +316,32 @@ multirole.presetsShort = (presets) => {
   return td;
 };
 
-/** DEFINTIONS FOR PAGES */
-multirole.pages = {};
-
 /**
- * MDC Frontpage for the Multirole Template
+ * MDC frontPage for the Multirole Template
  * @param {object} missionData - Mission data structure, see multirole.demo.js
  */
-multirole.pages.frontPage = ({
-  flightplan,
+frontPage.create = ({
+  missionNumber,
+  callsign,
+  element,
+  atis,
   airfieldInfo,
-  elementData,
-  navigationData,
+  navSequences,
+  navPoints,
   radioPresets,
-  packageData,
+  packageName,
+  packageMembers,
 }) => {
   const pageNumber = 1;
-  const { missionNumber, atis } = flightplan;
-  const { callsign, flights } = elementData;
-  const { packageName, elements } = packageData;
-  const { sequences, navpoints } = navigationData;
 
-  const pageHeader = multirole.pageHeader({ pageNumber, missionNumber });
-  const flightinfoShort = multirole.flightinfoShort({ callsign, packageName, atis });
-  const airfieldList = multirole.airfieldInfo(airfieldInfo);
-  const flightInfo = multirole.flightInfo(flights);
-  const packageInfo = multirole.packageInfo(elements);
-  const flightplanShort = multirole.flightplanShort(navpoints);
-  const sequenceShort = multirole.sequenceShort(sequences);
-  const presetsShort = multirole.presetsShort(radioPresets);
+  const pageHeader = frontPage.pageHeader({ pageNumber, missionNumber });
+  const flightinfoShort = frontPage.flightinfoShort({ callsign, packageName, atis });
+  const airfieldList = frontPage.airfieldInfo(airfieldInfo);
+  const flightInfo = frontPage.flightInfo(element);
+  const packageInfo = frontPage.packageInfo(packageMembers);
+  const flightplanShort = frontPage.flightplanShort(navPoints);
+  const sequenceShort = frontPage.sequenceShort(navSequences);
+  const presetsShort = frontPage.presetsShort(radioPresets);
 
   const content = [
     pageHeader,
@@ -360,42 +357,4 @@ multirole.pages.frontPage = ({
   return content;
 };
 
-/**
- * Generates and returns a pdfMake Object (PDF)
- * @param {string} title - Page/filename
- * @param {array} content - An array of makePDF content
- */
-
-multirole.makePdf = (title, content) => {
-  const docDefinition = {
-    info: {
-      title,
-      author: '132nd vWing',
-      subject: 'Flight Planning',
-    },
-    pageSize: 'A4',
-    pageMargins: 5,
-    defaultStyle: {
-      font: 'Bahnschrift',
-      fontSize: 11,
-    },
-    content,
-  };
-
-  // Set fonts
-  pdfMake.fonts = {
-    Bahnschrift: {
-      normal: 'Bahnschrift.ttf',
-      bold: 'Bahnschrift.ttf',
-      italics: 'Bahnschrift.ttf',
-      bolditalics: 'Bahnschrift.ttf',
-    },
-  };
-
-  // Compile and return PDF
-  const pdf = pdfMake.createPdf(docDefinition);
-  return pdf;
-};
-
-export { missionData as defaultData };
-export default multirole;
+export default frontPage;

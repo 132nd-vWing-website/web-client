@@ -3,20 +3,18 @@ import React, { Component } from 'react';
 
 import { Card, Tabs, Row, Col, Form, Button, Input } from 'antd';
 
-import { mdc } from '../../pdf/templates';
-import defaultData from '../../pdf/mdc/multirole.demo';
+import pdfBuilder, { mdc } from '../../pdf/pdfBuilder';
 
 const { TabPane } = Tabs;
 
 export default class MDCBuilder extends Component {
   state = {
     missionData: null,
-    missionNumber: 'TR9999',
-    callsign: 'MAVRICK',
   };
 
   componentDidMount() {
     // Load the default values to state as a starting point
+    const { defaultData } = mdc;
     this.setState({ missionData: defaultData });
   }
 
@@ -28,8 +26,8 @@ export default class MDCBuilder extends Component {
     missionData.elementData.callsign = callsign;
 
     // Generate and open the pdf
-    const frontPage = mdc.multirole.pages.frontPage(missionData);
-    const pdf = mdc.multirole.makePdf('494th-MDC', frontPage);
+    const frontPage = mdc.frontPage.create(missionData);
+    const pdf = pdfBuilder.makePdf('494th-MDC', frontPage);
     pdf.open();
 
     // Update state
