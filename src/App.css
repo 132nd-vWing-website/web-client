@@ -9,3 +9,7 @@
 .primary-color {
   color: #c9793a;
 }
+
+.drag-handle {
+  cursor: move !important;
+}
