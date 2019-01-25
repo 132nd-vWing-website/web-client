@@ -1,16 +1,10 @@
 import React, { Component } from 'react';
-import { Table, Button, Popover, Select } from 'antd';
+import { Table, Button, Popover } from 'antd';
 import ReactDragListView from 'react-drag-listview';
 import PropTypes from 'prop-types';
 
-// PDF Templates
-// import pdfBuilder, { mdc } from '../../pdf/pdfBuilder';
-
-// Antd Shorthands
-const { Option } = Select;
-
 /**
- * PDFSetup
+ * PageList
  * Takes an array of content, and returns a list array to the parent as the user minipulates the
  * list using the supplied onUpdate() function
  * @param {array} content - Array of available content (as PDF definitions) that can be added to the list
@@ -22,41 +16,6 @@ export default class PageList extends Component {
     visible: false,
     pages: [],
   };
-
-  // static getDerivedStateFromProps(props, state) {
-  //   const { list } = props;
-
-  //   if (list !== state.list) {
-  //     // Generate a new data-object for the table
-  //     const data = list.map((item, index) => ({
-  //       key: index,
-  //     }));
-
-  //     return { data };
-  //   }
-  //   return null;
-  // }
-
-  // createPdf = () => {
-  //   const { missionData } = this.props;
-  //   const { panes } = this.state;
-
-  //   /** Create content from panes */
-  //   const content = [];
-  //   panes.forEach((pane) => {
-  //     if (pane.create) {
-  //       content.push(pane.create(missionData));
-  //     }
-  //     return null;
-  //   });
-
-  //   /**  Generate and then open the pdf */
-  //   const pdf = pdfBuilder.makePdf('494th-MDC', content);
-  //   pdf.open();
-
-  //   /** Update State */
-  //   this.setState(missionData);
-  // };
 
   columns = [
     {
@@ -87,7 +46,6 @@ export default class PageList extends Component {
     const { onUpdate } = this.props;
 
     if (pages !== prevState.pages) {
-      console.log('I should update my parent now!', pages);
       onUpdate(pages);
     }
   }
@@ -178,9 +136,6 @@ export default class PageList extends Component {
             onVisibleChange={this.handlePopoverChange}>
             <Button type='default'>+ Add</Button>
           </Popover>
-          <Button type='primary' onClick={this.createPdf} style={{ marginLeft: '0.5em' }}>
-            Print MDC
-          </Button>
         </Button.Group>
       </React.Fragment>
     );
