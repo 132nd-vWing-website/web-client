@@ -3,7 +3,7 @@ import Bahnschrift from '../../fonts/bahnschrift';
 
 /** MDC FRONTPAGE */
 const frontPage = {
-  title: 'MDC Frontpage',
+  title: 'MDC - Frontpage',
 };
 
 /** Input form definition (parsed by React) */
