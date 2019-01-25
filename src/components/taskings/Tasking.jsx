@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Card, Tabs, Row, Col, Select, Button } from 'antd';
 
 import PageForm from './PageForm';
+import PageList from './PageList';
 
 import pdfBuilder, { mdc } from '../../pdf/pdfBuilder';
 
@@ -25,23 +26,30 @@ export default class Tasking extends Component {
     const panes = [
       {
         title: 'MDC - Setup',
-        key: '1',
+        key: 'mdc-setup',
         closable: false,
-        content: <p>Some instructions here, followed by the add/remove/rearrange pages</p>,
+        content: null,
+        // content: (
+        //   <React.Fragment>
+        //     <p>Some instructions here, followed by the add/remove/rearrange pages</p>
+        //     <PageList />
+        //   </React.Fragment>
+        // ),
       },
-      {
-        title: 'MDC - Frontpage',
-        key: '2',
-        closable: false,
-        create: mdc.pages.frontPage.create,
-        content: (
-          <PageForm
-            form={mdc.pages.frontPage.form}
-            onChange={this.onChange}
-            missionData={defaultData}
-          />
-        ),
-      },
+      // {
+      //   title: 'MDC - Frontpage',
+      //   key: 'mdc-frontpage',
+      //   closable: false,
+      //   create: mdc.pages.frontPage.create,
+      //   content: null,
+      //   // content: (
+      //   //   <PageForm
+      //   //     form={mdc.pages.frontPage.form}
+      //   //     onChange={this.onChange}
+      //   //     missionData={defaultData}
+      //   //   />
+      //   // ),
+      // },
     ];
 
     // Update state
@@ -132,8 +140,26 @@ export default class Tasking extends Component {
   };
 
   render() {
-    const { missionData, activeKey, panes } = this.state;
+    const { missionData, activeKey, panes, list } = this.state;
     if (!missionData) return <div>Loading...</div>;
+
+    // Generate the content array from available MDC pages
+    const templates = Object.keys(mdc.pages).map((page) => {
+      const pageObj = mdc.pages[page];
+      return {
+        title: pageObj.title,
+        key: page,
+        createPage: pageObj.create,
+      };
+    });
+
+    // Add default content to MDC-Setup tab
+    panes[0].content = (
+      <React.Fragment>
+        <p>Some instructions here, followed by the add/remove/rearrange pages</p>
+        <PageList list={list} content={templates} onChange={() => null} />
+      </React.Fragment>
+    );
 
     const tabPanes = panes.map((pane) => (
       <TabPane tab={pane.title} key={pane.key} closable={pane.closable}>
