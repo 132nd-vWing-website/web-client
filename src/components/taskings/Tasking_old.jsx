@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Card, Tabs, Row, Col, Select, Button } from 'antd';
 
 import PageForm from './PageForm';
-import PageList from './PageList';
+import MDCPrinter from './MDCPrinter';
 
 import pdfBuilder, { mdc } from '../../pdf/pdfBuilder';
 
@@ -14,7 +14,6 @@ const { Option } = Select;
 export default class Tasking extends Component {
   state = {
     missionData: null,
-    pages: [],
   };
 
   newTabIndex = 0;
@@ -33,7 +32,7 @@ export default class Tasking extends Component {
         // content: (
         //   <React.Fragment>
         //     <p>Some instructions here, followed by the add/remove/rearrange pages</p>
-        //     <PageList />
+        //     <MDCPrinter />
         //   </React.Fragment>
         // ),
       },
@@ -57,62 +56,31 @@ export default class Tasking extends Component {
     this.setState({ missionData: defaultData, activeKey: panes[0].key, panes });
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   const { missionData } = this.state;
-  //   if (missionData !== prevState.missionData) {
-  //     console.log('Tasking: I should update my children now!');
-  //     this.setState({ missionData });
-  //   }
-  // }
-
-  // generatePDF = () => {
-  //   const { missionData, panes } = this.state;
-
-  //   /** Create content from panes */
-  //   const content = [];
-  //   panes.forEach((pane) => {
-  //     if (pane.create) {
-  //       content.push(pane.create(missionData));
-  //     }
-  //     return null;
-  //   });
-
-  //   /**  Generate and then open the pdf */
-  //   const pdf = pdfBuilder.makePdf('494th-MDC', content);
-  //   pdf.open();
-  // };
-
   generatePDF = () => {
-    const { missionData, pages } = this.state;
+    const { missionData, panes } = this.state;
 
-    /** Generate pages */
+    /** Create content from panes */
     const content = [];
-    pages.forEach((page) => {
-      if (page.createPage) {
-        content.push(page.createPage(missionData));
+    panes.forEach((pane) => {
+      if (pane.create) {
+        content.push(pane.create(missionData));
       }
       return null;
     });
 
     /**  Generate and then open the pdf */
-    const pdf = pdfBuilder.makePdf(`132ND-MDC-${missionData.missionNumber}`, content);
+    const pdf = pdfBuilder.makePdf('494th-MDC', content);
     pdf.open();
+
+    /** Update State */
+    this.setState(missionData);
   };
 
   onChange = (e) => {
-    const change = { [e.target.name]: e.target.value };
-
-    this.setState((prevState) => ({
-      missionData: Object.assign({}, prevState.missionData, change),
-    }));
+    const { missionData } = this.state;
+    missionData[e.target.name] = e.target.value;
+    this.setState({ missionData });
   };
-
-  // onChange = (data) => {
-  //   console.log(data);
-  //   this.setState((prevState) => ({
-  //     missionData: Object.assign({}, prevState.missionData, data),
-  //   }));
-  // };
 
   onTabChange = (activeKey) => {
     this.setState({ activeKey });
@@ -171,31 +139,15 @@ export default class Tasking extends Component {
     this.setState({ panes: newPanes, activeKey });
   };
 
-  updatePages = (pages) => {
-    this.setState(() => ({
-      pages,
-    }));
-  };
-
   render() {
-    const { missionData, activeKey, panes, list } = this.state;
+    const { missionData, activeKey, panes } = this.state;
     if (!missionData) return <div>Loading...</div>;
-
-    // Generate the content array from available MDC pages
-    const templates = Object.keys(mdc.pages).map((page) => {
-      const pageObj = mdc.pages[page];
-      return {
-        title: pageObj.title,
-        key: page,
-        createPage: pageObj.create,
-      };
-    });
 
     // Add default content to MDC-Setup tab
     panes[0].content = (
       <React.Fragment>
         <p>Some instructions here, followed by the add/remove/rearrange pages</p>
-        <PageList list={list} content={templates} onUpdate={this.updatePages} />
+        <MDCPrinter onChange={() => null} missionData={missionData} panes={panes} />
       </React.Fragment>
     );
 
