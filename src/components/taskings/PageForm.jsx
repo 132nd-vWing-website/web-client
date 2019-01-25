@@ -19,11 +19,13 @@ export default class PageForm extends Component {
 
   handleChange = (e) => {
     const { onChange } = this.props;
-    const { missionData } = this.state;
+    const change = { [e.target.name]: e.target.value };
+
     onChange(e);
 
-    missionData[e.target.name] = e.target.value;
-    this.setState({ missionData });
+    this.setState((prevState) => ({
+      missionData: Object.assign({}, prevState.missionData, change),
+    }));
   };
 
   render() {
