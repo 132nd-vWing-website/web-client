@@ -10,7 +10,7 @@ const { TabPane } = Tabs;
 const { Option } = Select;
 
 /** MDC BUILDER */
-export default class MDCBuilder extends Component {
+export default class Tasking extends Component {
   state = {
     missionData: null,
   };
@@ -24,13 +24,13 @@ export default class MDCBuilder extends Component {
     // Initialize the default set of panes
     const panes = [
       {
-        title: 'Instructions',
+        title: 'MDC - Setup',
         key: '1',
         closable: false,
         content: <p>Some instructions here, followed by the add/remove/rearrange pages</p>,
       },
       {
-        title: 'MDC Frontpage',
+        title: 'MDC - Frontpage',
         key: '2',
         closable: false,
         create: mdc.pages.frontPage.create,
