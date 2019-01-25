@@ -1,21 +1,20 @@
 import React, { Component } from 'react';
+import { Table, Button, Popover, Select } from 'antd';
+import ReactDragListView from 'react-drag-listview';
 import PropTypes from 'prop-types';
 
-import { Table, Divider, Button, Popover, Select } from 'antd';
-
-import ReactDragListView from 'react-drag-listview';
-import frontPage from '../../pdf/mdc/pages/frontPage';
-
+// PDF Templates
 // import pdfBuilder, { mdc } from '../../pdf/pdfBuilder';
 
+// Antd Shorthands
 const { Option } = Select;
 
 /**
  * PDFSetup
  * Takes an array of content, and returns a list array to the parent as the user minipulates the
- * list using the supplied onChange() function
+ * list using the supplied onUpdate() function
  * @param {array} content - Array of available content (as PDF definitions) that can be added to the list
- * @param {func} onChange - Callback for returning the manipulated list to parent
+ * @param {func} onUpdate - Callback for returning the manipulated list to parent
  */
 
 export default class PageList extends Component {
@@ -67,16 +66,31 @@ export default class PageList extends Component {
     {
       title: 'Actions',
       key: 'actions',
-      render: (text, record, index) => (
+      render: (text, record) => (
         <Button.Group>
-          <Button className='drag-handle' type='primary' size='small'>
+          <Button className='drag-handle' type='default' size='small'>
             Drag Me
           </Button>
-          <Button type='danger' icon='close' size='small' onClick={() => this.removePage(index)} />
+          <Button
+            type='danger'
+            icon='close'
+            size='small'
+            onClick={() => this.removePage(record.key)}
+          />
         </Button.Group>
       ),
     },
   ];
+
+  componentDidUpdate(prevProps, prevState) {
+    const { pages } = this.state;
+    const { onUpdate } = this.props;
+
+    if (pages !== prevState.pages) {
+      console.log('I should update my parent now!', pages);
+      onUpdate(pages);
+    }
+  }
 
   closePopover = () => {
     this.setState({ visible: false });
@@ -91,23 +105,24 @@ export default class PageList extends Component {
     const { content } = this.props;
     const pageData = content.filter((page) => page.key === e.target.name);
 
-    pages.push({
-      key: pages.length,
+    const newPage = {
+      key: Date.now(),
       label: pageData[0].title + pages.length,
       pageKey: pageData[0].key,
       createPage: pageData[0].createPage,
-    });
+    };
 
     this.closePopover();
 
-    this.setState({ pages });
+    this.setState((prevState) => ({
+      pages: [...prevState.pages, newPage],
+    }));
   };
 
-  removePage = (index) => {
-    const { pages } = this.state;
-    pages.splice(index, 1);
-
-    this.setState({ pages });
+  removePage = (key) => {
+    this.setState((prevState) => ({
+      pages: prevState.pages.filter((page) => page.key !== key),
+    }));
   };
 
   render() {
@@ -157,11 +172,11 @@ export default class PageList extends Component {
         <Button.Group style={{ float: 'right', marginTop: '1em' }}>
           <Popover
             content={popoverContent}
-            title='Choose Page...'
+            title='Add New'
             trigger='click'
             visible={visible}
             onVisibleChange={this.handlePopoverChange}>
-            <Button type='default'>+ Add Page</Button>
+            <Button type='default'>+ Add</Button>
           </Popover>
           <Button type='primary' onClick={this.createPdf} style={{ marginLeft: '0.5em' }}>
             Print MDC
@@ -174,5 +189,5 @@ export default class PageList extends Component {
 
 PageList.propTypes = {
   content: PropTypes.array.isRequired,
-  onChange: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func.isRequired,
 };
