@@ -63,10 +63,11 @@
   "scripts": {
     "start": "webpack-dev-server --open --mode=development",
     "dev": "webpack --watch --mode=development",
-    "docs:client": "jsdoc2md src/**/*.jsx > docs/client.md",
-    "docs:api": "jsdoc2md _server/**/*.js > docs/api.md",
-    "docs:foo": "jsdoc2md -c .jsdoc  > docs/foo.md",
-    "docs": "npm run docs:client && npm run docs:server",
+    "docs:client": "jsdoc2md -c .jsdoc -f src/**/*.jsx src/**/*.js > docs/client.md",
+    "docs:api": "jsdoc2md -c .jsdoc -f _server/src/**/*.js _server/routes/**/*.js > docs/api.md",
+    "docs": "npm run docs:client && npm run docs:api",
+    "docs:foo": "jsdoc2md -c .jsdoc -f * > docs/client.md",
+    "docs:foo2": "jsdoc2md -c .jsdoc -f api/* > docs/api.md",
     "test": "jest --watchAll",
     "test:coverage": "jest --coverage",
     "test:runInBand": "jest --runInBand --watchAll",
@@ -76,13 +77,6 @@
     "format": "prettier --write '**/*.{js,jsx}'",
     "lint": "eslint src/* --fix",
     "count": "find . -name '*.js' -not -path './node_modules*' -not -path './client/node_modules*' | xargs wc -l"
-  },
-  "jsdoc2md": {
-    "configure": ".jsdoc",
-    "files": [
-      "src/**/*.jsx",
-      "src/**/*.js"
-    ]
   },
   "browserslist": [
     ">0.2%",
