@@ -1,33 +1,35 @@
+# api
+
 ## Members
 
-<dl>
-<dt><a href="#Posts endpoint-test">Posts endpoint-test</a></dt>
-<dd><p>Test the posts endpoint
-                          <h5>Authentication</h5>
-                          <p>None required</p></p>
-</dd>
-<dt><a href="#Get all Posts">Get all Posts</a></dt>
-<dd><p>Get all posts
-                          <h5>Authentication</h5>
-                          <p>None required</p></p>
-</dd>
-</dl>
+[Posts endpoint-test](api.md#Posts%20endpoint-test)
 
-<a name="Posts endpoint-test"></a>
+Test the posts endpoint
+
+### Authentication
+
+None required
+
+[Get all Posts](api.md#Get%20all%20Posts)
+
+Get all posts
+
+### Authentication
+
+None required
 
 ## Posts endpoint-test
-Test the posts endpoint
-                          <h5>Authentication</h5>
-                          <p>None required</p>
+
+Test the posts endpoint Authentication None required
 
 **Kind**: global variable  
-**Route**: <code>GET</code> api/v1/posts/test  
-<a name="Get all Posts"></a>
+**Route**: `GET` api/v1/posts/test  
+
 
 ## Get all Posts
-Get all posts
-                          <h5>Authentication</h5>
-                          <p>None required</p>
+
+Get all posts Authentication None required
 
 **Kind**: global variable  
-**Route**: <code>GET</code> api/v1/posts/  
+**Route**: `GET` api/v1/posts/
+
