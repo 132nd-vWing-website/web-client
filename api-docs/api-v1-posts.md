@@ -38,7 +38,7 @@ Get all Posts
 {% endapi-method-summary %}
 
 {% api-method-description %}
-This endpoint allows you to get free cakes.
+This endpoint is used to retrieve all posts
 {% endapi-method-description %}
 
 {% api-method-spec %}
@@ -77,6 +77,60 @@ Could not find a cake matching this query.
 {% api-method method="post" host="http://132virtualwing.org" path="/api/v1/posts/" %}
 {% api-method-summary %}
 Submit a new Post
+{% endapi-method-summary %}
+
+{% api-method-description %}
+This endpoint is used to submit new posts
+{% endapi-method-description %}
+
+{% api-method-spec %}
+{% api-method-request %}
+{% api-method-headers %}
+{% api-method-parameter name="Content-Type" type="string" required=true %}
+application/x-www-urlencoded
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="Authentication" type="string" required=true %}
+Bearer &lt;token&gt;
+{% endapi-method-parameter %}
+{% endapi-method-headers %}
+
+{% api-method-body-parameters %}
+{% api-method-parameter name="name" type="string" required=false %}
+Name of whomever posted
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="text" type="string" required=true %}
+The body of the post
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="title" type="string" required=false %}
+The Title of the post
+{% endapi-method-parameter %}
+
+{% api-method-parameter name="type" type="string" required=true %}
+The type of post being submitted
+{% endapi-method-parameter %}
+{% endapi-method-body-parameters %}
+{% endapi-method-request %}
+
+{% api-method-response %}
+{% api-method-response-example httpCode=200 %}
+{% api-method-response-example-description %}
+
+{% endapi-method-response-example-description %}
+
+```
+
+```
+{% endapi-method-response-example %}
+{% endapi-method-response %}
+{% endapi-method-spec %}
+{% endapi-method %}
+
+{% api-method method="get" host="" path="" %}
+{% api-method-summary %}
+something Else
 {% endapi-method-summary %}
 
 {% api-method-description %}
