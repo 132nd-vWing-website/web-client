@@ -63,7 +63,7 @@
   "scripts": {
     "start": "webpack-dev-server --open --mode=development",
     "dev": "webpack --watch --mode=development",
-    "jsdoc": "jsdoc -c .jsdoc -r",
+    "jsdoc": "jsdoc -c .jsdoc -d docs -r",
     "test": "jest --watchAll",
     "test:coverage": "jest --coverage",
     "test:runInBand": "jest --runInBand --watchAll",

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/taskings/Tasking_old.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/taskings/Tasking_old.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { Component } from 'react';
+import { Card, Tabs, Row, Col, Select, Button } from 'antd';
+
+import PageForm from './PageForm';
+import MDCPrinter from './MDCPrinter';
+
+import pdfBuilder, { mdc } from '../../pdf/pdfBuilder';
+
+// Antd Destructuring
+const { TabPane } = Tabs;
+const { Option } = Select;
+
+/** MDC BUILDER */
+export default class Tasking extends Component {
+  state = {
+    missionData: null,
+  };
+
+  newTabIndex = 0;
+
+  componentDidMount() {
+    // Load the default mission values as a starting point
+    const { defaultData } = mdc;
+
+    // Initialize the default set of panes
+    const panes = [
+      {
+        title: 'MDC - Setup',
+        key: 'mdc-setup',
+        closable: false,
+        content: null,
+        // content: (
+        //   &lt;React.Fragment>
+        //     &lt;p>Some instructions here, followed by the add/remove/rearrange pages&lt;/p>
+        //     &lt;MDCPrinter />
+        //   &lt;/React.Fragment>
+        // ),
+      },
+      // {
+      //   title: 'MDC - Frontpage',
+      //   key: 'mdc-frontpage',
+      //   closable: false,
+      //   create: mdc.pages.frontPage.create,
+      //   content: null,
+      //   // content: (
+      //   //   &lt;PageForm
+      //   //     form={mdc.pages.frontPage.form}
+      //   //     onChange={this.onChange}
+      //   //     missionData={defaultData}
+      //   //   />
+      //   // ),
+      // },
+    ];
+
+    // Update state
+    this.setState({ missionData: defaultData, activeKey: panes[0].key, panes });
+  }
+
+  generatePDF = () => {
+    const { missionData, panes } = this.state;
+
+    /** Create content from panes */
+    const content = [];
+    panes.forEach((pane) => {
+      if (pane.create) {
+        content.push(pane.create(missionData));
+      }
+      return null;
+    });
+
+    /**  Generate and then open the pdf */
+    const pdf = pdfBuilder.makePdf('494th-MDC', content);
+    pdf.open();
+
+    /** Update State */
+    this.setState(missionData);
+  };
+
+  onChange = (e) => {
+    const { missionData } = this.state;
+    missionData[e.target.name] = e.target.value;
+    this.setState({ missionData });
+  };
+
+  onTabChange = (activeKey) => {
+    this.setState({ activeKey });
+  };
+
+  onTabEdit = (targetKey, action) => {
+    switch (action) {
+      case 'add':
+        this.addTab();
+        break;
+      case 'remove':
+        this.removeTab(targetKey);
+        break;
+      default:
+        break;
+    }
+  };
+
+  addTab = (key) => {
+    const { panes, missionData } = this.state;
+    const page = mdc.pages[key];
+    const activeKey = `newTab${(this.newTabIndex += 1)}`;
+
+    let newPane;
+    if (page) {
+      newPane = {
+        title: page.title,
+        key: activeKey,
+        create: page.create,
+        content: &lt;PageForm form={page.form} onChange={this.onChange} missionData={missionData} />,
+      };
+    } else {
+      newPane = { title: 'New Tab', content: 'Content of new Tab', key: activeKey };
+    }
+
+    panes.push(newPane);
+    this.setState({ panes, activeKey });
+  };
+
+  removeTab = (targetKey) => {
+    let { activeKey } = this.state;
+    const { panes } = this.state;
+
+    let lastIndex;
+    panes.forEach((pane, index) => {
+      if (pane.key === targetKey) {
+        lastIndex = index - 1;
+      }
+    });
+
+    const newPanes = panes.filter((pane) => pane.key !== targetKey);
+    if (lastIndex >= 0 &amp;&amp; activeKey === targetKey) {
+      activeKey = newPanes[lastIndex].key;
+    }
+
+    this.setState({ panes: newPanes, activeKey });
+  };
+
+  render() {
+    const { missionData, activeKey, panes } = this.state;
+    if (!missionData) return &lt;div>Loading...&lt;/div>;
+
+    // Add default content to MDC-Setup tab
+    panes[0].content = (
+      &lt;React.Fragment>
+        &lt;p>Some instructions here, followed by the add/remove/rearrange pages&lt;/p>
+        &lt;MDCPrinter onChange={() => null} missionData={missionData} panes={panes} />
+      &lt;/React.Fragment>
+    );
+
+    const tabPanes = panes.map((pane) => (
+      &lt;TabPane tab={pane.title} key={pane.key} closable={pane.closable}>
+        {pane.content}
+      &lt;/TabPane>
+    ));
+
+    const options = Object.keys(mdc.pages).map((page) => {
+      const pageObj = mdc.pages[page];
+      return (
+        &lt;Option key={page} value={page}>
+          {pageObj.title}
+        &lt;/Option>
+      );
+    });
+
+    const tabActions = (
+      &lt;React.Fragment>
+        &lt;Select defaultValue='Add Page' onChange={this.addTab} style={{ width: 150 }}>
+          &lt;Option value={null}>fooooo&lt;/Option>
+          {options}
+        &lt;/Select>
+        &lt;Button type='primary' onClick={this.generatePDF} style={{ marginLeft: '0.5em' }}>
+          Print MDC
+        &lt;/Button>
+      &lt;/React.Fragment>
+    );
+
+    return (
+      &lt;Card title='MDC Builder'>
+        &lt;Row>
+          &lt;Col className='gutter-row' span={24} md={24}>
+            &lt;Tabs
+              hideAdd
+              type='editable-card'
+              onChange={this.onTabChange}
+              activeKey={activeKey}
+              onEdit={this.onTabEdit}
+              tabBarExtraContent={tabActions}>
+              {tabPanes}
+            &lt;/Tabs>
+          &lt;/Col>
+        &lt;/Row>
+      &lt;/Card>
+    );
+  }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="mdc.module_pages.html">pages</a></li><li><a href="pdfBuilder.module_mdc.html">mdc</a></li></ul><h3>Classes</h3><ul><li><a href="EventList.html">EventList</a></li><li><a href="HeaderCarousel.html">HeaderCarousel</a></li><li><a href="Login.html">Login</a></li><li><a href="LoginStep.html">LoginStep</a></li><li><a href="module.exports.html">exports</a></li><li><a href="ProfileDashboard.html">ProfileDashboard</a></li><li><a href="ProfileStep.html">ProfileStep</a></li><li><a href="Register.html">Register</a></li></ul><h3>Namespaces</h3><ul><li><a href="frontpage.form.html">form</a></li><li><a href="frontPage%2520-%2520MDC%2520Frontpage%2520Definition.html">frontPage - MDC Frontpage Definition</a></li></ul><h3>Global</h3><ul><li><a href="global.html#API_ROOT">API_ROOT</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#CarouselItem">CarouselItem</a></li><li><a href="global.html#defaultData">defaultData</a></li><li><a href="global.html#findOne">findOne</a></li><li><a href="global.html#getAllEvents">getAllEvents</a></li><li><a href="global.html#getAllMissions">getAllMissions</a></li><li><a href="global.html#getEvent">getEvent</a></li><li><a href="global.html#getMission">getMission</a></li><li><a href="global.html#HeaderComponent">HeaderComponent</a></li><li><a href="global.html#LoginForm">LoginForm</a></li><li><a href="global.html#ProfileForm">ProfileForm</a></li><li><a href="global.html#RegisterForm">RegisterForm</a></li><li><a href="global.html#registerUser">registerUser</a></li><li><a href="global.html#setEventsLoading">setEventsLoading</a></li><li><a href="global.html#setMissionsLoading">setMissionsLoading</a></li><li><a href="global.html#Sidebar">Sidebar</a></li><li><a href="global.html#WrappedLoginForm">WrappedLoginForm</a></li><li><a href="global.html#WrappedProfileForm">WrappedProfileForm</a></li><li><a href="global.html#WrappedRegisterForm">WrappedRegisterForm</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Jan 26 2019 12:20:20 GMT+0100 (W. Europe Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

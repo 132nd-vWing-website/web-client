@@ -8,20 +8,37 @@ export default class PageForm extends Component {
     missionData: null,
   };
 
-  static getDerivedStateFromProps(props, state) {
-    const { missionData } = props;
+  // static getDerivedStateFromProps(props, state) {
+  //   const { missionData } = props;
 
-    if (missionData !== state.missionData) {
-      return { missionData };
+  //   if (missionData !== state.missionData) {
+  //     return { missionData };
+  //   }
+  //   return null;
+  // }
+
+  componentDidMount() {
+    const { missionData } = this.props;
+    this.setState({ missionData });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { missionData } = this.state;
+    const { onUpdate } = this.props;
+    if (missionData !== prevState.missionData) {
+      console.log('PageForm: I should update my parent now!');
+      onUpdate({ title: 'some new mission object' });
+      // this.setState({ missionData });
     }
-    return null;
   }
 
   handleChange = (e) => {
-    const { onChange } = this.props;
+    // const { onUpdate } = this.props;
     const change = { [e.target.name]: e.target.value };
 
-    onChange(e);
+    // onUpdate(e);
+
+    console.log('handleChange():', change);
 
     this.setState((prevState) => ({
       missionData: Object.assign({}, prevState.missionData, change),
@@ -56,6 +73,6 @@ export default class PageForm extends Component {
 
 PageForm.propTypes = {
   form: PropTypes.array.isRequired,
-  onChange: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func.isRequired,
   missionData: PropTypes.object.isRequired,
 };

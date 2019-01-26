@@ -1,4 +1,32 @@
-import React, { Component } from 'react';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/taskings/Tasking.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/taskings/Tasking.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { Component } from 'react';
 import { Card, Tabs, Row, Col, Select, Button } from 'antd';
 
 import PageForm from './PageForm';
@@ -105,7 +133,7 @@ export default class Tasking extends Component {
         title: page.title,
         key: activeKey,
         create: page.create,
-        content: <PageForm form={page.form} onUpdate={this.updateData} missionData={missionData} />,
+        content: &lt;PageForm form={page.form} onUpdate={this.updateData} missionData={missionData} />,
       };
     } else {
       newPane = { title: 'New Tab', content: 'Content of new Tab', key: activeKey };
@@ -127,7 +155,7 @@ export default class Tasking extends Component {
     });
 
     const newPanes = panes.filter((pane) => pane.key !== targetKey);
-    if (lastIndex >= 0 && activeKey === targetKey) {
+    if (lastIndex >= 0 &amp;&amp; activeKey === targetKey) {
       activeKey = newPanes[lastIndex].key;
     }
 
@@ -150,7 +178,7 @@ export default class Tasking extends Component {
 
   render() {
     const { missionData, activeKey, panes, list } = this.state;
-    if (!missionData) return <div>Loading...</div>;
+    if (!missionData) return &lt;div>Loading...&lt;/div>;
 
     // Generate the content array from available MDC pages
     const templates = Object.keys(mdc.pages).map((page) => {
@@ -164,44 +192,44 @@ export default class Tasking extends Component {
 
     // Add default content to MDC-Setup tab
     panes[0].content = (
-      <React.Fragment>
-        <p>Some instructions here, followed by the add/remove/rearrange pages</p>
-        <PageList list={list} content={templates} onUpdate={this.updatePages} />
-      </React.Fragment>
+      &lt;React.Fragment>
+        &lt;p>Some instructions here, followed by the add/remove/rearrange pages&lt;/p>
+        &lt;PageList list={list} content={templates} onUpdate={this.updatePages} />
+      &lt;/React.Fragment>
     );
 
     const tabPanes = panes.map((pane) => (
-      <TabPane tab={pane.title} key={pane.key} closable={pane.closable}>
+      &lt;TabPane tab={pane.title} key={pane.key} closable={pane.closable}>
         {pane.content}
-      </TabPane>
+      &lt;/TabPane>
     ));
 
     const options = Object.keys(mdc.pages).map((page) => {
       const pageObj = mdc.pages[page];
       return (
-        <Option key={page} value={page}>
+        &lt;Option key={page} value={page}>
           {pageObj.title}
-        </Option>
+        &lt;/Option>
       );
     });
 
     const tabActions = (
-      <React.Fragment>
-        <Select defaultValue='Add Page' onChange={this.addTab} style={{ width: 150 }}>
-          <Option value={null}>fooooo</Option>
+      &lt;React.Fragment>
+        &lt;Select defaultValue='Add Page' onChange={this.addTab} style={{ width: 150 }}>
+          &lt;Option value={null}>fooooo&lt;/Option>
           {options}
-        </Select>
-        <Button type='primary' onClick={this.generatePDF} style={{ marginLeft: '0.5em' }}>
+        &lt;/Select>
+        &lt;Button type='primary' onClick={this.generatePDF} style={{ marginLeft: '0.5em' }}>
           Print MDC
-        </Button>
-      </React.Fragment>
+        &lt;/Button>
+      &lt;/React.Fragment>
     );
 
     return (
-      <Card title='MDC Builder'>
-        <Row>
-          <Col className='gutter-row' span={24} md={24}>
-            <Tabs
+      &lt;Card title='MDC Builder'>
+        &lt;Row>
+          &lt;Col className='gutter-row' span={24} md={24}>
+            &lt;Tabs
               hideAdd
               type='editable-card'
               onChange={this.onTabChange}
@@ -209,10 +237,33 @@ export default class Tasking extends Component {
               onEdit={this.onTabEdit}
               tabBarExtraContent={tabActions}>
               {tabPanes}
-            </Tabs>
-          </Col>
-        </Row>
-      </Card>
+            &lt;/Tabs>
+          &lt;/Col>
+        &lt;/Row>
+      &lt;/Card>
     );
   }
 }
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="mdc.module_pages.html">pages</a></li><li><a href="pdfBuilder.module_mdc.html">mdc</a></li></ul><h3>Classes</h3><ul><li><a href="EventList.html">EventList</a></li><li><a href="HeaderCarousel.html">HeaderCarousel</a></li><li><a href="Login.html">Login</a></li><li><a href="LoginStep.html">LoginStep</a></li><li><a href="module.exports.html">exports</a></li><li><a href="ProfileDashboard.html">ProfileDashboard</a></li><li><a href="ProfileStep.html">ProfileStep</a></li><li><a href="Register.html">Register</a></li></ul><h3>Namespaces</h3><ul><li><a href="frontpage.form.html">form</a></li><li><a href="frontPage%2520-%2520MDC%2520Frontpage%2520Definition.html">frontPage - MDC Frontpage Definition</a></li></ul><h3>Global</h3><ul><li><a href="global.html#API_ROOT">API_ROOT</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#CarouselItem">CarouselItem</a></li><li><a href="global.html#defaultData">defaultData</a></li><li><a href="global.html#findOne">findOne</a></li><li><a href="global.html#getAllEvents">getAllEvents</a></li><li><a href="global.html#getAllMissions">getAllMissions</a></li><li><a href="global.html#getEvent">getEvent</a></li><li><a href="global.html#getMission">getMission</a></li><li><a href="global.html#HeaderComponent">HeaderComponent</a></li><li><a href="global.html#LoginForm">LoginForm</a></li><li><a href="global.html#ProfileForm">ProfileForm</a></li><li><a href="global.html#RegisterForm">RegisterForm</a></li><li><a href="global.html#registerUser">registerUser</a></li><li><a href="global.html#setEventsLoading">setEventsLoading</a></li><li><a href="global.html#setMissionsLoading">setMissionsLoading</a></li><li><a href="global.html#Sidebar">Sidebar</a></li><li><a href="global.html#WrappedLoginForm">WrappedLoginForm</a></li><li><a href="global.html#WrappedProfileForm">WrappedProfileForm</a></li><li><a href="global.html#WrappedRegisterForm">WrappedRegisterForm</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Jan 26 2019 12:20:20 GMT+0100 (W. Europe Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

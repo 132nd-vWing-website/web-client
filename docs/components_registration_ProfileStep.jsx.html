@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/registration/ProfileStep.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/registration/ProfileStep.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+
+/* UI Components */
+import { Row, Col, Card, Button, Form, Input, Icon } from 'antd';
+
+/* Redux Actions */
+import { getCurrentProfile, createProfile } from '../../actions/profileActions';
+
+const { TextArea } = Input;
+
+/**
+ * ProfileStep (Main) Component
+ */
+class ProfileStep extends Component {
+  state = {
+    callsign: '',
+    handle: '',
+    status: 'Active',
+    bio: '',
+    errors: {},
+  };
+
+  componentDidMount() {
+    const { auth, profile, onPrev, fetchCurrentProfile, history } = this.props;
+    const { handle } = profile.profile || false;
+    fetchCurrentProfile();
+
+    if (!auth.isAuthenticated) {
+      /** If the user is not logged in, then we send him back one step */
+      onPrev();
+    }
+    if (handle) {
+      /** If a profile allready exists, redirect the user to the dashboard */
+      history.push('/dashboard');
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { errors, currentStep, profile, history } = this.props;
+    const { handle } = profile.profile || false;
+
+    if (errors !== prevProps.errors) this.setState({ errors });
+    if (currentStep !== prevProps.currentStep) this.setState({ currentStep });
+    if (handle) {
+      /** If a profile allready exists, redirect the user to the dashboard */
+      history.push('/dashboard');
+    }
+  }
+
+  makeHandle = (callsign) => {
+    const div = document.createElement('div');
+    const text = document.createTextNode(callsign);
+    div.appendChild(text);
+    return div.innerHTML.toLowerCase().replace(/\s/g, '');
+  };
+
+  onChange = (e) => {
+    const { value } = e.target;
+    if (e.target.name === 'handle') {
+      this.setState({
+        [e.target.name]: this.makeHandle(value),
+      });
+    } else {
+      this.setState({ [e.target.name]: value });
+    }
+  };
+
+  handleSubmit = () => {
+    const { makeProfile, history } = this.props;
+    const { callsign, handle, status, bio } = this.state;
+    const profileData = { callsign, handle, status, bio };
+    makeProfile(profileData, history);
+  };
+
+  render() {
+    const { errors, currentStep, callsign, handle, bio } = this.state;
+    const { stepKey } = this.props;
+
+    let allowNext = false;
+    if (currentStep &lt; stepKey) allowNext = true;
+
+    return (
+      &lt;WrappedProfileForm
+        errors={errors}
+        callsign={callsign}
+        handle={handle}
+        bio={bio}
+        onSubmit={this.handleSubmit}
+        onChange={this.onChange}
+        currentStep={currentStep}
+        allowNext={allowNext}
+      />
+    );
+  }
+}
+
+ProfileStep.propTypes = {
+  stepKey: PropTypes.number.isRequired,
+  currentStep: PropTypes.number.isRequired,
+  onPrev: PropTypes.func.isRequired,
+  fetchCurrentProfile: PropTypes.func.isRequired,
+  makeProfile: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  errors: state.errors,
+  profile: state.profile,
+});
+
+export default connect(
+  mapStateToProps,
+  {
+    fetchCurrentProfile: getCurrentProfile,
+    makeProfile: createProfile,
+  },
+)(withRouter(ProfileStep));
+
+/**
+ * ProfileForm Component
+ */
+const ProfileForm = (props) => {
+  const { callsign, handle, errors, form, onChange, onSubmit, allowNext } = props;
+  const { getFieldDecorator } = form;
+
+  const formItemLayout = {
+    labelCol: {
+      xs: { span: 24 },
+      sm: { span: 5 },
+    },
+    wrapperCol: {
+      xs: { span: 24 },
+      sm: { span: 12 },
+    },
+  };
+
+  return (
+    &lt;React.Fragment>
+      &lt;Card title='Create Profile'>
+        &lt;Row>
+          &lt;Col className='gutter-row' span={24} md={12}>
+            &lt;p>
+              The final step in registering is to set up your pilot profile. After completing this
+              step, you will have a fully set up account and ready to be assigned to a squadron.
+            &lt;/p>
+            &lt;p>
+              First order of business is to choose a callsign. While you might already have
+              nicknames from previous games, please ensure your callsign fulfills the following
+              criteria:
+            &lt;/p>
+            &lt;ul>
+              &lt;li>Is in good taste&lt;/li>
+              &lt;li>Is not Maverick, Iceman, Goose or otherwise cliché...&lt;/li>
+              &lt;li>Is not Assassin, Sniper, Hornet or other terms that could cause confusion&lt;/li>
+              &lt;li>Can actually be called over the radio&lt;/li>
+            &lt;/ul>
+            &lt;p>
+              If the above criteria are not fulfilled, you will be asked to change it (or a new one
+              given..!)
+            &lt;/p>
+            &lt;br />
+          &lt;/Col>
+        &lt;/Row>
+        &lt;Row>
+          &lt;Col className='gutter-row' span={24} md={12}>
+            &lt;Form onSubmit={onSubmit}>
+              &lt;Form.Item
+                {...formItemLayout}
+                label='Callsign'
+                validateStatus={errors.callsign ? 'error' : 'success'}
+                help={errors.callsign}>
+                {getFieldDecorator('callsign', {
+                  setFieldsValue: callsign,
+                  rules: [{ required: true, message: 'Please provide a callsign!' }],
+                })(
+                  &lt;Input
+                    prefix={&lt;Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
+                    type='text'
+                    placeholder='Callsign'
+                    name='callsign'
+                    onChange={onChange}
+                    autoComplete='callsign'
+                  />,
+                )}
+              &lt;/Form.Item>
+              &lt;Form.Item
+                {...formItemLayout}
+                label='Handle'
+                validateStatus={errors.handle ? 'error' : 'success'}
+                help={errors.handle}>
+                {getFieldDecorator('handle', {
+                  setFieldsValue: handle,
+                  rules: [{ required: true, message: 'Please provide a handle!' }],
+                })(
+                  &lt;Input
+                    prefix={&lt;Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
+                    type='text'
+                    placeholder='Profile handle'
+                    name='handle'
+                    onChange={onChange}
+                    autoComplete='handle'
+                  />,
+                )}
+                &lt;small>
+                  A unique handle for your profile, useful for linking to your profile directly
+                &lt;/small>
+              &lt;/Form.Item>
+              &lt;Form.Item {...formItemLayout} label='Bio'>
+                &lt;TextArea
+                  rows={4}
+                  prefix={&lt;Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
+                  type='text'
+                  placeholder='Please write a few words about yourself'
+                  name='bio'
+                  onChange={onChange}
+                  autoComplete='bio'
+                />
+              &lt;/Form.Item>
+            &lt;/Form>
+          &lt;/Col>
+        &lt;/Row>
+      &lt;/Card>
+      &lt;Button
+        type='primary'
+        disabled={allowNext}
+        onClick={() => onSubmit()}
+        style={{ margin: '1em 0', float: 'right' }}>
+        Done
+      &lt;/Button>
+    &lt;/React.Fragment>
+  );
+};
+
+/**
+ * WrappedProfileForm - For enabling AntD Form decorators on LoginForm
+ */
+const WrappedProfileForm = Form.create({ name: 'profile-form' })(ProfileForm);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="mdc.module_pages.html">pages</a></li><li><a href="pdfBuilder.module_mdc.html">mdc</a></li></ul><h3>Classes</h3><ul><li><a href="EventList.html">EventList</a></li><li><a href="HeaderCarousel.html">HeaderCarousel</a></li><li><a href="Login.html">Login</a></li><li><a href="LoginStep.html">LoginStep</a></li><li><a href="module.exports.html">exports</a></li><li><a href="ProfileDashboard.html">ProfileDashboard</a></li><li><a href="ProfileStep.html">ProfileStep</a></li><li><a href="Register.html">Register</a></li></ul><h3>Namespaces</h3><ul><li><a href="frontpage.form.html">form</a></li><li><a href="frontPage%2520-%2520MDC%2520Frontpage%2520Definition.html">frontPage - MDC Frontpage Definition</a></li></ul><h3>Global</h3><ul><li><a href="global.html#API_ROOT">API_ROOT</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#CarouselItem">CarouselItem</a></li><li><a href="global.html#defaultData">defaultData</a></li><li><a href="global.html#findOne">findOne</a></li><li><a href="global.html#getAllEvents">getAllEvents</a></li><li><a href="global.html#getAllMissions">getAllMissions</a></li><li><a href="global.html#getEvent">getEvent</a></li><li><a href="global.html#getMission">getMission</a></li><li><a href="global.html#HeaderComponent">HeaderComponent</a></li><li><a href="global.html#LoginForm">LoginForm</a></li><li><a href="global.html#ProfileForm">ProfileForm</a></li><li><a href="global.html#RegisterForm">RegisterForm</a></li><li><a href="global.html#registerUser">registerUser</a></li><li><a href="global.html#setEventsLoading">setEventsLoading</a></li><li><a href="global.html#setMissionsLoading">setMissionsLoading</a></li><li><a href="global.html#Sidebar">Sidebar</a></li><li><a href="global.html#WrappedLoginForm">WrappedLoginForm</a></li><li><a href="global.html#WrappedProfileForm">WrappedProfileForm</a></li><li><a href="global.html#WrappedRegisterForm">WrappedRegisterForm</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Jan 26 2019 12:20:20 GMT+0100 (W. Europe Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

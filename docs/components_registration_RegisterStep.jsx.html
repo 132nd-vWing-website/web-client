@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/registration/RegisterStep.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/registration/RegisterStep.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+/* UI Components */
+import { Card, Row, Col, Form, Input, Button, Icon } from 'antd';
+
+// Redux Actions
+import { registerUser } from '../../actions/authActions';
+
+class RegisterStep extends Component {
+  state = {
+    name: '',
+    email: '',
+    password: '',
+    password2: '',
+    errors: {},
+  };
+
+  componentDidMount() {
+    const { auth, onNext } = this.props;
+    if (auth.isAuthenticated) {
+      // Send the user to the next page if he is allready logged in
+      onNext();
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { errors, currentStep, auth, onNext } = this.props;
+    if (errors !== prevProps.errors) this.setState({ errors });
+    if (currentStep !== prevProps.currentStep) this.setState({ currentStep });
+    if (auth.isAuthenticated) {
+      // Send the user to the next page if he is allready logged in
+      onNext();
+    }
+  }
+
+  onChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  handleSubmit = () => {
+    const { name, email, password, password2 } = this.state;
+    const { regUser, onNext } = this.props;
+
+    const newUser = { name, email, password, password2 };
+
+    const status = regUser(newUser);
+
+    status.then(() => {
+      onNext();
+    });
+  };
+
+  render() {
+    const { errors, currentStep, name, email, password, password2 } = this.state;
+    const { stepKey } = this.props;
+
+    let allowNext = false;
+    if (currentStep &lt; stepKey) allowNext = true;
+
+    return (
+      &lt;WrappedRegisterForm
+        errors={errors}
+        name={name}
+        email={email}
+        password={password}
+        password2={password2}
+        onSubmit={this.handleSubmit}
+        onChange={this.onChange}
+        currentStep={currentStep}
+        allowNext={allowNext}
+      />
+    );
+  }
+}
+
+RegisterStep.propTypes = {
+  stepKey: PropTypes.number.isRequired,
+  currentStep: PropTypes.number.isRequired,
+  onNext: PropTypes.func.isRequired,
+  regUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  errors: state.errors,
+});
+
+export default connect(
+  mapStateToProps,
+  { regUser: registerUser },
+)(RegisterStep);
+
+/**
+ * RegisterForm Component
+ */
+const RegisterForm = (props) => {
+  const { form, errors, name, email, password, password2, onSubmit, onChange, allowNext } = props;
+  const { getFieldDecorator } = form;
+
+  const formItemLayout = {
+    labelCol: {
+      xs: { span: 24 },
+      sm: { span: 5 },
+    },
+    wrapperCol: {
+      xs: { span: 24 },
+      sm: { span: 12 },
+    },
+  };
+
+  return (
+    &lt;React.Fragment>
+      &lt;Card title='Register Account'>
+        &lt;Row>
+          &lt;Col className='gutter-row' span={24} md={12}>
+            &lt;p>
+              An account is needed in order to create a pilot profile and be able to apply for
+              squadrons, events etc.
+            &lt;/p>
+            &lt;p>Create your account by filling out the form below:&lt;/p>
+          &lt;/Col>
+        &lt;/Row>
+        &lt;Row>
+          &lt;Col className='gutter-row' span={24} md={12}>
+            &lt;Form onSubmit={onSubmit}>
+              &lt;Form.Item
+                {...formItemLayout}
+                label='Account Name'
+                validateStatus={errors.name ? 'error' : 'success'}
+                help={errors.name}>
+                {getFieldDecorator('name', {
+                  setFieldsValue: name,
+                  rules: [{ required: true, message: 'Please provide an account name' }],
+                })(
+                  &lt;Input
+                    prefix={&lt;Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
+                    placeholder='Account Name'
+                    name='name'
+                    onChange={onChange}
+                    autoComplete='name'
+                  />,
+                )}
+              &lt;/Form.Item>
+              &lt;Form.Item
+                {...formItemLayout}
+                label='E-mail (Username)'
+                validateStatus={errors.email ? 'error' : 'success'}
+                help={errors.email}>
+                {getFieldDecorator('email', {
+                  setFieldsValue: email,
+                  rules: [{ required: true, message: 'Please input your email' }],
+                })(
+                  &lt;Input
+                    prefix={&lt;Icon type='mail' style={{ color: 'rgba(0,0,0,.25)' }} />}
+                    placeholder='Provide a valid email address'
+                    name='email'
+                    onChange={onChange}
+                    autoComplete='username'
+                  />,
+                )}
+              &lt;/Form.Item>
+              &lt;Form.Item
+                {...formItemLayout}
+                label='Password'
+                validateStatus={errors.password ? 'error' : 'success'}
+                help={errors.password}>
+                {getFieldDecorator('password', {
+                  setFieldsValue: password,
+                  rules: [{ required: true, message: 'Please provide a valid password' }],
+                })(
+                  &lt;Input
+                    prefix={&lt;Icon type='lock' style={{ color: 'rgba(0,0,0,.25)' }} />}
+                    type='password'
+                    placeholder='Password'
+                    name='password'
+                    onChange={onChange}
+                    autoComplete='new-password'
+                  />,
+                )}
+              &lt;/Form.Item>
+              &lt;Form.Item
+                {...formItemLayout}
+                label='Confirm Password'
+                validateStatus={errors.password2 ? 'error' : 'success'}
+                help={errors.password2}>
+                {getFieldDecorator('password2', {
+                  setFieldsValue: password2,
+                  rules: [{ required: true, message: 'Passwords do not match' }],
+                })(
+                  &lt;Input
+                    prefix={&lt;Icon type='lock' style={{ color: 'rgba(0,0,0,.25)' }} />}
+                    type='password'
+                    placeholder='Confirm Password'
+                    name='password2'
+                    onChange={onChange}
+                    autoComplete='new-password'
+                  />,
+                )}
+              &lt;/Form.Item>
+            &lt;/Form>
+          &lt;/Col>
+        &lt;/Row>
+      &lt;/Card>
+      &lt;Button
+        type='primary'
+        disabled={allowNext}
+        onClick={() => onSubmit()}
+        style={{ margin: '1em 0', float: 'right' }}>
+        Next
+      &lt;/Button>
+    &lt;/React.Fragment>
+  );
+};
+
+/**
+ * WrappedRegisterForm - For enabling AntD Form decorators on LoginForm
+ */
+const WrappedRegisterForm = Form.create({ name: 'register-form' })(RegisterForm);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="mdc.module_pages.html">pages</a></li><li><a href="pdfBuilder.module_mdc.html">mdc</a></li></ul><h3>Classes</h3><ul><li><a href="EventList.html">EventList</a></li><li><a href="HeaderCarousel.html">HeaderCarousel</a></li><li><a href="Login.html">Login</a></li><li><a href="LoginStep.html">LoginStep</a></li><li><a href="module.exports.html">exports</a></li><li><a href="ProfileDashboard.html">ProfileDashboard</a></li><li><a href="ProfileStep.html">ProfileStep</a></li><li><a href="Register.html">Register</a></li></ul><h3>Namespaces</h3><ul><li><a href="frontpage.form.html">form</a></li><li><a href="frontPage%2520-%2520MDC%2520Frontpage%2520Definition.html">frontPage - MDC Frontpage Definition</a></li></ul><h3>Global</h3><ul><li><a href="global.html#API_ROOT">API_ROOT</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#CarouselItem">CarouselItem</a></li><li><a href="global.html#defaultData">defaultData</a></li><li><a href="global.html#findOne">findOne</a></li><li><a href="global.html#getAllEvents">getAllEvents</a></li><li><a href="global.html#getAllMissions">getAllMissions</a></li><li><a href="global.html#getEvent">getEvent</a></li><li><a href="global.html#getMission">getMission</a></li><li><a href="global.html#HeaderComponent">HeaderComponent</a></li><li><a href="global.html#LoginForm">LoginForm</a></li><li><a href="global.html#ProfileForm">ProfileForm</a></li><li><a href="global.html#RegisterForm">RegisterForm</a></li><li><a href="global.html#registerUser">registerUser</a></li><li><a href="global.html#setEventsLoading">setEventsLoading</a></li><li><a href="global.html#setMissionsLoading">setMissionsLoading</a></li><li><a href="global.html#Sidebar">Sidebar</a></li><li><a href="global.html#WrappedLoginForm">WrappedLoginForm</a></li><li><a href="global.html#WrappedProfileForm">WrappedProfileForm</a></li><li><a href="global.html#WrappedRegisterForm">WrappedRegisterForm</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Jan 26 2019 12:20:20 GMT+0100 (W. Europe Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

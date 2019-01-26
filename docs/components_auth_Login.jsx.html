@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/auth/Login.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/auth/Login.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+/* UI Components */
+import { Row, Col, Card, Button, Form, Input, Icon, Checkbox, Alert } from 'antd';
+
+/* Redux Actions */
+import { loginUser } from '../../actions/authActions';
+
+/**
+ * Login (Main) Component
+ */
+class Login extends Component {
+  state = {
+    email: '',
+    password: '',
+    errors: {},
+  };
+
+  componentDidMount() {
+    const { auth, history } = this.props;
+    if (auth.isAuthenticated) {
+      // Send the user somewhere else if he is allready logged in (Dashboard maybe?)
+      history.push('/');
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { auth, history, errors } = this.props;
+    if (auth.isAuthenticated) {
+      // Send the user somewhere else after successful login
+      history.push('/');
+    }
+
+    if (errors !== prevProps.errors) {
+      this.setState({ errors });
+    }
+    return null;
+  }
+
+  onChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const { email, password } = this.state;
+    const { loginFunc } = this.props;
+
+    const userData = { email, password };
+    loginFunc(userData);
+  };
+
+  render() {
+    const { errors, email, password } = this.state;
+
+    return (
+      &lt;WrappedLoginForm
+        onChange={this.onChange}
+        handleSubmit={this.handleSubmit}
+        errors={errors}
+        email={email}
+        password={password}
+      />
+    );
+  }
+}
+
+Login.propTypes = {
+  loginFunc: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  errors: state.errors,
+});
+
+export default connect(
+  mapStateToProps,
+  { loginFunc: loginUser },
+)(Login);
+
+/**
+ * LoginForm Component
+ */
+const LoginForm = (props) => {
+  const { email, password, errors, form, onChange, handleSubmit } = props;
+  const { getFieldDecorator } = form;
+
+  const formItemLayout = {
+    labelCol: {
+      xs: { span: 24 },
+      sm: { span: 5 },
+    },
+    wrapperCol: {
+      xs: { span: 24 },
+      sm: { span: 12 },
+    },
+  };
+
+  const tailFormItemLayout = {
+    wrapperCol: {
+      xs: {
+        span: 24,
+        offset: 0,
+      },
+      sm: {
+        span: 12,
+        offset: 5,
+      },
+    },
+  };
+
+  const alerts = [];
+  Object.keys(errors).forEach((err) => {
+    alerts.push(
+      &lt;Alert
+        key={err}
+        description={errors[err]}
+        type='error'
+        showIcon
+        style={{ margin: '1em 0' }}
+      />,
+    );
+  });
+
+  return (
+    &lt;Card title='Login'>
+      &lt;Row>
+        &lt;Col className='gutter-row' span={24} md={12}>
+          &lt;Form onSubmit={handleSubmit}>
+            &lt;Form.Item {...formItemLayout} label='Account Name'>
+              {getFieldDecorator('email', {
+                setFieldsValue: email,
+                rules: [{ required: true, message: 'Please input your email!' }],
+              })(
+                &lt;Input
+                  prefix={&lt;Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
+                  type='text'
+                  placeholder='Account Name'
+                  name='email'
+                  onChange={onChange}
+                  autoComplete='username'
+                />,
+              )}
+            &lt;/Form.Item>
+            &lt;Form.Item {...formItemLayout} label='Password'>
+              {getFieldDecorator('password', {
+                setFieldsValue: password,
+                rules: [{ required: true, message: 'Please input your Password!' }],
+              })(
+                &lt;Input
+                  prefix={&lt;Icon type='lock' style={{ color: 'rgba(0,0,0,.25)' }} />}
+                  type='password'
+                  placeholder='Password'
+                  name='password'
+                  onChange={onChange}
+                  autoComplete='current-password'
+                />,
+              )}
+            &lt;/Form.Item>
+            &lt;Form.Item {...tailFormItemLayout}>
+              {getFieldDecorator('remember', {
+                valuePropName: 'checked',
+                initialValue: true,
+              })(&lt;Checkbox>Remember me&lt;/Checkbox>)}
+              &lt;Link to='/login' style={{ float: 'right' }}>
+                Forgot password
+              &lt;/Link>
+              &lt;Button
+                type='primary'
+                htmlType='submit'
+                className='login-form-button'
+                style={{ width: '100%' }}>
+                Log in
+              &lt;/Button>
+              &lt;Link to='/register'>
+                &lt;small>Don&amp;apos;t have an account yet? Click here to register!&lt;/small>
+              &lt;/Link>
+            &lt;/Form.Item>
+            &lt;Form.Item {...tailFormItemLayout}>{alerts}&lt;/Form.Item>
+          &lt;/Form>
+        &lt;/Col>
+      &lt;/Row>
+    &lt;/Card>
+  );
+};
+
+/**
+ * WrappedLoginForm - For enabling AntD Form decorators on LoginForm
+ */
+export const WrappedLoginForm = Form.create({ name: 'loginForm' })(LoginForm);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="mdc.module_pages.html">pages</a></li><li><a href="pdfBuilder.module_mdc.html">mdc</a></li></ul><h3>Classes</h3><ul><li><a href="EventList.html">EventList</a></li><li><a href="HeaderCarousel.html">HeaderCarousel</a></li><li><a href="Login.html">Login</a></li><li><a href="LoginStep.html">LoginStep</a></li><li><a href="module.exports.html">exports</a></li><li><a href="ProfileDashboard.html">ProfileDashboard</a></li><li><a href="ProfileStep.html">ProfileStep</a></li><li><a href="Register.html">Register</a></li></ul><h3>Namespaces</h3><ul><li><a href="frontpage.form.html">form</a></li><li><a href="frontPage%2520-%2520MDC%2520Frontpage%2520Definition.html">frontPage - MDC Frontpage Definition</a></li></ul><h3>Global</h3><ul><li><a href="global.html#API_ROOT">API_ROOT</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#CarouselItem">CarouselItem</a></li><li><a href="global.html#defaultData">defaultData</a></li><li><a href="global.html#findOne">findOne</a></li><li><a href="global.html#getAllEvents">getAllEvents</a></li><li><a href="global.html#getAllMissions">getAllMissions</a></li><li><a href="global.html#getEvent">getEvent</a></li><li><a href="global.html#getMission">getMission</a></li><li><a href="global.html#HeaderComponent">HeaderComponent</a></li><li><a href="global.html#LoginForm">LoginForm</a></li><li><a href="global.html#ProfileForm">ProfileForm</a></li><li><a href="global.html#RegisterForm">RegisterForm</a></li><li><a href="global.html#registerUser">registerUser</a></li><li><a href="global.html#setEventsLoading">setEventsLoading</a></li><li><a href="global.html#setMissionsLoading">setMissionsLoading</a></li><li><a href="global.html#Sidebar">Sidebar</a></li><li><a href="global.html#WrappedLoginForm">WrappedLoginForm</a></li><li><a href="global.html#WrappedProfileForm">WrappedProfileForm</a></li><li><a href="global.html#WrappedRegisterForm">WrappedRegisterForm</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Jan 26 2019 12:20:20 GMT+0100 (W. Europe Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

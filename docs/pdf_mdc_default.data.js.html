@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pdf/mdc/default.data.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pdf/mdc/default.data.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const makeFakePlan = () => {
+  const lines = 20;
+  const collection = [];
+
+  let n = 0;
+  while (n !== lines) {
+    collection.push({
+      name: '',
+      tos: '00:00:00Z',
+      hdg: '000°',
+      dist: '000NM',
+      gs: '000KTS',
+      alt: 'FL000',
+      action: '-',
+    });
+    n += 1;
+  }
+
+  return collection;
+};
+
+/**
+ * Default Data-object for a MDC to use as default values when generating an MDC
+ * It is important that each key/value pair has a value of either int, string or an array of objects!
+ */
+const defaultData = {
+  missionNumber: 'TR9999',
+  callsign: 'FALCON-2',
+  ato:
+    'VTASK/132vW/17041/031800ZOCT2018//TASKUNIT/ 494th/ICAO:-//AMSNDAT / TR7041 / TR / -/-/2 / -/-/DEPLOC: UGKO / ARRLOC: UGKO//MSNACFT / 2 / F / A - 18C / FALCON21 - 22 / FLIGHT LEAD DISCRETION / -/PINK9/LEMON2//AMPN / THIS IS A F - 18C FLIGHT//',
+  atis: 'LLRD INFO: E 0655LT RWY30 TL110 360/5KT BLU 30/25 Q1040 NOSIG',
+  enr: 'DEP via AKAKI, AAR at SHELL, RTB via OHB',
+  etd: '18:00:00Z',
+  eta: '+2hrs',
+  airfieldInfo: [
+    {
+      label: 'DEP',
+      icao: 'UGKO',
+      tcn: '44X',
+      gnd: '134.100',
+      twr: '134.200',
+      elev: '68 ft',
+      rwy: '08',
+      ils: '109.750',
+    },
+    {
+      label: 'ARR',
+      icao: 'UGTB',
+      tcn: '25X',
+      gnd: '138.100',
+      twr: '138.200',
+      elev: '121 ft',
+      rwy: '13R',
+      ils: '110.300',
+    },
+    {
+      label: 'ALTN',
+      icao: 'UGKO',
+      tcn: '44X',
+      gnd: '132.100',
+      twr: '132.200',
+      elev: '88 ft',
+      rwy: '09',
+      ils: '108.900',
+    },
+  ],
+  element: [
+    {
+      aircraft: 'F/A-18C',
+      pilot: 'DEX',
+      tcn: '33X',
+      laser: '1680',
+      mode: '4401',
+    },
+    {
+      pilot: 'BULLDOG',
+      tcn: '96X',
+      laser: '1681',
+      mode: '4402',
+    },
+    {
+      pilot: 'NECK',
+      tcn: '96X',
+      laser: '1682',
+      mode: '4403',
+    },
+    {
+      pilot: 'HAMSTER',
+      tcn: '96X',
+      laser: '1683',
+      mode: '4404',
+    },
+  ],
+  navSequences: [
+    { sequence: '1-2-3-4-5-6-7-8-9-10' },
+    { sequence: '1-2-3-4-5-6-7-8-9-10' },
+    { sequence: '1-2-3-4-5-6-7-8-9-10' },
+  ],
+  navPoints: makeFakePlan(),
+  radioPresets: [
+    { label: 'INT PRI', preset: 'PRI2' },
+    { label: 'INT AUX', preset: '133.500' },
+    { label: 'GND', preset: 'AUX1' },
+    { label: 'TWR:', preset: 'AUX2' },
+    { label: 'APP', preset: '126.900' },
+    { label: 'PACKG', preset: '229.250' },
+    { label: 'TANK 1', preset: 'PRI7' },
+    { label: 'TANK 2', preset: 'PRI8' },
+    { label: 'AWACS', preset: 'AUX4' },
+    { label: 'MAGIC', preset: 'AUX5' },
+    { label: 'OVRLRD', preset: 'AUX6' },
+    { label: 'CSAR', preset: '140.250' },
+    { label: 'JTAC 1', preset: '031.000' },
+    { label: 'JTAC 2', preset: '666.000' },
+    { label: 'REPORT', preset: '--' },
+    { label: 'SPARE', preset: '--' },
+  ],
+  packageName: 'Alpha',
+  packageMembers: [
+    {
+      callsign: 'Falcon-2',
+      numberOfAC: 4,
+      ACtype: 'F/A-18C',
+      uhf: '000.000',
+      vhf: '000.000',
+      tcn: '33X/96X',
+      tasking: 'TRAINING',
+    },
+    {
+      callsign: '',
+      numberOfAC: 0,
+      ACtype: 'N/A',
+      uhf: '000.000',
+      vhf: '000.000',
+      tcn: '',
+      tasking: '',
+    },
+    {
+      callsign: '',
+      numberOfAC: 0,
+      ACtype: 'N/A',
+      uhf: '000.000',
+      vhf: '000.000',
+      tcn: '',
+      tasking: '',
+    },
+    {
+      callsign: '',
+      numberOfAC: 0,
+      ACtype: 'N/A',
+      uhf: '000.000',
+      vhf: '000.000',
+      tcn: '',
+      tasking: '',
+    },
+    {
+      callsign: '',
+      numberOfAC: 0,
+      ACtype: 'N/A',
+      uhf: '000.000',
+      vhf: '000.000',
+      tcn: '',
+      tasking: '',
+    },
+  ],
+};
+
+export default defaultData;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="mdc.module_pages.html">pages</a></li><li><a href="pdfBuilder.module_mdc.html">mdc</a></li></ul><h3>Classes</h3><ul><li><a href="EventList.html">EventList</a></li><li><a href="HeaderCarousel.html">HeaderCarousel</a></li><li><a href="Login.html">Login</a></li><li><a href="LoginStep.html">LoginStep</a></li><li><a href="module.exports.html">exports</a></li><li><a href="ProfileDashboard.html">ProfileDashboard</a></li><li><a href="ProfileStep.html">ProfileStep</a></li><li><a href="Register.html">Register</a></li></ul><h3>Namespaces</h3><ul><li><a href="frontpage.form.html">form</a></li><li><a href="frontPage%2520-%2520MDC%2520Frontpage%2520Definition.html">frontPage - MDC Frontpage Definition</a></li></ul><h3>Global</h3><ul><li><a href="global.html#API_ROOT">API_ROOT</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#CarouselItem">CarouselItem</a></li><li><a href="global.html#defaultData">defaultData</a></li><li><a href="global.html#findOne">findOne</a></li><li><a href="global.html#getAllEvents">getAllEvents</a></li><li><a href="global.html#getAllMissions">getAllMissions</a></li><li><a href="global.html#getEvent">getEvent</a></li><li><a href="global.html#getMission">getMission</a></li><li><a href="global.html#HeaderComponent">HeaderComponent</a></li><li><a href="global.html#LoginForm">LoginForm</a></li><li><a href="global.html#ProfileForm">ProfileForm</a></li><li><a href="global.html#RegisterForm">RegisterForm</a></li><li><a href="global.html#registerUser">registerUser</a></li><li><a href="global.html#setEventsLoading">setEventsLoading</a></li><li><a href="global.html#setMissionsLoading">setMissionsLoading</a></li><li><a href="global.html#Sidebar">Sidebar</a></li><li><a href="global.html#WrappedLoginForm">WrappedLoginForm</a></li><li><a href="global.html#WrappedProfileForm">WrappedProfileForm</a></li><li><a href="global.html#WrappedRegisterForm">WrappedRegisterForm</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Jan 26 2019 12:20:20 GMT+0100 (W. Europe Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

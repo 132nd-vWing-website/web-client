@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/sidebar/Sidebar.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/sidebar/Sidebar.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from 'react';
+import { Link } from 'react-router-dom';
+import { PropTypes } from 'prop-types';
+import { connect } from 'react-redux';
+
+import { Layout, Menu, Icon } from 'antd';
+
+import { logoutUser } from '../../actions/authActions';
+import { clearCurrentProfile } from '../../actions/profileActions';
+
+import Logo from '../../img/132nd-logo-web-100.png';
+
+const { Sider } = Layout;
+const { SubMenu, MenuItemGroup } = Menu;
+
+/**
+ * Sidebar Componet
+ */
+const Sidebar = (props) => {
+  const onLogoutClick = () => {
+    props.clearProfile();
+    props.logUserOut();
+  };
+
+  const { auth } = props;
+  const { isAuthenticated, user } = auth;
+
+  const FlySubmenuTitle = (
+    &lt;span>
+      &lt;Icon type='compass' />
+      &lt;span className='nav-text'>Go fly!&lt;/span>
+    &lt;/span>
+  );
+
+  const authLinks = (
+    &lt;Menu
+      theme='dark'
+      mode='inline'
+      defaultSelectedKeys={['4']}
+      defaultOpenKeys={['FlySubmenu']}
+      style={{ marginTop: '3em' }}>
+      &lt;Menu.Item key='1'>
+        &lt;Link to='/dashboard'>
+          &lt;span style={{ textTransform: 'uppercase', fontWeight: 'bold' }}>
+            &lt;Icon type='user' />
+            {user.name}
+          &lt;/span>
+        &lt;/Link>
+      &lt;/Menu.Item>
+      &lt;Menu.Item key='2' onClick={onLogoutClick}>
+        &lt;Icon type='coffee' />
+        &lt;span className='nav-text'>Logout&lt;/span>
+      &lt;/Menu.Item>
+      &lt;Menu.Item key='3'>
+        &lt;Link to='/'>
+          &lt;Icon type='home' />
+          &lt;span className='nav-text'>Home&lt;/span>
+        &lt;/Link>
+      &lt;/Menu.Item>
+      &lt;Menu.Item key='4'>
+        &lt;Link to='/events'>
+          &lt;Icon type='compass' />
+          &lt;span className='nav-text'>Go Fly!&lt;/span>
+        &lt;/Link>
+      &lt;/Menu.Item>
+      &lt;Menu.Item key='5' style={{ marginTop: '3em' }}>
+        &lt;span className='nav-text'>Profiles&lt;/span>
+      &lt;/Menu.Item>
+      &lt;Menu.Item key='6'>
+        &lt;span className='nav-text'>About Us&lt;/span>
+      &lt;/Menu.Item>
+      &lt;Menu.Item key='7'>
+        &lt;span className='nav-text'>Squadrons&lt;/span>
+      &lt;/Menu.Item>
+      &lt;Menu.Item key='8'>
+        &lt;span className='nav-text'>Recruitment&lt;/span>
+      &lt;/Menu.Item>
+      &lt;Menu.Item key='9'>
+        &lt;span className='nav-text'>Contact Us&lt;/span>
+      &lt;/Menu.Item>
+    &lt;/Menu>
+  );
+
+  const guestLinks = (
+    &lt;Menu
+      theme='dark'
+      mode='inline'
+      defaultSelectedKeys={['4']}
+      defaultOpenKeys={['FlySubmenu']}
+      style={{ marginTop: '3em' }}>
+      &lt;Menu.Item key='1'>
+        &lt;Link to='/register'>
+          &lt;Icon type='plus' />
+          &lt;span className='nav-text'>Sign Up&lt;/span>
+        &lt;/Link>
+      &lt;/Menu.Item>
+      &lt;Menu.Item key='2'>
+        &lt;Link to='/login'>
+          &lt;Icon type='user' />
+          &lt;span className='nav-text'>Login&lt;/span>
+        &lt;/Link>
+      &lt;/Menu.Item>
+      &lt;Menu.Item key='3'>
+        &lt;Link to='/'>
+          &lt;Icon type='home' />
+          &lt;span className='nav-text'>Home&lt;/span>
+        &lt;/Link>
+      &lt;/Menu.Item>
+      &lt;SubMenu key='FlySubmenu' title={FlySubmenuTitle}>
+        &lt;Menu.Item key='FlySubmenu_1'>
+          &lt;Link to='/events'>
+            &lt;Icon type='compass' />
+            &lt;span className='nav-text'>Events&lt;/span>
+          &lt;/Link>
+        &lt;/Menu.Item>
+        &lt;Menu.Item key='FlySubmenu_2'>
+          &lt;Link to='/taskings'>
+            &lt;Icon type='form' />
+            &lt;span className='nav-text'>Taskings&lt;/span>
+          &lt;/Link>
+        &lt;/Menu.Item>
+        &lt;Menu.Item key='FlySubmenu_3'>
+          &lt;Link to='/events'>
+            &lt;Icon type='table' />
+            &lt;span className='nav-text'>View ATO&lt;/span>
+          &lt;/Link>
+        &lt;/Menu.Item>
+      &lt;/SubMenu>
+      &lt;Menu.Item key='5' style={{ marginTop: '3em' }}>
+        &lt;span className='nav-text'>Profiles&lt;/span>
+      &lt;/Menu.Item>
+      &lt;Menu.Item key='6'>
+        &lt;span className='nav-text'>About Us&lt;/span>
+      &lt;/Menu.Item>
+      &lt;Menu.Item key='7'>
+        &lt;span className='nav-text'>Squadrons&lt;/span>
+      &lt;/Menu.Item>
+      &lt;Menu.Item key='8'>
+        &lt;span className='nav-text'>Recruitment&lt;/span>
+      &lt;/Menu.Item>
+      &lt;Menu.Item key='9'>
+        &lt;span className='nav-text'>Contact Us&lt;/span>
+      &lt;/Menu.Item>
+    &lt;/Menu>
+  );
+
+  return (
+    &lt;Sider breakpoint='lg' collapsedWidth='0' className='sider-main'>
+      &lt;div
+        className='logo'
+        style={{
+          margin: '1em 0 0 0',
+          background: `url(${Logo}) 0 0 / cover no-repeat`,
+          minHeight: '200px',
+        }}
+      />
+      {isAuthenticated ? authLinks : guestLinks}
+    &lt;/Sider>
+  );
+};
+
+Sidebar.propTypes = {
+  logUserOut: PropTypes.func.isRequired,
+  clearProfile: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(
+  mapStateToProps,
+  {
+    logUserOut: logoutUser,
+    clearProfile: clearCurrentProfile,
+  },
+)(Sidebar);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="mdc.module_pages.html">pages</a></li><li><a href="pdfBuilder.module_mdc.html">mdc</a></li></ul><h3>Classes</h3><ul><li><a href="EventList.html">EventList</a></li><li><a href="HeaderCarousel.html">HeaderCarousel</a></li><li><a href="Login.html">Login</a></li><li><a href="LoginStep.html">LoginStep</a></li><li><a href="module.exports.html">exports</a></li><li><a href="ProfileDashboard.html">ProfileDashboard</a></li><li><a href="ProfileStep.html">ProfileStep</a></li><li><a href="Register.html">Register</a></li></ul><h3>Namespaces</h3><ul><li><a href="frontpage.form.html">form</a></li><li><a href="frontPage%2520-%2520MDC%2520Frontpage%2520Definition.html">frontPage - MDC Frontpage Definition</a></li></ul><h3>Global</h3><ul><li><a href="global.html#API_ROOT">API_ROOT</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#CarouselItem">CarouselItem</a></li><li><a href="global.html#defaultData">defaultData</a></li><li><a href="global.html#findOne">findOne</a></li><li><a href="global.html#getAllEvents">getAllEvents</a></li><li><a href="global.html#getAllMissions">getAllMissions</a></li><li><a href="global.html#getEvent">getEvent</a></li><li><a href="global.html#getMission">getMission</a></li><li><a href="global.html#HeaderComponent">HeaderComponent</a></li><li><a href="global.html#LoginForm">LoginForm</a></li><li><a href="global.html#ProfileForm">ProfileForm</a></li><li><a href="global.html#RegisterForm">RegisterForm</a></li><li><a href="global.html#registerUser">registerUser</a></li><li><a href="global.html#setEventsLoading">setEventsLoading</a></li><li><a href="global.html#setMissionsLoading">setMissionsLoading</a></li><li><a href="global.html#Sidebar">Sidebar</a></li><li><a href="global.html#WrappedLoginForm">WrappedLoginForm</a></li><li><a href="global.html#WrappedProfileForm">WrappedProfileForm</a></li><li><a href="global.html#WrappedRegisterForm">WrappedRegisterForm</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Jan 26 2019 12:20:20 GMT+0100 (W. Europe Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

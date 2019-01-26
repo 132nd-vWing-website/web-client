@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/taskings/PageList.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/taskings/PageList.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { Component } from 'react';
+import { Table, Button, Popover } from 'antd';
+import ReactDragListView from 'react-drag-listview';
+import PropTypes from 'prop-types';
+
+/**
+ * PageList
+ * Takes an array of content, and returns a list array to the parent as the user minipulates the
+ * list using the supplied onUpdate() function
+ * @param {array} content - Array of available content (as PDF definitions) that can be added to the list
+ * @param {func} onUpdate - Callback for returning the manipulated list to parent
+ */
+
+export default class PageList extends Component {
+  state = {
+    visible: false,
+    pages: [],
+  };
+
+  columns = [
+    {
+      title: 'Name',
+      dataIndex: 'label',
+    },
+    {
+      title: 'Actions',
+      key: 'actions',
+      render: (text, record) => (
+        &lt;Button.Group>
+          &lt;Button className='drag-handle' type='default' size='small'>
+            Drag Me
+          &lt;/Button>
+          &lt;Button
+            type='danger'
+            icon='close'
+            size='small'
+            onClick={() => this.removePage(record.key)}
+          />
+        &lt;/Button.Group>
+      ),
+    },
+  ];
+
+  componentDidUpdate(prevProps, prevState) {
+    const { pages } = this.state;
+    const { onUpdate } = this.props;
+
+    if (pages !== prevState.pages) {
+      onUpdate(pages);
+    }
+  }
+
+  closePopover = () => {
+    this.setState({ visible: false });
+  };
+
+  handlePopoverChange = (visible) => {
+    this.setState({ visible });
+  };
+
+  addPage = (e) => {
+    const { pages } = this.state;
+    const { content } = this.props;
+    const pageData = content.filter((page) => page.key === e.target.name);
+
+    const newPage = {
+      key: Date.now(),
+      label: pageData[0].title + pages.length,
+      pageKey: pageData[0].key,
+      createPage: pageData[0].createPage,
+    };
+
+    this.closePopover();
+
+    this.setState((prevState) => ({
+      pages: [...prevState.pages, newPage],
+    }));
+  };
+
+  removePage = (key) => {
+    this.setState((prevState) => ({
+      pages: prevState.pages.filter((page) => page.key !== key),
+    }));
+  };
+
+  render() {
+    // Draggable Setup
+    const that = this;
+    const dragProps = {
+      onDragEnd(fromIndex, toIndex) {
+        /* eslint prefer-destructuring: 0 */
+        const pages = that.state.pages;
+        const item = pages.splice(fromIndex, 1)[0];
+        pages.splice(toIndex, 0, item);
+        that.setState({ pages });
+      },
+      handleSelector: '.drag-handle', // Supports CSS Selectors :)
+    };
+
+    const { pages, visible } = this.state;
+    const { content } = this.props;
+
+    const options = content.map((type) => (
+      &lt;Button
+        key={type.key}
+        size='small'
+        type='default'
+        name={type.key}
+        onClick={this.addPage}
+        block
+        style={{ marginBottom: '0.1em' }}>
+        {type.title}
+      &lt;/Button>
+    ));
+
+    const popoverContent = (
+      &lt;React.Fragment>
+        {options}
+        &lt;Button type='primary' onClick={this.closePopover} size='small' block>
+          Cancel
+        &lt;/Button>
+      &lt;/React.Fragment>
+    );
+
+    return (
+      &lt;React.Fragment>
+        &lt;ReactDragListView {...dragProps}>
+          &lt;Table columns={this.columns} pagination={false} dataSource={pages} size='small' />
+        &lt;/ReactDragListView>
+        &lt;Button.Group style={{ float: 'right', marginTop: '1em' }}>
+          &lt;Popover
+            content={popoverContent}
+            title='Add New'
+            trigger='click'
+            visible={visible}
+            onVisibleChange={this.handlePopoverChange}>
+            &lt;Button type='default'>+ Add&lt;/Button>
+          &lt;/Popover>
+        &lt;/Button.Group>
+      &lt;/React.Fragment>
+    );
+  }
+}
+
+PageList.propTypes = {
+  content: PropTypes.array.isRequired,
+  onUpdate: PropTypes.func.isRequired,
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="mdc.module_pages.html">pages</a></li><li><a href="pdfBuilder.module_mdc.html">mdc</a></li></ul><h3>Classes</h3><ul><li><a href="EventList.html">EventList</a></li><li><a href="HeaderCarousel.html">HeaderCarousel</a></li><li><a href="Login.html">Login</a></li><li><a href="LoginStep.html">LoginStep</a></li><li><a href="module.exports.html">exports</a></li><li><a href="ProfileDashboard.html">ProfileDashboard</a></li><li><a href="ProfileStep.html">ProfileStep</a></li><li><a href="Register.html">Register</a></li></ul><h3>Namespaces</h3><ul><li><a href="frontpage.form.html">form</a></li><li><a href="frontPage%2520-%2520MDC%2520Frontpage%2520Definition.html">frontPage - MDC Frontpage Definition</a></li></ul><h3>Global</h3><ul><li><a href="global.html#API_ROOT">API_ROOT</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#CarouselItem">CarouselItem</a></li><li><a href="global.html#defaultData">defaultData</a></li><li><a href="global.html#findOne">findOne</a></li><li><a href="global.html#getAllEvents">getAllEvents</a></li><li><a href="global.html#getAllMissions">getAllMissions</a></li><li><a href="global.html#getEvent">getEvent</a></li><li><a href="global.html#getMission">getMission</a></li><li><a href="global.html#HeaderComponent">HeaderComponent</a></li><li><a href="global.html#LoginForm">LoginForm</a></li><li><a href="global.html#ProfileForm">ProfileForm</a></li><li><a href="global.html#RegisterForm">RegisterForm</a></li><li><a href="global.html#registerUser">registerUser</a></li><li><a href="global.html#setEventsLoading">setEventsLoading</a></li><li><a href="global.html#setMissionsLoading">setMissionsLoading</a></li><li><a href="global.html#Sidebar">Sidebar</a></li><li><a href="global.html#WrappedLoginForm">WrappedLoginForm</a></li><li><a href="global.html#WrappedProfileForm">WrappedProfileForm</a></li><li><a href="global.html#WrappedRegisterForm">WrappedRegisterForm</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Jan 26 2019 12:20:20 GMT+0100 (W. Europe Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
