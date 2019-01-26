@@ -4,7 +4,35 @@ description: Route used for getting and posting posts
 
 # api/v1/posts/
 
-{% api-method method="get" host="api" path="/v1/posts/" %}
+{% api-method method="get" host="http://132virtualwing.org" path="/api/v1/posts/test" %}
+{% api-method-summary %}
+Test endpoint
+{% endapi-method-summary %}
+
+{% api-method-description %}
+This endpoint is used to test that the endpoint is up and responding
+{% endapi-method-description %}
+
+{% api-method-spec %}
+{% api-method-request %}
+
+{% api-method-response %}
+{% api-method-response-example httpCode=200 %}
+{% api-method-response-example-description %}
+
+{% endapi-method-response-example-description %}
+
+```
+{
+    "msg": "Posts Works!"
+}
+```
+{% endapi-method-response-example %}
+{% endapi-method-response %}
+{% endapi-method-spec %}
+{% endapi-method %}
+
+{% api-method method="get" host="http://132virtualwing.org" path="/api/v1/posts/" %}
 {% api-method-summary %}
 Get all Posts
 {% endapi-method-summary %}
@@ -46,33 +74,7 @@ Could not find a cake matching this query.
 {% endapi-method-spec %}
 {% endapi-method %}
 
-{% api-method method="get" host="" path="" %}
-{% api-method-summary %}
-Test endpoint
-{% endapi-method-summary %}
-
-{% api-method-description %}
-
-{% endapi-method-description %}
-
-{% api-method-spec %}
-{% api-method-request %}
-
-{% api-method-response %}
-{% api-method-response-example httpCode=200 %}
-{% api-method-response-example-description %}
-
-{% endapi-method-response-example-description %}
-
-```
-
-```
-{% endapi-method-response-example %}
-{% endapi-method-response %}
-{% endapi-method-spec %}
-{% endapi-method %}
-
-{% api-method method="post" host="" path="" %}
+{% api-method method="post" host="http://132virtualwing.org" path="/api/v1/posts/" %}
 {% api-method-summary %}
 Submit a new Post
 {% endapi-method-summary %}
