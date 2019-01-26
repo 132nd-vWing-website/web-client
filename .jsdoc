@@ -1,7 +1,8 @@
 {
-  "plugins": [],
+  "plugins": ["jsdoc-http-plugin"],
   "recurseDepth": 10,
   "source": {
+    "include": [],
     "includePattern": ".+\\.js(doc|x)?$",
     "excludePattern": "(^|\\/|\\\\)_"
   },
