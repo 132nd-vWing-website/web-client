@@ -132,26 +132,6 @@ define({ "api": [
         ]
       }
     },
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "array",
-            "optional": false,
-            "field": "metadata.post",
-            "description": "<p>as a post (object)</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n   {\n     \"_id\": \"5b6f57c1cd0b100012cb4f71\",\n     \"type\": \"notam\",\n     \"title\": \"A notam #1\",\n     \"text\": \"Text here..\",\n     \"user\": \"5b462250c01a7e0d3c0f6323\",\n     \"likes\": [],\n     \"comments\": [],\n     \"date\": \"2018-08-11T21:40:17.248Z\",\n     \"__v\": 0\n   }\n}",
-          "type": "json"
-        }
-      ]
-    },
     "filename": "api/routes/api/posts.js",
     "groupTitle": "Posts__Public_"
   },
