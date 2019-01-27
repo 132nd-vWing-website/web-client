@@ -27,8 +27,7 @@ export default class PageForm extends Component {
     const { onUpdate } = this.props;
     if (missionData !== prevState.missionData) {
       console.log('PageForm: I should update my parent now!');
-      onUpdate({ title: 'some new mission object' });
-      // this.setState({ missionData });
+      onUpdate(missionData);
     }
   }
 

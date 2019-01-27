@@ -141,11 +141,9 @@ export default class Tasking extends Component {
   };
 
   updateData = (dataObject) => {
-    console.log('updateData():', dataObject);
-    // const change = { [e.target.name]: e.target.value };
-    // this.setState((prevState) => ({
-    //   missionData: Object.assign({}, prevState.missionData, change),
-    // }));
+    this.setState((prevState) => ({
+      missionData: Object.assign({}, prevState.missionData, dataObject),
+    }));
   };
 
   render() {
