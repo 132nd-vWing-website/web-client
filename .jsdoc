@@ -1,5 +1,5 @@
 {
-  "plugins": ["jsdoc-http-plugin"],
+  "plugins": ["plugins/markdown", "jsdoc-http-plugin"],
   "recurseDepth": 10,
   "source": {
     "include": [],
