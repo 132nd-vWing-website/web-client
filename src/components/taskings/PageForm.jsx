@@ -45,7 +45,8 @@ export default class PageForm extends Component {
   };
 
   render() {
-    const { missionData } = this.state;
+    const { missionData } = this.props;
+
     const { form } = this.props;
     if (!missionData) return <div>Loading...</div>;
 

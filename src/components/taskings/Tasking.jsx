@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Tabs, Row, Col, Select, Button } from 'antd';
+import { Card, Tabs, Row, Col, Button } from 'antd';
 
 import PageForm from './PageForm';
 import PageList from './PageList';
@@ -8,7 +8,6 @@ import pdfBuilder, { mdc } from '../../pdf/pdfBuilder';
 
 // Antd Destructuring
 const { TabPane } = Tabs;
-const { Option } = Select;
 
 /** MDC BUILDER */
 export default class Tasking extends Component {
@@ -37,13 +36,13 @@ export default class Tasking extends Component {
     this.setState({ missionData: defaultData, activeKey: panes[0].key, panes });
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    const { missionData } = this.state;
-    if (missionData !== prevState.missionData) {
-      console.log('Tasking: I should update my children now!');
-      // this.setState({ missionData });
-    }
-  }
+  // componentDidUpdate(prevProps, prevState) {
+  //   const { missionData } = this.state;
+  //   if (missionData !== prevState.missionData) {
+  //     console.log('Tasking: I should update my children now!');
+  //     // this.setState({ missionData });
+  //   }
+  // }
 
   generatePDF = () => {
     const { missionData, pages } = this.state;
@@ -61,21 +60,6 @@ export default class Tasking extends Component {
     const pdf = pdfBuilder.makePdf(`132ND-MDC-${missionData.missionNumber}`, content);
     pdf.open();
   };
-
-  // onChange = (e) => {
-  //   const change = { [e.target.name]: e.target.value };
-
-  //   this.setState((prevState) => ({
-  //     missionData: Object.assign({}, prevState.missionData, change),
-  //   }));
-  // };
-
-  // onChange = (data) => {
-  //   console.log(data);
-  //   this.setState((prevState) => ({
-  //     missionData: Object.assign({}, prevState.missionData, data),
-  //   }));
-  // };
 
   onTabChange = (activeKey) => {
     this.setState({ activeKey });
@@ -95,7 +79,7 @@ export default class Tasking extends Component {
   };
 
   addTab = (key) => {
-    const { panes, missionData } = this.state;
+    const { panes } = this.state;
     const page = mdc.pages[key];
     const activeKey = `newTab${(this.newTabIndex += 1)}`;
 
@@ -105,7 +89,8 @@ export default class Tasking extends Component {
         title: page.title,
         key: activeKey,
         create: page.create,
-        content: <PageForm form={page.form} onUpdate={this.updateData} missionData={missionData} />,
+        form: page.form,
+        content: null,
       };
     } else {
       newPane = { title: 'New Tab', content: 'Content of new Tab', key: activeKey };
@@ -135,8 +120,29 @@ export default class Tasking extends Component {
   };
 
   updatePages = (pages) => {
+    const { panes } = this.state;
+    // let activeKey;
+    // Create new panes for all pages
+    const formPanes = pages.map((page) => {
+      const props = mdc.pages[page.pageKey];
+      // activeKey = `mdc-tab-${page.key}`;
+
+      if (page.createPage) {
+        return {
+          title: page.label,
+          key: `mdc-tab-${page.key}`,
+          create: page.createPage,
+          form: props.form,
+          content: null,
+        };
+      }
+    });
+
+    // Update state with the new pages, activeKey and panes
     this.setState(() => ({
       pages,
+      // activeKey,
+      panes: [panes[0], ...formPanes],
     }));
   };
 
@@ -160,7 +166,17 @@ export default class Tasking extends Component {
       };
     });
 
-    // Add default content to MDC-Setup tab
+    // Add default content (PageForm) for all panes that have a form property
+    panes.forEach((pane) => {
+      /* eslint no-param-reassign:0 */
+      if (pane.form) {
+        pane.content = (
+          <PageForm form={pane.form} onUpdate={this.updateData} missionData={missionData} />
+        );
+      }
+    });
+
+    // Add default content to MDC-Setup tab (overrides the above function)
     panes[0].content = (
       <React.Fragment>
         <p>Some instructions here, followed by the add/remove/rearrange pages</p>
@@ -169,26 +185,13 @@ export default class Tasking extends Component {
     );
 
     const tabPanes = panes.map((pane) => (
-      <TabPane tab={pane.title} key={pane.key} closable={pane.closable}>
+      <TabPane tab={pane.title} key={pane.key} closable={false}>
         {pane.content}
       </TabPane>
     ));
 
-    const options = Object.keys(mdc.pages).map((page) => {
-      const pageObj = mdc.pages[page];
-      return (
-        <Option key={page} value={page}>
-          {pageObj.title}
-        </Option>
-      );
-    });
-
     const tabActions = (
       <React.Fragment>
-        <Select defaultValue='Add Page' onChange={this.addTab} style={{ width: 150 }}>
-          <Option value={null}>fooooo</Option>
-          {options}
-        </Select>
         <Button type='primary' onClick={this.generatePDF} style={{ marginLeft: '0.5em' }}>
           Print MDC
         </Button>
