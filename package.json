@@ -63,7 +63,7 @@
   "scripts": {
     "start": "webpack-dev-server --open --mode=development",
     "dev": "webpack --watch --mode=development",
-    "apidoc": "apidoc -i ./api/routes/ -o ./public/api",
+    "apidoc": "apidoc -i ./api/routes/ -o ./public/api --private true",
     "test": "jest --watchAll",
     "test:coverage": "jest --coverage",
     "test:runInBand": "jest --runInBand --watchAll",
