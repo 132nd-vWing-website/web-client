@@ -25,7 +25,7 @@ import Landing from './components/landing/Landing';
 import Register from './components/registration/Register';
 import Login from './components/auth/Login';
 import Events from './components/events/Events';
-import Tasking from './components/taskings/Tasking';
+// import Tasking from './components/taskings/Tasking';
 
 // Private Routes
 import PrivateRoute from './components/auth/PrivateRoute';
@@ -36,6 +36,7 @@ import setAuthToken from './utils/setAuthToken';
 
 // LazyLoading
 const MDCDemo = React.lazy(() => import('./components/pdf/MDCDemo'));
+const Tasking = React.lazy(() => import('./components/taskings/Tasking'));
 
 const { Header, Content, Footer } = Layout;
 
@@ -65,6 +66,12 @@ if (localStorage.jwtToken) {
   }
 }
 
+const LazyTasking = (
+  <React.Suspense fallback={<p>Loading...</p>}>
+    <Tasking />
+  </React.Suspense>
+);
+
 const PDFComponent = (
   <React.Suspense fallback={<p>Loading...</p>}>
     <MDCDemo />
@@ -89,7 +96,7 @@ function App() {
                 <Route exact path='/register' component={Register} />
                 <Route exact path='/login' component={Login} />
                 <Route path='/events' component={Events} />
-                <Route path='/taskings' component={Tasking} />
+                <Route path='/taskings' component={() => LazyTasking} />
                 <Route path='/pdf' component={() => PDFComponent} />
                 <Route component={Landing} />
               </Switch>
