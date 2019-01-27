@@ -64,8 +64,8 @@
   "scripts": {
     "start": "webpack-dev-server --open --mode=development",
     "dev": "webpack --watch --mode=development",
-    "docs:client": "jsdoc2md -c .jsdoc -f src/**/* > docs/client.md",
-    "docs:api": "jsdoc2md -c .jsdoc -f ./api/routes/**/*  > docs/api.md",
+    "docs:client": "jsdoc2md -c .jsdoc -f src/**/* > client-docs/client.md",
+    "docs:api": "jsdoc2md -c .jsdoc -f ./api/routes/**/*  > api-docs/api.md",
     "docs": "npm run docs:client && npm run docs:api",
     "test": "jest --watchAll",
     "test:coverage": "jest --coverage",
