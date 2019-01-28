@@ -25,58 +25,16 @@ export default class Tasking extends Component {
   state = {
     missionData: null,
     pages: [],
+    panes: [],
   };
-
-  newTabIndex = 0;
 
   componentDidMount() {
     // Load the default mission values as a starting point
     const { defaultData } = mdc;
 
-    // Initialize the default set of panes
-    // They need the "isDefault: true" property, and will have their content added at render()
-    const panes = [
-      {
-        title: 'Flightplan',
-        key: 'tasking-flightplan',
-        closable: false,
-        isDefault: true,
-        content: null,
-      },
-      {
-        title: 'Navigation',
-        key: 'tasking-nav',
-        closable: false,
-        isDefault: true,
-        content: null,
-      },
-      {
-        title: 'Signals',
-        key: 'tasking-signals',
-        closable: false,
-        isDefault: true,
-        content: null,
-      },
-      {
-        title: 'Configure MDC',
-        key: 'tasking-mdc-setup',
-        closable: false,
-        isDefault: true,
-        content: null,
-      },
-    ];
-
     // Update state
-    this.setState({ missionData: defaultData, activeKey: panes[0].key, panes });
+    this.setState({ missionData: defaultData });
   }
-
-  // componentDidUpdate(prevProps, prevState) {
-  //   const { missionData } = this.state;
-  //   if (missionData !== prevState.missionData) {
-  //     console.log('Tasking: I should update my children now!');
-  //     // this.setState({ missionData });
-  //   }
-  // }
 
   generatePDF = () => {
     const { missionData, pages } = this.state;
@@ -146,7 +104,7 @@ export default class Tasking extends Component {
   };
 
   render() {
-    const { missionData, activeKey, panes, list } = this.state;
+    const { missionData, panes, list } = this.state;
     if (!missionData) return <div>Loading...</div>;
 
     // Generate the content array from available MDC pages
@@ -159,7 +117,7 @@ export default class Tasking extends Component {
       };
     });
 
-    // Add default content (PageForm) for all panes that have a form property
+    // Add default content (PageForm) for all auto-generated panes
     panes.forEach((pane) => {
       /* eslint no-param-reassign:0 */
       if (pane.form) {
@@ -169,16 +127,8 @@ export default class Tasking extends Component {
       }
     });
 
-    // Add default content to MDC-Setup tab (overrides the above function)
-    panes[0].content = (
-      // panes.key['tasking-mdc-setup'].content = (
-      <React.Fragment>
-        <p>Some instructions here, followed by the add/remove/rearrange pages</p>
-        <PageList list={list} content={templates} onUpdate={this.updatePages} />
-      </React.Fragment>
-    );
-
-    const tabPanes = panes.map((pane) => (
+    // Autogenerate MDC Panes
+    const mdcPanes = panes.map((pane) => (
       <TabPane tab={pane.title} key={pane.key} closable={false}>
         {pane.content}
       </TabPane>
@@ -200,19 +150,22 @@ export default class Tasking extends Component {
               hideAdd
               type='editable-card'
               onChange={this.onTabChange}
-              activeKey={activeKey}
               onEdit={this.onTabEdit}
               tabBarExtraContent={tabActions}>
-              {tabPanes}
-            </Tabs>
-            <Tabs
-              hideAdd
-              type='editable-card'
-              onChange={this.onTabChange}
-              activeKey={activeKey}
-              onEdit={this.onTabEdit}
-              tabBarExtraContent={tabActions}>
-              {tabPanes}
+              <TabPane tab='Flightplan' key='tasking-flightplan' closable={false}>
+                <p>Flightplan</p>
+              </TabPane>
+              <TabPane tab='Navigation' key='tasking-nav' closable={false}>
+                <p>Flightplan</p>
+              </TabPane>
+              <TabPane tab='Signals' key='tasking-signals' closable={false}>
+                <p>Flightplan</p>
+              </TabPane>
+              <TabPane tab='Configure MDC' key='tasking-mdc-setup' closable={false}>
+                <p>Some instructions here, followed by the add/remove/rearrange pages</p>
+                <PageList list={list} content={templates} onUpdate={this.updatePages} />
+              </TabPane>
+              {mdcPanes}
             </Tabs>
           </Col>
         </Row>
