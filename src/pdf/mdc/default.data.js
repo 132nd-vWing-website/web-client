@@ -64,9 +64,9 @@ const defaultData = {
       ils: '108.900',
     },
   ],
+  aircraft: 'F/A-18C',
   element: [
     {
-      aircraft: 'F/A-18C',
       pilot: 'DEX',
       tcn: '33X',
       laser: '1680',
