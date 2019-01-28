@@ -1,5 +1,7 @@
 const path = require('path');
 
+const devMode = process.env.NODE_ENV !== 'production';
+
 module.exports = {
   entry: {
     // 'public/bundle': './src/index.js',
@@ -11,8 +13,10 @@ module.exports = {
     // path: path.resolve(__dirname, './'),
     publicPath: '/',
     filename: '[name].js',
+    chunkFilename: '[name].chunk.js',
   },
-  devtool: 'inline-source-map',
+  // devtool: devMode ? 'inline-source-map' : 'source-map',
+  devtool: devMode ? 'cheap-module-source-map' : 'hidden-source-map',
   devServer: {
     contentBase: './public',
     historyApiFallback: true,
