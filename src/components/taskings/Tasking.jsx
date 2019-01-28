@@ -1,9 +1,10 @@
 import { Button, Card, Col, Row, Tabs } from 'antd';
 import React, { Component } from 'react';
-import Loadable from 'react-loadable';
+// import Loadable from 'react-loadable';
 import pdfBuilder, { mdc } from '../../pdf/pdfBuilder';
 import PageForm from './components/PageForm';
 import PageList from './components/PageList';
+import Flightplan from './tabs/Flightplan';
 
 // Antd Destructuring
 const { TabPane } = Tabs;
@@ -153,7 +154,7 @@ export default class Tasking extends Component {
               onEdit={this.onTabEdit}
               tabBarExtraContent={tabActions}>
               <TabPane tab='Flightplan' key='tasking-flightplan' closable={false}>
-                <p>Flightplan</p>
+                <Flightplan onUpdate={this.updateData} missionData={missionData} />
               </TabPane>
               <TabPane tab='Navigation' key='tasking-nav' closable={false}>
                 <p>Flightplan</p>
