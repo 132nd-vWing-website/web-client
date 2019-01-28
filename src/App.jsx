@@ -1,42 +1,56 @@
 /* eslint no-console: 0 */
-import './App.css';
-
-import React from 'react';
-import { Provider } from 'react-redux';
-import jwtDecode from 'jwt-decode';
-
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-
 // UI Components
 import { Layout } from 'antd';
-import Sidebar from './components/sidebar/Sidebar';
-
-// Redux Store
-import store from './store';
-
+import jwtDecode from 'jwt-decode';
+import React from 'react';
+import Loadable from 'react-loadable';
+import { Provider } from 'react-redux';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 // Redux Actions
-import { setCurrentUser, logoutUser } from './actions/authActions';
-import { clearCurrentProfile } from './actions/profileActions';
+import { logoutUser, setCurrentUser } from './actions/authActions';
 import { getUnreadNotams } from './actions/postActions';
-
-// Public Routes
-import HeaderCarousel from './components/headercarousel/HeaderCarousel';
-import Landing from './components/landing/Landing';
-import Register from './components/registration/Register';
-import Login from './components/auth/Login';
-import Events from './components/events/Events';
-// import Tasking from './components/taskings/Tasking';
-
+import { clearCurrentProfile } from './actions/profileActions';
+import './App.css';
 // Private Routes
 import PrivateRoute from './components/auth/PrivateRoute';
+import Events from './components/events/Events';
+// Public Routes
+// import HeaderCarousel from './components/headercarousel/HeaderCarousel';
+import Landing from './components/landing/Landing';
 import ProfileDashboard from './components/profile-dashboard/ProfileDashboard';
-
+import Sidebar from './components/sidebar/Sidebar';
+// Redux Store
+import store from './store';
 // Utils
 import setAuthToken from './utils/setAuthToken';
 
 // LazyLoading
-const MDCDemo = React.lazy(() => import('./components/pdf/MDCDemo'));
-const Tasking = React.lazy(() => import('./components/taskings/Tasking'));
+
+const LoadingComponent = <div>Loading...</div>;
+const HeaderCarousel = Loadable({
+  loader: () => import('./components/headercarousel/HeaderCarousel'),
+  loading: () => LoadingComponent,
+});
+
+const Register = Loadable({
+  loader: () => import('./components/registration/Register'),
+  loading: () => LoadingComponent,
+});
+
+const Login = Loadable({
+  loader: () => import('./components/auth/Login'),
+  loading: () => LoadingComponent,
+});
+
+const MDCDemo = Loadable({
+  loader: () => import('./components/pdf/MDCDemo'),
+  loading: () => LoadingComponent,
+});
+
+const Tasking = Loadable({
+  loader: () => import('./components/taskings/Tasking'),
+  loading: () => LoadingComponent,
+});
 
 const { Header, Content, Footer } = Layout;
 
@@ -66,18 +80,6 @@ if (localStorage.jwtToken) {
   }
 }
 
-const LazyTasking = (
-  <React.Suspense fallback={<p>Loading...</p>}>
-    <Tasking />
-  </React.Suspense>
-);
-
-const PDFComponent = (
-  <React.Suspense fallback={<p>Loading...</p>}>
-    <MDCDemo />
-  </React.Suspense>
-);
-
 /**
  * App Component
  */
@@ -96,8 +98,8 @@ function App() {
                 <Route exact path='/register' component={Register} />
                 <Route exact path='/login' component={Login} />
                 <Route path='/events' component={Events} />
-                <Route path='/taskings' component={() => LazyTasking} />
-                <Route path='/pdf' component={() => PDFComponent} />
+                <Route path='/taskings' component={Tasking} />
+                <Route path='/pdf' component={MDCDemo} />
                 <Route component={Landing} />
               </Switch>
               <Switch>
