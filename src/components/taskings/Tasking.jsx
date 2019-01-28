@@ -1,11 +1,24 @@
 import { Button, Card, Col, Row, Tabs } from 'antd';
 import React, { Component } from 'react';
+import Loadable from 'react-loadable';
 import pdfBuilder, { mdc } from '../../pdf/pdfBuilder';
 import PageForm from './PageForm';
 import PageList from './PageList';
 
 // Antd Destructuring
 const { TabPane } = Tabs;
+
+// LazyLoading
+// const LoadingComponent = <div>Loading...</div>;
+// const pdfBuilder = Loadable({
+//   loader: () => import('../../pdf/pdfBuilder'),
+//   loading: () => LoadingComponent,
+// });
+
+// const mdc = Loadable({
+//   loader: () => import('../../pdf/pdfBuilder').mdc,
+//   loading: () => LoadingComponent,
+// });
 
 /** MDC BUILDER */
 export default class Tasking extends Component {

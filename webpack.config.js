@@ -1,22 +1,26 @@
 const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const devMode = process.env.NODE_ENV !== 'production';
 
 module.exports = {
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: './css/[name].css',
+      chunkFilename: './css/[id].css',
+    }),
+  ],
   entry: {
-    // 'public/bundle': './src/index.js',
-    // '_server/build/public/bundle': './src/index.js',
     bundle: './src/index.js',
   },
   output: {
     path: path.resolve(__dirname, 'public'),
-    // path: path.resolve(__dirname, './'),
     publicPath: '/',
     filename: '[name].js',
-    chunkFilename: '[name].chunk.js',
+    chunkFilename: './chunks/[name].chunk.js',
   },
-  // devtool: devMode ? 'inline-source-map' : 'source-map',
-  devtool: devMode ? 'cheap-module-source-map' : 'hidden-source-map',
+  // devtool: devMode ? 'cheap-module-source-map' : 'hidden-source-map',
+  devtool: devMode ? 'cheap-module-source-map' : 'source-map',
   devServer: {
     contentBase: './public',
     historyApiFallback: true,
@@ -44,7 +48,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
+        use: [devMode ? 'style-loader' : MiniCssExtractPlugin.loader, 'style-loader', 'css-loader'],
       },
       {
         test: /\.(png|svg|jpg|gif)$/,
@@ -53,12 +57,8 @@ module.exports = {
       {
         test: /\.less$/,
         use: [
-          {
-            loader: 'style-loader',
-          },
-          {
-            loader: 'css-loader',
-          },
+          MiniCssExtractPlugin.loader,
+          'css-loader',
           {
             loader: 'less-loader',
             options: {
@@ -71,6 +71,10 @@ module.exports = {
             },
           },
         ],
+      },
+      {
+        test: /\.woff($|\?)|\.woff2($|\?)|\.ttf($|\?)|\.eot($|\?)/,
+        use: 'url-loader',
       },
     ],
   },
