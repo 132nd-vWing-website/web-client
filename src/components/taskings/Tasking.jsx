@@ -23,11 +23,27 @@ export default class Tasking extends Component {
     const { defaultData } = mdc;
 
     // Initialize the default set of panes
+    // They need the "isDefault: true" property, and will have their content added at render()
     const panes = [
       {
-        title: 'MDC - Setup',
+        title: 'Configure MDC',
         key: 'mdc-setup',
         closable: false,
+        isDefault: true,
+        content: null,
+      },
+      {
+        title: 'Navigation',
+        key: 'mdc-nav',
+        closable: false,
+        isDefault: true,
+        content: null,
+      },
+      {
+        title: 'Signals',
+        key: 'mdc-signals',
+        closable: false,
+        isDefault: true,
         content: null,
       },
     ];
@@ -78,55 +94,12 @@ export default class Tasking extends Component {
     }
   };
 
-  addTab = (key) => {
-    const { panes } = this.state;
-    const page = mdc.pages[key];
-    const activeKey = `newTab${(this.newTabIndex += 1)}`;
-
-    let newPane;
-    if (page) {
-      newPane = {
-        title: page.title,
-        key: activeKey,
-        create: page.create,
-        form: page.form,
-        content: null,
-      };
-    } else {
-      newPane = { title: 'New Tab', content: 'Content of new Tab', key: activeKey };
-    }
-
-    panes.push(newPane);
-    this.setState({ panes, activeKey });
-  };
-
-  removeTab = (targetKey) => {
-    let { activeKey } = this.state;
-    const { panes } = this.state;
-
-    let lastIndex;
-    panes.forEach((pane, index) => {
-      if (pane.key === targetKey) {
-        lastIndex = index - 1;
-      }
-    });
-
-    const newPanes = panes.filter((pane) => pane.key !== targetKey);
-    if (lastIndex >= 0 && activeKey === targetKey) {
-      activeKey = newPanes[lastIndex].key;
-    }
-
-    this.setState({ panes: newPanes, activeKey });
-  };
-
   updatePages = (pages) => {
     const { panes } = this.state;
-    // let activeKey;
-    // Create new panes for all pages
+
+    // Create new panes for all PDF pages (i.e. they have a createPage function)
     const formPanes = pages.map((page) => {
       const props = mdc.pages[page.pageKey];
-      // activeKey = `mdc-tab-${page.key}`;
-
       if (page.createPage) {
         return {
           title: page.label,
@@ -138,11 +111,13 @@ export default class Tasking extends Component {
       }
     });
 
+    // Keep all default panes (i.e. they have isDefault:true set)
+    const defaultPanes = panes.filter((pane) => pane.isDefault === true);
+
     // Update state with the new pages, activeKey and panes
     this.setState(() => ({
       pages,
-      // activeKey,
-      panes: [panes[0], ...formPanes],
+      panes: [...defaultPanes, ...formPanes],
     }));
   };
 
