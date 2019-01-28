@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-
 import { Form, Input } from 'antd';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
 export default class PageForm extends Component {
   state = {

@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { Table, Button, Popover } from 'antd';
-import ReactDragListView from 'react-drag-listview';
+import { Button, Popover, Table } from 'antd';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import ReactDragListView from 'react-drag-listview';
 
 /**
  * PageList

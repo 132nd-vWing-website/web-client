@@ -1,10 +1,8 @@
+import { Button, Card, Col, Row, Tabs } from 'antd';
 import React, { Component } from 'react';
-import { Card, Tabs, Row, Col, Button } from 'antd';
-
+import pdfBuilder, { mdc } from '../../pdf/pdfBuilder';
 import PageForm from './PageForm';
 import PageList from './PageList';
-
-import pdfBuilder, { mdc } from '../../pdf/pdfBuilder';
 
 // Antd Destructuring
 const { TabPane } = Tabs;
