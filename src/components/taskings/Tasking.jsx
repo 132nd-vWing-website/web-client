@@ -2,8 +2,8 @@ import { Button, Card, Col, Row, Tabs } from 'antd';
 import React, { Component } from 'react';
 import Loadable from 'react-loadable';
 import pdfBuilder, { mdc } from '../../pdf/pdfBuilder';
-import PageForm from './PageForm';
-import PageList from './PageList';
+import PageForm from './components/PageForm';
+import PageList from './components/PageList';
 
 // Antd Destructuring
 const { TabPane } = Tabs;
@@ -37,22 +37,29 @@ export default class Tasking extends Component {
     // They need the "isDefault: true" property, and will have their content added at render()
     const panes = [
       {
-        title: 'Configure MDC',
-        key: 'mdc-setup',
+        title: 'Flightplan',
+        key: 'tasking-flightplan',
         closable: false,
         isDefault: true,
         content: null,
       },
       {
         title: 'Navigation',
-        key: 'mdc-nav',
+        key: 'tasking-nav',
         closable: false,
         isDefault: true,
         content: null,
       },
       {
         title: 'Signals',
-        key: 'mdc-signals',
+        key: 'tasking-signals',
+        closable: false,
+        isDefault: true,
+        content: null,
+      },
+      {
+        title: 'Configure MDC',
+        key: 'tasking-mdc-setup',
         closable: false,
         isDefault: true,
         content: null,
@@ -164,6 +171,7 @@ export default class Tasking extends Component {
 
     // Add default content to MDC-Setup tab (overrides the above function)
     panes[0].content = (
+      // panes.key['tasking-mdc-setup'].content = (
       <React.Fragment>
         <p>Some instructions here, followed by the add/remove/rearrange pages</p>
         <PageList list={list} content={templates} onUpdate={this.updatePages} />
@@ -188,6 +196,15 @@ export default class Tasking extends Component {
       <Card title='MDC Builder'>
         <Row>
           <Col className='gutter-row' span={24} md={24}>
+            <Tabs
+              hideAdd
+              type='editable-card'
+              onChange={this.onTabChange}
+              activeKey={activeKey}
+              onEdit={this.onTabEdit}
+              tabBarExtraContent={tabActions}>
+              {tabPanes}
+            </Tabs>
             <Tabs
               hideAdd
               type='editable-card'
