@@ -348,7 +348,7 @@ frontPage.create = ({
   callsign,
   element,
   atis,
-  airfieldInfo,
+  airfields,
   navSequences,
   navPoints,
   radioPresets,
@@ -359,7 +359,7 @@ frontPage.create = ({
 
   const pageHeader = frontPage.pageHeader({ pageNumber, missionNumber });
   const flightinfoShort = frontPage.flightinfoShort({ callsign, packageName, atis });
-  const airfieldList = frontPage.airfieldInfo(airfieldInfo);
+  const airfieldList = frontPage.airfieldInfo(airfields);
   const flightInfo = frontPage.flightInfo(element);
   const packageInfo = frontPage.packageInfo(packageMembers);
   const flightplanShort = frontPage.flightplanShort(navPoints);

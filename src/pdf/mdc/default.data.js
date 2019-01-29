@@ -32,8 +32,9 @@ const defaultData = {
   enr: 'DEP via AKAKI, AAR at SHELL, RTB via OHB',
   etd: '18:00:00Z',
   eta: '+2hrs',
-  airfieldInfo: [
+  airfields: [
     {
+      key: 'departure',
       label: 'DEP',
       icao: 'UGKO',
       tcn: '44X',
@@ -44,6 +45,7 @@ const defaultData = {
       ils: '109.750',
     },
     {
+      key: 'recovery',
       label: 'ARR',
       icao: 'UGTB',
       tcn: '25X',
@@ -54,6 +56,7 @@ const defaultData = {
       ils: '110.300',
     },
     {
+      key: 'alternate',
       label: 'ALTN',
       icao: 'UGKO',
       tcn: '44X',
