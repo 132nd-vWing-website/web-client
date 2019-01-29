@@ -1,6 +1,8 @@
 import { Col, Form, Input, Row, Select } from 'antd';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+// Content
+import SearchInput from '../components/SearchInput';
 
 export default class Flightplan extends Component {
   state = {
@@ -23,6 +25,8 @@ export default class Flightplan extends Component {
 
   handleChange = (e) => {
     const change = { [e.target.name]: e.target.value };
+
+    console.log('Flightplan Change: ', change);
     this.setState((prevState) => ({
       missionData: Object.assign({}, prevState.missionData, change),
     }));
@@ -37,8 +41,44 @@ export default class Flightplan extends Component {
 
     const numberOfAircraft = missionData.element.length;
 
-    // TODO: If the event has configured a aircraft for this tasking, then this should just be an input with no onChange ("protected")
-    // Like: <Input value={`${numberOfAircraft} x ${missionData.aircraft}`} readOnly />
+    // Values for airfield selection - This should be generated from SQL data in the future
+    const airfieldOptions = [
+      {
+        label: 'UGKO - Kutaisi Kopitnari',
+        value: 'UGKO',
+      },
+      {
+        label: 'UGTB - Tblisi',
+        value: 'UGTB',
+      },
+      {
+        label: 'UGBS - Sukhumi-Babusahara',
+        value: 'UGBS',
+      },
+      {
+        label: 'UGSB - Batumi',
+        value: 'UGSB',
+      },
+      {
+        label: 'UG5X - Kobuleti',
+        value: 'UG5X',
+      },
+    ];
+
+    /**
+     * Some of the input fields should be readOnly if there is data (from an event):
+     * Callsign
+     * Aircraft Type
+     * Departure Airfield
+     * Recovery Airfield
+     * ETD - If decided by event host (time-essential departure)
+     */
+
+    const departureField = missionData.airfields.find((entry) => entry.key === 'departure');
+    const recoveryField = missionData.airfields.find((entry) => entry.key === 'recovery');
+    const alternateField = missionData.airfields.find((entry) => entry.key === 'alternate');
+
+    // Values for aircraft selection
     const aircraftSelector = (
       <Input.Group compact>
         <Input style={{ width: '20%' }} value={`${numberOfAircraft} x `} readOnly />
@@ -111,10 +151,18 @@ export default class Flightplan extends Component {
                       />
                     </Form.Item>
                     <Form.Item label='Departure' {...formItemLayout}>
-                      <Input placeholder='UGKO' />
+                      <SearchInput
+                        value={departureField.icao}
+                        name='departure'
+                        onChange={this.handleChange}
+                        data={airfieldOptions}
+                      />
                     </Form.Item>
                     <Form.Item label='Recovery' {...formItemLayout}>
-                      <Input placeholder='UGKO' />
+                      <Input placeholder='UGKO' value={recoveryField.icao} onChange={() => null} />
+                    </Form.Item>
+                    <Form.Item label='Alternate' {...formItemLayout}>
+                      <Input placeholder='UGKO' value={alternateField.icao} onChange={() => null} />
                     </Form.Item>
                   </Col>
                   <Col span={24} md={12}>
