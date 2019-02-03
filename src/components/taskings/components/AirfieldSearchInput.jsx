@@ -30,7 +30,7 @@ export default class AirfieldSearchInput extends Component {
 
     airfields[index].icao = value;
 
-    /* ALL AIRFIELD DATA LOOKUP AND POPULATION SHOULD HAPPEN HERE */
+    /* ALL AIRFIELD DATA LOOKUP AND POPULATION SHOULD HAPPEN HERE - AGAINST AIRFIELDS OPTIONS MAYBE?? */
 
     this.setState(() => ({
       airfields: [...airfields],

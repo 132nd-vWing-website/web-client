@@ -2,9 +2,7 @@ import { Col, Form, Input, Row, Select } from 'antd';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 // Content
-import SearchInput from '../components/SearchInput';
 import AirfieldSearchInput from '../components/AirfieldSearchInput';
-// import AirfieldsSearchWrapper from '../components/AirfieldSearchWrapper';
 
 export default class Flightplan extends Component {
   state = {
@@ -35,7 +33,6 @@ export default class Flightplan extends Component {
       change = { [e.target.name]: e.target.value };
     }
 
-    console.log('Flightplan Change: ', change);
     this.setState((prevState) => ({
       missionData: Object.assign({}, prevState.missionData, change),
     }));
@@ -168,17 +165,19 @@ export default class Flightplan extends Component {
                       />
                     </Form.Item>
                     <Form.Item label='Recovery' {...formItemLayout}>
-                      <Input
-                        placeholder='UGKO'
-                        value={recoveryFieldObject.icao}
-                        onChange={() => null}
+                      <AirfieldSearchInput
+                        airfields={missionData.airfields}
+                        name='recovery'
+                        onChange={this.handleChange}
+                        options={airfieldOptions}
                       />
                     </Form.Item>
                     <Form.Item label='Alternate' {...formItemLayout}>
-                      <Input
-                        placeholder='UGKO'
-                        value={alternateFieldObject.icao}
-                        onChange={() => null}
+                      <AirfieldSearchInput
+                        airfields={missionData.airfields}
+                        name='alternate'
+                        onChange={this.handleChange}
+                        options={airfieldOptions}
                       />
                     </Form.Item>
                   </Col>
