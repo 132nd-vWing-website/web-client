@@ -2,6 +2,10 @@ import { Select } from 'antd';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+/**
+ * @namespace SearchInput
+ * @returns {object} { name, value }
+ */
 export default class SearchInput extends React.Component {
   state = {
     filtered: [],
@@ -19,8 +23,9 @@ export default class SearchInput extends React.Component {
     const { name, onChange } = this.props;
 
     if (value !== prevState.value) {
-      console.log('SearchInput: I should update my parent now!');
-      onChange({ target: { name, value } });
+      // console.log('SearchInput: I should update my parent now!');
+      // onChange({ target: { name, value } });
+      onChange({ name, value });
     }
   }
 
@@ -82,14 +87,20 @@ export default class SearchInput extends React.Component {
 
 SearchInput.propTypes = {
   onChange: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
   data: PropTypes.array.isRequired,
   name: PropTypes.string.isRequired,
   style: PropTypes.object,
-  placeholder: PropTypes.string,
 };
 
 SearchInput.defaultProps = {
   style: {},
-  placeholder: '',
+  value: '',
 };
+
+// <SearchInput
+//   value={departureFieldObject.icao}
+//   name='departure'
+//   onChange={this.handleChange}
+//   data={airfieldOptions}
+// />
