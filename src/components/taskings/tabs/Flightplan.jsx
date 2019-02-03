@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 // Content
 import SearchInput from '../components/SearchInput';
+import AirfieldSearchInput from '../components/AirfieldSearchInput';
+// import AirfieldsSearchWrapper from '../components/AirfieldSearchWrapper';
 
 export default class Flightplan extends Component {
   state = {
@@ -24,7 +26,14 @@ export default class Flightplan extends Component {
   }
 
   handleChange = (e) => {
-    const change = { [e.target.name]: e.target.value };
+    let change;
+
+    // Need to account for both recieving Syntethicevents (e.target) data and normal objects
+    if (!e.target) {
+      change = { [e.name]: e.value };
+    } else {
+      change = { [e.target.name]: e.target.value };
+    }
 
     console.log('Flightplan Change: ', change);
     this.setState((prevState) => ({
@@ -74,9 +83,9 @@ export default class Flightplan extends Component {
      * ETD - If decided by event host (time-essential departure)
      */
 
-    const departureField = missionData.airfields.find((entry) => entry.key === 'departure');
-    const recoveryField = missionData.airfields.find((entry) => entry.key === 'recovery');
-    const alternateField = missionData.airfields.find((entry) => entry.key === 'alternate');
+    const departureFieldObject = missionData.airfields.find((entry) => entry.key === 'departure');
+    const recoveryFieldObject = missionData.airfields.find((entry) => entry.key === 'recovery');
+    const alternateFieldObject = missionData.airfields.find((entry) => entry.key === 'alternate');
 
     // Values for aircraft selection
     const aircraftSelector = (
@@ -87,7 +96,7 @@ export default class Flightplan extends Component {
           defaultValue='F/A18-C'
           name='aircraft'
           value={missionData.aircraft}
-          onChange={(value) => this.handleChange({ target: { name: 'aircraft', value } })}>
+          onChange={(value) => this.handleChange({ name: 'aircraft', value })}>
           <Select.Option value='F/A18-C'>F/A-18C</Select.Option>
           <Select.Option value='A-10C'>A-10C</Select.Option>
           <Select.Option value='KA-50'>KA-50</Select.Option>
@@ -151,18 +160,26 @@ export default class Flightplan extends Component {
                       />
                     </Form.Item>
                     <Form.Item label='Departure' {...formItemLayout}>
-                      <SearchInput
-                        value={departureField.icao}
+                      <AirfieldSearchInput
+                        airfields={missionData.airfields}
                         name='departure'
                         onChange={this.handleChange}
-                        data={airfieldOptions}
+                        options={airfieldOptions}
                       />
                     </Form.Item>
                     <Form.Item label='Recovery' {...formItemLayout}>
-                      <Input placeholder='UGKO' value={recoveryField.icao} onChange={() => null} />
+                      <Input
+                        placeholder='UGKO'
+                        value={recoveryFieldObject.icao}
+                        onChange={() => null}
+                      />
                     </Form.Item>
                     <Form.Item label='Alternate' {...formItemLayout}>
-                      <Input placeholder='UGKO' value={alternateField.icao} onChange={() => null} />
+                      <Input
+                        placeholder='UGKO'
+                        value={alternateFieldObject.icao}
+                        onChange={() => null}
+                      />
                     </Form.Item>
                   </Col>
                   <Col span={24} md={12}>
