@@ -1,6 +1,116 @@
 [
   {
     "version": "0.1.0",
+    "type": "get",
+    "url": "/api/v1/airfields:id",
+    "title": "Get an airfields by its ID or ICAO code",
+    "name": "get_airfields_by_id_or_icao_public",
+    "group": "Airfields__Public_",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "id",
+            "description": "<p>ID of airfield to retrieve</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "icao",
+            "description": "<p>ICAO code of airfield to retrieve</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "array",
+            "optional": false,
+            "field": "metadata",
+            "description": "<p>as array of objects, containing the airfield</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": " HTTP/1.1 200 OK\n {\n     [\n         {\n             \"airfield_id\": 39,\n             \"af_icao\": \"XRMF\",\n             \"af_name\": \"MOZDOK\",\n             \"af_rwy\": \"8\",\n             \"af_ils\": \"-\",\n             \"af_gnd\": 137.1,\n             \"af_twr\": 137.2,\n             \"af_ctrl\": null,\n             \"af_mag\": \"82\",\n             \"af_elev\": 508,\n             \"af_rwy_length\": 10235,\n             \"af_tcn\": \"-\",\n             \"af_theater_id\": 1\n         },\n         {\n             (... more if ICAO was used, and the airfield has several runways)\n         }\n     ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "api/routes/api/airfields.js",
+    "groupTitle": "Airfields__Public_"
+  },
+  {
+    "version": "0.1.0",
+    "type": "get",
+    "url": "/api/v1/airfields",
+    "title": "Get all airfields",
+    "name": "get_airfields_public",
+    "group": "Airfields__Public_",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "array",
+            "optional": false,
+            "field": "metadata",
+            "description": "<p>as array of objects, containing all airfields</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": " HTTP/1.1 200 OK\n {\n     [\n       {\n         \"airfield_id\": 39,\n         \"af_icao\": \"XRMF\",\n         \"af_name\": \"MOZDOK\",\n         \"af_rwy\": \"8\",\n         \"af_ils\": \"-\",\n         \"af_gnd\": 137.1,\n         \"af_twr\": 137.2,\n         \"af_ctrl\": null,\n         \"af_mag\": \"82\",\n         \"af_elev\": 508,\n         \"af_rwy_length\": 10235,\n         \"af_tcn\": \"-\",\n         \"af_theater_id\": 1\n       },\n       {\n        ...etc\n      },\n   ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "api/routes/api/airfields.js",
+    "groupTitle": "Airfields__Public_"
+  },
+  {
+    "version": "0.1.0",
+    "type": "get",
+    "url": "/api/v1/airfields",
+    "title": "Test endpoint",
+    "name": "test_public",
+    "group": "Airfields__Public_",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "string",
+            "optional": false,
+            "field": "metadata.msg",
+            "description": "<p>as a string with an OK message</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n  \"msg\": \"Airfields Works!\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "api/routes/api/airfields.js",
+    "groupTitle": "Airfields__Public_"
+  },
+  {
+    "version": "0.1.0",
     "type": "delete",
     "url": "/api/v1/posts/:id",
     "title": "Delete a post by ID",
