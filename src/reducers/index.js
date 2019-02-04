@@ -8,6 +8,7 @@ import postReducer from './postReducer';
 import staticsReducer from './staticsReducer';
 import eventReducer from './eventReducer';
 import missionReducer from './missionReducer';
+import dataReducer from './dataReducers';
 
 export default combineReducers({
   auth: authReducer,
@@ -17,4 +18,5 @@ export default combineReducers({
   statics: staticsReducer,
   events: eventReducer,
   missions: missionReducer,
+  data: dataReducer,
 });
