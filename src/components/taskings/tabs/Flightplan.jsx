@@ -1,16 +1,23 @@
 import { Col, Form, Input, Row, Select } from 'antd';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { getAirfields } from '../../../actions/dataActions';
 // Content
 import AirfieldSearchInput from '../components/AirfieldSearchInput';
 
-export default class Flightplan extends Component {
+class Flightplan extends Component {
   state = {
     missionData: null,
   };
 
   componentDidMount() {
-    const { missionData } = this.props;
+    const { missionData, fetchAirfields } = this.props;
+
+    // Fire Redux Action
+    fetchAirfields();
+
+    // Update State
     this.setState({ missionData });
   }
 
@@ -223,4 +230,15 @@ export default class Flightplan extends Component {
 Flightplan.propTypes = {
   onUpdate: PropTypes.func.isRequired,
   missionData: PropTypes.object.isRequired,
+  resources: PropTypes.object.isRequired,
+  fetchAirfields: PropTypes.func.isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  resources: state.data,
+});
+
+export default connect(
+  mapStateToProps,
+  { fetchAirfields: getAirfields },
+)(Flightplan);
