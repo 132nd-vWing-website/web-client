@@ -162,7 +162,7 @@ export default class Tasking extends Component {
               <TabPane tab='Signals' key='tasking-signals' closable={false}>
                 <p>Flightplan</p>
               </TabPane>
-              <TabPane tab='Configure MDC' key='tasking-mdc-setup' closable={false}>
+              <TabPane tab='Pages' key='tasking-mdc-setup' closable={false}>
                 <p>Some instructions here, followed by the add/remove/rearrange pages</p>
                 <PageList list={list} content={templates} onUpdate={this.updatePages} />
               </TabPane>

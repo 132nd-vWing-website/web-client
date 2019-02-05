@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { getAirfields } from '../../../actions/dataActions';
 // Content
 import AirfieldSearchInput from '../components/AirfieldSearchInput';
+import SearchInput from '../components/SearchInput';
 
 class Flightplan extends Component {
   state = {
@@ -50,33 +51,9 @@ class Flightplan extends Component {
   };
 
   render() {
-    const { missionData } = this.props;
+    const { missionData, resources } = this.props;
 
     const numberOfAircraft = missionData.element.length;
-
-    // Values for airfield selection - This should be generated from SQL data in the future
-    const airfieldOptions = [
-      {
-        label: 'UGKO - Kutaisi Kopitnari',
-        value: 'UGKO',
-      },
-      {
-        label: 'UGTB - Tblisi',
-        value: 'UGTB',
-      },
-      {
-        label: 'UGBS - Sukhumi-Babusahara',
-        value: 'UGBS',
-      },
-      {
-        label: 'UGSB - Batumi',
-        value: 'UGSB',
-      },
-      {
-        label: 'UG5X - Kobuleti',
-        value: 'UG5X',
-      },
-    ];
 
     /**
      * Some of the input fields should be readOnly if there is data (from an event):
@@ -86,10 +63,6 @@ class Flightplan extends Component {
      * Recovery Airfield
      * ETD - If decided by event host (time-essential departure)
      */
-
-    const departureFieldObject = missionData.airfields.find((entry) => entry.key === 'departure');
-    const recoveryFieldObject = missionData.airfields.find((entry) => entry.key === 'recovery');
-    const alternateFieldObject = missionData.airfields.find((entry) => entry.key === 'alternate');
 
     // Values for aircraft selection
     const aircraftSelector = (
@@ -168,7 +141,7 @@ class Flightplan extends Component {
                         airfields={missionData.airfields}
                         name='departure'
                         onChange={this.handleChange}
-                        options={airfieldOptions}
+                        options={resources.airfields}
                       />
                     </Form.Item>
                     <Form.Item label='Recovery' {...formItemLayout}>
@@ -176,7 +149,7 @@ class Flightplan extends Component {
                         airfields={missionData.airfields}
                         name='recovery'
                         onChange={this.handleChange}
-                        options={airfieldOptions}
+                        options={resources.airfields}
                       />
                     </Form.Item>
                     <Form.Item label='Alternate' {...formItemLayout}>
@@ -184,7 +157,7 @@ class Flightplan extends Component {
                         airfields={missionData.airfields}
                         name='alternate'
                         onChange={this.handleChange}
-                        options={airfieldOptions}
+                        options={resources.airfields}
                       />
                     </Form.Item>
                   </Col>
