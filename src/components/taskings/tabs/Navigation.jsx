@@ -5,15 +5,38 @@ import PropTypes from 'prop-types';
 
 export default class Navigation extends Component {
   state = {
-    data: null,
+    missionData: null,
   };
 
+  componentDidMount() {
+    const { missionData } = this.props;
+    this.setState({ missionData });
+  }
+
+  // componentDidUpdate(prevProps, prevState) {
+  //   const { missionData } = this.state;
+  //   const { onUpdate } = this.props;
+
+  //   if (missionData !== prevState.missionData) {
+  //     onUpdate(missionData);
+  //   }
+  // }
+
   handleNavpointUpdate = (point) => {
-    console.log('Navigation - handleNavpointUpdate()', point);
+    const { missionData } = this.state;
+
+    missionData.navPoints[point.id] = point;
+
+    this.setState((prevState) => ({
+      missionData: Object.assign({}, prevState.missionData, missionData),
+    }));
   };
 
   render() {
-    const { missionData } = this.props;
+    const { missionData } = this.state;
+
+    if (!missionData) return <div>loading...</div>;
+
     const points = missionData.navPoints.map((point) => (
       <NavPoint key={point.id} onChange={this.handleNavpointUpdate} {...point} />
     ));
@@ -40,7 +63,7 @@ const NavPoint = (props) => {
   const handleChange = (e) => {
     const change = { [e.target.name]: e.target.value };
     const newPoint = Object.assign({}, { id, name, tos, hdg, dist, gs, alt, action }, change);
-    // onChange(newPoint)
+    onChange(newPoint);
     // console.log(newPoint);
   };
 
