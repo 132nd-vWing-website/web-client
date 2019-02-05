@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { getAirfields } from '../../../actions/dataActions';
 // Content
 import AirfieldSearchInput from '../components/AirfieldSearchInput';
-import SearchInput from '../components/SearchInput';
 
 class Flightplan extends Component {
   state = {
@@ -85,8 +84,8 @@ class Flightplan extends Component {
     );
 
     const formItemLayout = {
-      labelCol: { span: 8 },
-      wrapperCol: { span: 14 },
+      labelCol: { span: 6 },
+      wrapperCol: { span: 16 },
     };
 
     const formItemFullLengthLayout = {

@@ -30,7 +30,7 @@ export default class AirfieldSearchInput extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { airfields } = this.state;
-    const { onChange, name, options } = this.props;
+    const { onChange, options } = this.props;
 
     if (airfields !== prevState.airfields) {
       onChange({ name: 'airfields', value: airfields });
@@ -90,7 +90,7 @@ export default class AirfieldSearchInput extends Component {
 
     return (
       <SearchInput
-        value={value.label.toUpperCase()}
+        value={value.label ? value.label : ''}
         name={name}
         onChange={this.handleChange}
         data={airfieldOptions}
@@ -105,7 +105,6 @@ AirfieldSearchInput.propTypes = {
   airfields: PropTypes.array.isRequired,
   onChange: PropTypes.func.isRequired,
   options: PropTypes.array.isRequired,
-  name: PropTypes.string.isRequired,
   style: PropTypes.object,
 };
 
