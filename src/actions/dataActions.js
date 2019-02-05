@@ -21,5 +21,5 @@ export const getAirfields = () => (dispatch) => {
   axios
     .get(`${API_ROOT}/airfields`)
     .then((res) => dispatch({ type: GET_AIRFIELDS, payload: res.data }))
-    .catch(() => dispatch({ type: GET_AIRFIELDS, payload: {} }));
+    .catch(() => dispatch({ type: GET_AIRFIELDS, payload: [] }));
 };
