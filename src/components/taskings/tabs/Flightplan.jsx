@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getAirfields } from '../../../actions/dataActions';
-// Content
 import AirfieldSearchInput from '../components/AirfieldSearchInput';
 
 class Flightplan extends Component {
@@ -45,8 +44,8 @@ class Flightplan extends Component {
     }));
   };
 
-  handleSubmit = (e) => {
-    console.log('Submit!');
+  handleSubmit = () => {
+    // console.log('Submit!');
   };
 
   render() {
@@ -89,8 +88,8 @@ class Flightplan extends Component {
     };
 
     const formItemFullLengthLayout = {
-      labelCol: { span: 4 },
-      wrapperCol: { span: 19 },
+      labelCol: { span: 3 },
+      wrapperCol: { span: 20 },
     };
 
     return (
@@ -182,7 +181,7 @@ class Flightplan extends Component {
                 </Row>
                 <Row>
                   <Col span={24} md={24}>
-                    <Form.Item label='ENR Intentions' {...formItemFullLengthLayout}>
+                    <Form.Item label='ENR' {...formItemFullLengthLayout}>
                       <Input.TextArea rows={6} placeholder='DEP UGKO via UGKO WEST...' />
                     </Form.Item>
                   </Col>

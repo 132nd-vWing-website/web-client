@@ -5,7 +5,8 @@ const makeFakePlan = () => {
   let n = 0;
   while (n !== lines) {
     collection.push({
-      name: '',
+      id: n,
+      name: 'Lorem Ipsum Dolor...',
       tos: '00:00:00Z',
       hdg: '000°',
       dist: '000NM',

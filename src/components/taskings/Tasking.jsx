@@ -5,6 +5,7 @@ import pdfBuilder, { mdc } from '../../pdf/pdfBuilder';
 import PageForm from './components/PageForm';
 import PageList from './components/PageList';
 import Flightplan from './tabs/Flightplan';
+import Navigation from './tabs/Navigation';
 
 // Antd Destructuring
 const { TabPane } = Tabs;
@@ -157,7 +158,7 @@ export default class Tasking extends Component {
                 <Flightplan onUpdate={this.updateData} missionData={missionData} />
               </TabPane>
               <TabPane tab='Navigation' key='tasking-nav' closable={false}>
-                <p>Flightplan</p>
+                <Navigation onUpdate={this.updateData} missionData={missionData} />
               </TabPane>
               <TabPane tab='Signals' key='tasking-signals' closable={false}>
                 <p>Flightplan</p>
