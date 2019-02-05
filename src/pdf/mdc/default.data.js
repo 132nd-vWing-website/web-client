@@ -34,7 +34,8 @@ const defaultData = {
   eta: '+2hrs',
   airfields: [
     {
-      key: 'departure',
+      name: 'departure',
+      id: 1,
       label: 'DEP',
       icao: 'UGKO',
       tcn: '44X',
@@ -45,7 +46,8 @@ const defaultData = {
       ils: '109.750',
     },
     {
-      key: 'recovery',
+      name: 'recovery',
+      id: 59,
       label: 'ARR',
       icao: 'UGTB',
       tcn: '25X',
@@ -56,7 +58,8 @@ const defaultData = {
       ils: '110.300',
     },
     {
-      key: 'alternate',
+      name: 'alternate',
+      id: 1,
       label: 'ALTN',
       icao: 'UGKO',
       tcn: '44X',
