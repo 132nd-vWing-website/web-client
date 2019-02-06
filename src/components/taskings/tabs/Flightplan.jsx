@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getAirfields } from '../../../actions/dataActions';
 import AirfieldSearchInput from '../components/AirfieldSearchInput';
+import Navigation from './Navigation';
 
 class Flightplan extends Component {
   state = {
@@ -49,7 +50,7 @@ class Flightplan extends Component {
   };
 
   render() {
-    const { missionData, resources } = this.props;
+    const { missionData, resources, onUpdate } = this.props;
 
     const numberOfAircraft = missionData.element.length;
 
@@ -95,7 +96,7 @@ class Flightplan extends Component {
     return (
       <React.Fragment>
         <Row gutter={8}>
-          <Col className='gutter-row' span={24} md={12}>
+          <Col className='gutter-row' span={24} md={16}>
             <Row gutter={8}>
               <Col className='gutter-row' span={24} md={24}>
                 <div>
@@ -188,8 +189,9 @@ class Flightplan extends Component {
                 </Row>
               </Form>
             </Row>
+            <Navigation onUpdate={onUpdate} missionData={missionData} />
           </Col>
-          <Col className='gutter-row' span={24} md={12}>
+          <Col className='gutter-row' span={24} md={8}>
             CHAT ETC....
           </Col>
         </Row>

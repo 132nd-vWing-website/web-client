@@ -13,10 +13,10 @@ Utility.timestamp = () => {
 };
 
 /* TRACKNUM: Generates a string for a track number */
-Utility.trackNum = function(string) {
+Utility.trackNum = (string) => {
   let number = '';
-  const length = string.length;
-  for (let i = 0; i < length; i++) number += string.charCodeAt(i).toString(5);
+  const { length } = string;
+  for (let i = 0; i < length; i += 1) number += string.charCodeAt(i).toString(5);
   number = number.substring(0, 4);
   return number;
 };
@@ -33,16 +33,17 @@ Utility.guid = () => {
 /**
  * @desc Pads a number with a leading number (z) - according to value of width
  *
- * @param {integer} n - integer to use for padding (i.e. 0)
+ * @param {integer} valueToPad - integer to pad
  * @param {integer} width - total width of the finished number, so 2 would give 00-type numbers
  * @param {integer} z - number to pad n with, to the width of width
  * @example
- * Utility.padNumber(0, 2, someVar);
+ * Utility.padNumber(someVar, 2, 0);
  */
-Utility.padNumber = (n, width = 3, z = 0) => {
-  if (typeof n === 'undefined') n = 0;
+Utility.padNumber = (valueToPad, width = 3, z = 0) => {
+  // const n = valueToPad || 0;
+  let n = valueToPad;
 
-  if (!isNaN(parseFloat(n))) {
+  if (!Number.isNaN(parseFloat(n))) {
     n = Math.round(n);
   }
 
@@ -54,40 +55,36 @@ Utility.padNumber = (n, width = 3, z = 0) => {
 */
 
 /* DEG2RAD: Converts the supplied value in DEGREES to RADIANS */
-Utility.deg2rad = function(deg) {
-  return (deg * Math.PI) / 180;
-};
+Utility.deg2rad = (deg) => (deg * Math.PI) / 180;
 
 /* RAD2DEG: Converts the supplied value in RADIANS to DEGREES */
-Utility.rad2deg = function(rad) {
-  return (rad * 180) / Math.PI;
-};
+Utility.rad2deg = (rad) => (rad * 180) / Math.PI;
 
 /* METERS TO FEET: Converts supplied value in METERS to FEET. Will round to nearest foot unless rounded is supplied as false */
-Utility.metersToFeet = function(meters, rounded = true) {
+Utility.metersToFeet = (meters, rounded = true) => {
   let feet = meters * 3.28084;
   if (rounded === true) feet = Math.round(feet);
   return feet;
 };
 
-Utility.metersToNautical = function(meters) {
+Utility.metersToNautical = (meters) => {
   const nautical = meters * 0.000539957;
   return nautical;
 };
 
 /* METERS TO FL: Converts supplied value in METERS to FLIGHTLEVEL */
-Utility.metersToFL = function(meters) {
+Utility.metersToFL = (meters) => {
   let fl = Math.round((meters * 3.28084) / 100);
   if (fl < 100) fl = `0${fl}`;
   return fl;
 };
 
-Utility.knotsToMs = function(knots) {
+Utility.knotsToMs = (knots) => {
   const ms = knots * 0.514444444;
   return ms;
 };
 
-Utility.msToKnots = function(ms) {
+Utility.msToKnots = (ms) => {
   const knots = ms / 0.514444444;
   return knots;
 };
@@ -101,7 +98,9 @@ Utility.msToKnots = function(ms) {
  * @param {float} dd - Decimal Degrees to convert
  * @return {string} dms - returns a string formatted as DMS
  */
-Utility.DDtoDMS = function(dd) {
+Utility.DDtoDMS = (dd) => {
+  // 42.178 => 42°10'41
+
   const dec = dd.toString().split('.')[0];
   let min = parseFloat(`.${dd.toString().split('.')[1]}`) * 60;
   let sec = Math.round(parseFloat(`.${min.toString().split('.')[1]}`) * 60);
@@ -110,6 +109,8 @@ Utility.DDtoDMS = function(dd) {
   sec = Utility.padNumber(sec.toString(), 2);
 
   const res = `${dec}°${min}'${sec}`;
+
+  if (min === 'aN') return '';
   return res;
 };
 
@@ -118,8 +119,9 @@ Utility.DDtoDMS = function(dd) {
  * @param {float} dd - Decimal Degrees to convert
  * @return {string} dds - returns a string formatted as DDS
  */
-Utility.DDtoDDS = function(dd) {
+Utility.DDtoDDS = (dd) => {
   // 41.7585 =>  41° 45.510'N ;
+
   const dec = dd.toString().split('.')[0];
   const ms = ((dd - dec) * 60).toFixed(3);
 
@@ -140,9 +142,9 @@ Utility.DDtoDDS = function(dd) {
 	Calculates distance in meter for 1deg of longitude and latitude - based on latitude (WGS84)
 	Source: http://msi.nga.mil/MSISiteContent/StaticFiles/Calculators/degree.html
 */
-Utility.calcLatLonDistances = function(Latitude_In_Degrees) {
+Utility.calcLatLonDistances = (LatInDegrees) => {
   // Convert latitude to radians
-  const lat = Utility.deg2rad(Latitude_In_Degrees);
+  const lat = Utility.deg2rad(LatInDegrees);
 
   // Set up "Constants"
   const m1 = 111132.92; // latitude calculation term 1
@@ -175,7 +177,7 @@ Utility.calcLatLonDistances = function(Latitude_In_Degrees) {
  * @example
  *      let distance = findCoordDistance([42.178, 42.496], [41.905, 42.84])
  */
-Utility.findCoordDistance = function(f, s) {
+Utility.findCoordDistance = (f, s) => {
   // a = sin²(Δφ/2) + cos(φ1)⋅cos(φ2)⋅sin²(Δλ/2)
   // tanδ = √(a) / √(1−a)
   // see mathforum.org/library/drmath/view/51879.html for derivation
@@ -206,7 +208,7 @@ Utility.findCoordDistance = function(f, s) {
  * @example
  *      let bearing = findBearing([42.177, 42.481], [42.110, 41.001])
  */
-Utility.findBearing = function(f, s) {
+Utility.findBearing = (f, s) => {
   // tanθ = sinΔλ⋅cosφ2 / cosφ1⋅sinφ2 − sinφ1⋅cosφ2⋅cosΔλ
   // see mathforum.org/library/drmath/view/55417.html for derivation
 
@@ -223,11 +225,10 @@ Utility.findBearing = function(f, s) {
 };
 
 /* CURVE DISTANCE: Takes a straight-line distance and returns the actual distance when converted into  a distance between two points on a circle. See https://en.wikipedia.org/wiki/Great-circle_distance. */
-Utility.curveDistance = function(distance, radius = 10) {
-  // Usefull for finding the actual distance between two points points on earth
-};
+// Usefull for finding the actual distance between two points points on earth
+// Utility.curveDistance = (distance, radius = 10) => {};
 
 /* CALCULATE ETA: Calculates the estimated time of arrival. This distance is not linear. It is an arch because of the earths curvature. See https://en.wikipedia.org/wiki/Great-circle_distance */
-Utility.calculateETA = function(distance, speed, straightLine = false) {};
+// Utility.calculateETA = (distance, speed, straightLine = false) => {};
 
 module.exports = Utility;

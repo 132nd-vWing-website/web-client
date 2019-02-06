@@ -1,15 +1,17 @@
-const makeFakePlan = () => {
+const makeFakePlan = (index) => {
   const lines = 20;
   const collection = [];
 
-  let n = 0;
+  let n = index || 0;
   while (n !== lines) {
     collection.push({
       id: n,
       name: 'Lorem Ipsum Dolor...',
+      lat: '-',
+      lon: '-',
       tos: '00:00:00Z',
       hdg: '000°',
-      dist: '000NM',
+      dist: 0,
       gs: '000KTS',
       alt: 'FL000',
       action: '-',
@@ -103,7 +105,33 @@ const defaultData = {
     { sequence: '1-2-3-4-5-6-7-8-9-10' },
     { sequence: '1-2-3-4-5-6-7-8-9-10' },
   ],
-  navPoints: makeFakePlan(),
+  navPoints: [
+    {
+      id: 0,
+      name: 'UGKO',
+      lat: 42.178,
+      lon: 42.481,
+      tos: '00:00:00Z',
+      hdg: '000°',
+      dist: 0,
+      gs: '000KTS',
+      alt: 'FL000',
+      action: 'DEPARTURE',
+    },
+    {
+      id: 1,
+      name: 'ALIKA',
+      lat: 42.81,
+      lon: 44.253,
+      tos: '00:00:00Z',
+      hdg: '000°',
+      dist: 0,
+      gs: '000KTS',
+      alt: 'FL000',
+      action: 'FLY OVER',
+    },
+    ...makeFakePlan(2),
+  ],
   radioPresets: [
     { label: 'INT PRI', preset: 'PRI2' },
     { label: 'INT AUX', preset: '133.500' },
