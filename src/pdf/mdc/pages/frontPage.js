@@ -1,4 +1,6 @@
+import moment from 'moment';
 import pdfMake from 'pdfmake/build/pdfmake';
+import { metersToNautical, msToKnots } from '../../../utils/utility';
 import Bahnschrift from '../../fonts/bahnschrift';
 
 /**
@@ -240,7 +242,7 @@ frontPage.flightplanShort = (flightplan) => {
       },
     },
     table: {
-      widths: [30, '*', '*', '*', '*', '*', '*', '*', '*'],
+      widths: [30, 45, 45, 60, 35, 35, 35, 35, '*'],
       body: [
         [
           {
@@ -273,14 +275,19 @@ frontPage.flightplanShort = (flightplan) => {
   };
 
   flightplan.forEach((steerpt, index) => {
+    const tos = moment(steerpt.tos).format('HH:mm:ss');
+    const hdg = Math.round(steerpt.hdg);
+    const dist = Math.round(metersToNautical(steerpt.dist));
+    const speed = Math.round(msToKnots(steerpt.gs));
+
     td.table.body.push([
       { text: index, style: styles.default },
       { text: steerpt.name, colSpan: 2, style: styles.default },
       {},
-      { text: steerpt.tos, style: styles.default },
-      { text: steerpt.hdg, style: styles.default },
-      { text: steerpt.dist, style: styles.default },
-      { text: steerpt.gs, style: styles.default },
+      { text: tos, style: styles.default },
+      { text: hdg, style: styles.default },
+      { text: dist, style: styles.default },
+      { text: speed, style: styles.default },
       { text: steerpt.alt, style: styles.default },
       { text: steerpt.action, style: styles.default },
     ]);
@@ -341,7 +348,7 @@ frontPage.presetsShort = (presets) => {
 
 /**
  * MDC frontPage for the Multirole Template
- * @param {object} missionData - Mission data structure, see multirole.demo.js
+ * @param {object} missionData - Mission data structure, see default.data.js
  */
 frontPage.create = ({
   missionNumber,
