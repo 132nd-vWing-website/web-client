@@ -1,8 +1,9 @@
-import { Col, Form, Input, Row } from 'antd';
-import React, { Component } from 'react';
+import { Col, Form, Row } from 'antd';
+import moment from 'moment';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { findBearing, findCoordDistance } from '../../../utils/utility';
 import NavPoint from '../components/NavPoint';
-import { findCoordDistance, findBearing } from '../../../utils/utility';
 
 export default class Navigation extends Component {
   state = {
@@ -31,16 +32,28 @@ export default class Navigation extends Component {
 
     navPoints.forEach((point, index) => {
       const newPoint = {};
+      // const lastPoint = navPoints[index - 1];
+      const lastPoint = newPoints[index - 1];
 
-      // Calculate distance to point from last
-      if (index === 0) {
+      // Calculate distance and bearing to point from last
+      if (index === 0 || point.lat === 0 || point.lon === 0) {
         newPoint.dist = 0;
+        newPoint.hdg = 0;
       } else {
-        const lastPoint = navPoints[index - 1];
         newPoint.dist = findCoordDistance([lastPoint.lat, lastPoint.lon], [point.lat, point.lon]);
+        newPoint.hdg = findBearing([lastPoint.lat, lastPoint.lon], [point.lat, point.lon]);
       }
 
-      // Calcualte bearing to point from last
+      // Calculate time of travel (in milliseconds)
+      if (index === 0) {
+        newPoint.tos = point.tos;
+      } else if (newPoint.dist === 0) {
+        newPoint.tos = lastPoint.tos;
+      } else {
+        const startTime = moment(lastPoint.tos); // in UTC milliseconds
+        const travelTime = 1000 * (newPoint.dist / point.gs);
+        newPoint.tos = startTime + travelTime;
+      }
 
       // Push the new point back to the collection
       newPoints.push(Object.assign({}, point, newPoint));

@@ -72,6 +72,11 @@ Utility.metersToNautical = (meters) => {
   return nautical;
 };
 
+// Utility.NauticalToMeters = (nautical) => {
+//   const meters = nautical / 0.000539957;
+//   return meters;
+// };
+
 /* METERS TO FL: Converts supplied value in METERS to FLIGHTLEVEL */
 Utility.metersToFL = (meters) => {
   let fl = Math.round((meters * 3.28084) / 100);
@@ -223,6 +228,14 @@ Utility.findBearing = (f, s) => {
 
   return (Utility.rad2deg(brng) + 360) % 360;
 };
+
+/**
+ * @desc Takes a distance and a speed, and returns the ammount of seconds it takes to cover that distance.
+ * @param {number} dist - Distance to travel
+ * @param {number} speed - Speed of travel (ground speed)
+ * @returns {number} - Time it takes to cover the dist at speed, in seconds
+ */
+Utility.travelTimeInMS = (dist, speed) => dist / speed;
 
 /* CURVE DISTANCE: Takes a straight-line distance and returns the actual distance when converted into  a distance between two points on a circle. See https://en.wikipedia.org/wiki/Great-circle_distance. */
 // Usefull for finding the actual distance between two points points on earth

@@ -14,7 +14,7 @@ export default class CoordinateInput extends Component {
   }
 
   render() {
-    const { name, value, onChange, toDMS, toDDS } = this.props;
+    const { name, value, onChange, toDMS, toDDS, style, className } = this.props;
 
     let coord;
     if (toDMS) {
@@ -25,7 +25,9 @@ export default class CoordinateInput extends Component {
       coord = value;
     }
 
-    return <Input name={name} value={coord} onChange={onChange} />;
+    return (
+      <Input name={name} value={coord} onChange={onChange} style={style} className={className} />
+    );
   }
 }
 
@@ -35,9 +37,13 @@ CoordinateInput.propTypes = {
   onChange: PropTypes.func.isRequired,
   toDMS: PropTypes.bool,
   toDDS: PropTypes.bool,
+  style: PropTypes.object,
+  className: PropTypes.string,
 };
 
 CoordinateInput.defaultProps = {
   toDMS: true,
   toDDS: false,
+  style: {},
+  className: '',
 };
