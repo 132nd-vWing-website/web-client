@@ -26,7 +26,14 @@ export default class CoordinateInput extends Component {
     }
 
     return (
-      <Input name={name} value={coord} onChange={onChange} style={style} className={className} />
+      <Input
+        readOnly
+        name={name}
+        value={coord}
+        onChange={onChange}
+        style={style}
+        className={className}
+      />
     );
   }
 }
