@@ -2,6 +2,7 @@ import { Row, Col, Form, Input } from 'antd';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import moment from 'moment';
+import SearchInput from './SearchInput';
 import CoordinateInput from './CoordinateInput';
 import { padNumber, metersToNautical, msToKnots } from '../../../utils/utility';
 
@@ -39,17 +40,19 @@ export default class NavPoint extends Component {
     const bearing = padNumber(Math.round(hdg), 3);
     const distNM = padNumber(Math.round(metersToNautical(dist)), 3);
     const speed = Math.round(msToKnots(gs));
+    const fl = padNumber(Math.round(alt, 3));
 
     return (
       <Form.Item style={{ margin: 0 }} label={`#${padNumber(id, 2)}`} {...formItemLayout}>
         <Row gutter={0}>
           <Input.Group compact>
             <Col span={24} md={2}>
-              <Input
+              <SearchInput
                 className='navpoint-input'
                 name='name'
                 value={name}
                 onChange={this.handleChange}
+                data={[]}
               />
             </Col>
             <Col span={24} md={2}>
@@ -112,7 +115,7 @@ export default class NavPoint extends Component {
               <Input
                 className='navpoint-input'
                 name='alt'
-                value={alt}
+                value={fl}
                 addonBefore='FL'
                 onChange={this.handleChange}
               />
@@ -139,7 +142,7 @@ NavPoint.propTypes = {
   hdg: PropTypes.number.isRequired,
   dist: PropTypes.number.isRequired,
   gs: PropTypes.number.isRequired,
-  alt: PropTypes.string.isRequired,
+  alt: PropTypes.number.isRequired,
   action: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
 };

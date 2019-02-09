@@ -13,7 +13,7 @@ const makeFakePlan = (index) => {
       hdg: 0,
       dist: 0, // meters
       gs: 0, // meters pr. second
-      alt: 'FL000',
+      alt: 0,
       action: '-',
     });
     n += 1;
@@ -47,6 +47,8 @@ const defaultData = {
       elev: '68 ft',
       rwy: '08',
       ils: '109.750',
+      lat: 42.177616666,
+      lon: 42.48123,
     },
     {
       name: 'recovery',
@@ -59,6 +61,8 @@ const defaultData = {
       elev: '121 ft',
       rwy: '13R',
       ils: '110.300',
+      lat: 42.177616666,
+      lon: 42.48123,
     },
     {
       name: 'alternate',
@@ -71,6 +75,8 @@ const defaultData = {
       elev: '88 ft',
       rwy: '09',
       ils: '108.900',
+      lat: 42.177616666,
+      lon: 42.48123,
     },
   ],
   aircraft: 'F/A-18C',
@@ -115,7 +121,7 @@ const defaultData = {
       hdg: 0,
       dist: 0,
       gs: 180.05556,
-      alt: 'FL000',
+      alt: 0,
       action: 'DEPARTURE',
     },
     {
@@ -127,7 +133,7 @@ const defaultData = {
       hdg: 0,
       dist: 0,
       gs: 180.05556,
-      alt: 'FL000',
+      alt: 0,
       action: 'FLY OVER',
     },
     {
@@ -139,7 +145,7 @@ const defaultData = {
       hdg: 0,
       dist: 0,
       gs: 180.05556,
-      alt: 'FL000',
+      alt: 0,
       action: 'FLY OVER',
     },
     ...makeFakePlan(3),

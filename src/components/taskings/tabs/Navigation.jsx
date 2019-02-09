@@ -3,11 +3,13 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { findBearing, findCoordDistance } from '../../../utils/utility';
+import NavImport from '../components/navimport/NavImport';
 import NavPoint from '../components/NavPoint';
 
 export default class Navigation extends Component {
   state = {
     missionData: null,
+    navOptions: [],
   };
 
   componentDidMount() {
@@ -19,7 +21,18 @@ export default class Navigation extends Component {
     const { missionData } = this.props;
 
     if (missionData !== prevProps.missionData) {
+      // Make sure WP#0 is our home-plate...
+      missionData.navPoints[0] = Object.assign({}, missionData.navPoints[0], {
+        action: 'DEPARTURE',
+        name: missionData.airfields[0].icao,
+        lat: missionData.airfields[0].lat,
+        lon: missionData.airfields[0].lon,
+      });
+
+      // Perform all calulations...
       const calculatedValues = this.calculateValues(missionData);
+
+      // Update state!
       this.setState((prevState) => ({
         missionData: Object.assign({}, prevState.missionData, calculatedValues),
       }));
@@ -65,6 +78,10 @@ export default class Navigation extends Component {
     return newMissionData;
   };
 
+  handleNavImport = (collection) => {
+    console.log('Imported!', collection);
+  };
+
   handleNavpointUpdate = (point) => {
     const { missionData } = this.state;
 
@@ -76,7 +93,7 @@ export default class Navigation extends Component {
   };
 
   render() {
-    const { missionData } = this.state;
+    const { missionData, navOptions } = this.state;
 
     if (!missionData) return <div>loading...</div>;
 
@@ -87,6 +104,7 @@ export default class Navigation extends Component {
     return (
       <Row gutter={8} className='advanced-form'>
         <Col className='gutter-row' span={24} md={24}>
+          <NavImport navOptions={navOptions} onImport={this.handleNavImport} />
           <Form layout='horizontal'>{points}</Form>
         </Col>
       </Row>

@@ -4,6 +4,7 @@
   "private": true,
   "proxy": "http://localhost:5000",
   "dependencies": {
+    "@mapbox/togeojson": "^0.16.0",
     "antd": "^3.11.6",
     "axios": "^0.18.0",
     "classnames": "^2.2.6",

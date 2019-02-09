@@ -67,6 +67,8 @@ export default class AirfieldSearchInput extends Component {
       ils: data.af_ils,
       ctrl: data.af_ctrl,
       len: data.af_rwy_length,
+      lat: data.af_lat,
+      lon: data.af_lon,
     };
 
     airfields[index] = Object.assign({}, airfields[index], updatedAirfield);
