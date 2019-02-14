@@ -25,32 +25,37 @@ import store from './store';
 import setAuthToken from './utils/setAuthToken';
 
 // LazyLoading
+import HeaderCarousel from './components/headercarousel/HeaderCarousel';
+import Register from './components/registration/Register';
+import Login from './components/auth/Login';
+import MDCDemo from './components/pdf/MDCDemo';
+import Tasking from './components/taskings/Tasking';
 
-const LoadingComponent = <div>Loading...</div>;
-const HeaderCarousel = Loadable({
-  loader: () => import('./components/headercarousel/HeaderCarousel'),
-  loading: () => LoadingComponent,
-});
+// const LoadingComponent = <div>Loading...</div>;
+// const HeaderCarousel = Loadable({
+//   loader: () => import('./components/headercarousel/HeaderCarousel'),
+//   loading: () => LoadingComponent,
+// });
 
-const Register = Loadable({
-  loader: () => import('./components/registration/Register'),
-  loading: () => LoadingComponent,
-});
+// const Register = Loadable({
+//   loader: () => import('./components/registration/Register'),
+//   loading: () => LoadingComponent,
+// });
 
-const Login = Loadable({
-  loader: () => import('./components/auth/Login'),
-  loading: () => LoadingComponent,
-});
+// const Login = Loadable({
+//   loader: () => import('./components/auth/Login'),
+//   loading: () => LoadingComponent,
+// });
 
-const MDCDemo = Loadable({
-  loader: () => import('./components/pdf/MDCDemo'),
-  loading: () => LoadingComponent,
-});
+// const MDCDemo = Loadable({
+//   loader: () => import('./components/pdf/MDCDemo'),
+//   loading: () => LoadingComponent,
+// });
 
-const Tasking = Loadable({
-  loader: () => import('./components/taskings/Tasking'),
-  loading: () => LoadingComponent,
-});
+// const Tasking = Loadable({
+//   loader: () => import('./components/taskings/Tasking'),
+//   loading: () => LoadingComponent,
+// });
 
 const { Header, Content, Footer } = Layout;
 
