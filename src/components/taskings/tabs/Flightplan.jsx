@@ -189,7 +189,7 @@ class Flightplan extends Component {
                 </Row>
               </Form>
             </Row>
-            <Navigation onUpdate={onUpdate} missionData={missionData} />
+            {/* <Navigation onUpdate={onUpdate} missionData={missionData} /> */}
           </Col>
           <Col className='gutter-row' span={24} md={8}>
             CHAT ETC....

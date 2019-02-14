@@ -13,8 +13,8 @@ export default class NavImport extends Component {
     const { onImport } = this.props;
 
     if (navpoints !== prevState.navpoints) {
-      console.log('Points got imported! I need to update my parent now', navpoints);
-      onImport(navpoints);
+      // console.log('Points got imported! I need to update my parent now', navpoints);
+      onImport(navpoints.features);
     }
   }
 
@@ -23,7 +23,7 @@ export default class NavImport extends Component {
   };
 
   fileParser = (file) => {
-    console.log('File: ', file);
+    // console.log('File: ', file);
 
     const reader = new FileReader();
 

@@ -79,7 +79,19 @@ export default class Navigation extends Component {
   };
 
   handleNavImport = (collection) => {
-    console.log('Imported!', collection);
+    // console.log('Imported!', collection);
+
+    const newNavOptions = collection.map((point, index) => ({
+      key: index,
+      label: point.properties.name,
+      lat: point.geometry.coordinates[1],
+      lon: point.geometry.coordinates[0],
+    }));
+
+    // console.log(newNavOptions);
+    this.setState((prevState) => ({
+      navOptions: [Object.assign({}, prevState.navOptions, newNavOptions)],
+    }));
   };
 
   handleNavpointUpdate = (point) => {
@@ -98,13 +110,18 @@ export default class Navigation extends Component {
     if (!missionData) return <div>loading...</div>;
 
     const points = missionData.navPoints.map((point) => (
-      <NavPoint key={point.id} onChange={this.handleNavpointUpdate} {...point} />
+      <NavPoint
+        key={point.id}
+        onChange={this.handleNavpointUpdate}
+        navOptions={navOptions}
+        {...point}
+      />
     ));
 
     return (
       <Row gutter={8} className='advanced-form'>
         <Col className='gutter-row' span={24} md={24}>
-          <NavImport navOptions={navOptions} onImport={this.handleNavImport} />
+          <NavImport onImport={this.handleNavImport} />
           <Form layout='horizontal'>{points}</Form>
         </Col>
       </Row>

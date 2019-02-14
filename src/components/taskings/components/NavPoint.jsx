@@ -28,8 +28,12 @@ export default class NavPoint extends Component {
     onChange(newPoint);
   };
 
+  handleSearchChange = (e) => {
+    console.log(e);
+  };
+
   render() {
-    const { id, name, lat, lon, tos, hdg, dist, gs, alt, action } = this.props;
+    const { navOptions, id, name, lat, lon, tos, hdg, dist, gs, alt, action } = this.props;
 
     const formItemLayout = {
       labelCol: { span: 1 },
@@ -51,8 +55,8 @@ export default class NavPoint extends Component {
                 className='navpoint-input'
                 name='name'
                 value={name}
-                onChange={this.handleChange}
-                data={[]}
+                onChange={this.handleSearchChange}
+                data={navOptions}
               />
             </Col>
             <Col span={24} md={2}>
