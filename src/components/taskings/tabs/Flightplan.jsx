@@ -4,7 +4,7 @@ import React from 'react';
 import { AirfieldsConsumer } from '../../../contexts/Airfields';
 import AirfieldSearchInput from '../components/AirfieldSearchInput';
 
-function Flightplan(props) {
+export default function Flightplan(props) {
   const { onUpdate, missionData } = props;
 
   const handleChange = (e) => {
@@ -176,5 +176,3 @@ Flightplan.propTypes = {
   onUpdate: PropTypes.func.isRequired,
   missionData: PropTypes.object.isRequired,
 };
-
-export default Flightplan;
