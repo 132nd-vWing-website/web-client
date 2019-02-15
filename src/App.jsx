@@ -3,7 +3,6 @@
 import { Layout } from 'antd';
 import jwtDecode from 'jwt-decode';
 import React from 'react';
-import Loadable from 'react-loadable';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 // Redux Actions
@@ -11,25 +10,25 @@ import { logoutUser, setCurrentUser } from './actions/authActions';
 import { getUnreadNotams } from './actions/postActions';
 import { clearCurrentProfile } from './actions/profileActions';
 import './App.css';
+import Login from './components/auth/Login';
 // Private Routes
 import PrivateRoute from './components/auth/PrivateRoute';
 import Events from './components/events/Events';
+// LazyLoading
+import HeaderCarousel from './components/headercarousel/HeaderCarousel';
 // Public Routes
-// import HeaderCarousel from './components/headercarousel/HeaderCarousel';
 import Landing from './components/landing/Landing';
+import MDCDemo from './components/pdf/MDCDemo';
 import ProfileDashboard from './components/profile-dashboard/ProfileDashboard';
+import Register from './components/registration/Register';
 import Sidebar from './components/sidebar/Sidebar';
+import Tasking from './components/taskings/Tasking';
+// Context
+import MissionDataProvider, { MissionDataConsumer } from './contexts/MissionData';
 // Redux Store
 import store from './store';
 // Utils
 import setAuthToken from './utils/setAuthToken';
-
-// LazyLoading
-import HeaderCarousel from './components/headercarousel/HeaderCarousel';
-import Register from './components/registration/Register';
-import Login from './components/auth/Login';
-import MDCDemo from './components/pdf/MDCDemo';
-import Tasking from './components/taskings/Tasking';
 
 // const LoadingComponent = <div>Loading...</div>;
 // const HeaderCarousel = Loadable({
@@ -90,40 +89,47 @@ if (localStorage.jwtToken) {
  */
 function App() {
   console.log('App reloaded at ', new Date());
+
+  const TaskingWrapper = () => (
+    <MissionDataConsumer>{(props) => <Tasking {...props} />}</MissionDataConsumer>
+  );
+
   return (
     <Provider store={store}>
-      <Router>
-        <Layout style={{ minHeight: '100vh' }}>
-          <Sidebar />
-          <Layout style={{ background: '#272727' }}>
-            <HeaderComponent />
-            <Content style={{ margin: '1em 1em 0' }}>
-              <Switch>
-                <Route exact path='/' component={Landing} />
-                <Route exact path='/register' component={Register} />
-                <Route exact path='/login' component={Login} />
-                <Route path='/events' component={Events} />
-                <Route path='/taskings' component={Tasking} />
-                <Route path='/pdf' component={MDCDemo} />
-                <Route component={Landing} />
-              </Switch>
-              <Switch>
-                <PrivateRoute exact path='/dashboard' component={ProfileDashboard} />
-              </Switch>
-              <Switch>
-                <PrivateRoute
-                  exact
-                  path='/create-profile'
-                  component={<div>CREATE A PROFILE</div>}
-                />
-              </Switch>
-            </Content>
-            <Footer style={{ textAlign: 'center', background: '#272727', color: '#aaa' }}>
-              132nd Virtual Wing ©2019
-            </Footer>
+      <MissionDataProvider>
+        <Router>
+          <Layout style={{ minHeight: '100vh' }}>
+            <Sidebar />
+            <Layout style={{ background: '#272727' }}>
+              <HeaderComponent />
+              <Content style={{ margin: '1em 1em 0' }}>
+                <Switch>
+                  <Route exact path='/' component={Landing} />
+                  <Route exact path='/register' component={Register} />
+                  <Route exact path='/login' component={Login} />
+                  <Route path='/events' component={Events} />
+                  <Route path='/taskings' component={TaskingWrapper} />
+                  <Route path='/pdf' component={MDCDemo} />
+                  <Route component={Landing} />
+                </Switch>
+                <Switch>
+                  <PrivateRoute exact path='/dashboard' component={ProfileDashboard} />
+                </Switch>
+                <Switch>
+                  <PrivateRoute
+                    exact
+                    path='/create-profile'
+                    component={<div>CREATE A PROFILE</div>}
+                  />
+                </Switch>
+              </Content>
+              <Footer style={{ textAlign: 'center', background: '#272727', color: '#aaa' }}>
+                132nd Virtual Wing ©2019
+              </Footer>
+            </Layout>
           </Layout>
-        </Layout>
-      </Router>
+        </Router>
+      </MissionDataProvider>
     </Provider>
   );
 }
