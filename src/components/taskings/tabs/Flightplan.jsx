@@ -1,36 +1,13 @@
 import { Col, Form, Input, Row, Select } from 'antd';
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { getAirfields } from '../../../actions/dataActions';
+import React from 'react';
+import { AirfieldsConsumer } from '../../../contexts/Airfields';
 import AirfieldSearchInput from '../components/AirfieldSearchInput';
-import Navigation from './Navigation';
 
-class Flightplan extends Component {
-  state = {
-    missionData: null,
-  };
+function Flightplan(props) {
+  const { onUpdate, missionData } = props;
 
-  componentDidMount() {
-    const { missionData, fetchAirfields } = this.props;
-
-    // Fire Redux Action
-    fetchAirfields();
-
-    // Update State
-    this.setState({ missionData });
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    const { missionData } = this.state;
-    const { onUpdate } = this.props;
-
-    if (missionData !== prevState.missionData) {
-      onUpdate(missionData);
-    }
-  }
-
-  handleChange = (e) => {
+  const handleChange = (e) => {
     let change;
 
     // Need to account for both recieving Syntethicevents (e.target) data and normal objects
@@ -40,61 +17,57 @@ class Flightplan extends Component {
       change = { [e.target.name]: e.target.value };
     }
 
-    this.setState((prevState) => ({
-      missionData: Object.assign({}, prevState.missionData, change),
-    }));
+    // Update parent object, using the context provided updater function
+    onUpdate((data) => ({ ...data, ...change }));
   };
 
-  handleSubmit = () => {
-    // console.log('Submit!');
+  //     const { missionData, resources, onUpdate } = this.props;
+
+  const numberOfAircraft = missionData.element.length;
+
+  /**
+   * Some of the input fields should be readOnly if there is data (from an event):
+   * Callsign
+   * Aircraft Type
+   * Departure Airfield
+   * Recovery Airfield
+   * ETD - If decided by event host (time-essential departure)
+   */
+
+  // Values for aircraft selection
+  const aircraftSelector = (
+    <Input.Group compact>
+      <Input style={{ width: '20%' }} value={`${numberOfAircraft} x `} readOnly />
+      <Select
+        style={{ width: '80%' }}
+        defaultValue='F/A18-C'
+        name='aircraft'
+        value={missionData.aircraft}
+        onChange={(value) => handleChange({ name: 'aircraft', value })}>
+        <Select.Option value='F/A18-C'>F/A-18C</Select.Option>
+        <Select.Option value='A-10C'>A-10C</Select.Option>
+        <Select.Option value='KA-50'>KA-50</Select.Option>
+        <Select.Option value='Mi-8'>Mi-8</Select.Option>
+        <Select.Option value='M2000C'>M2000C</Select.Option>
+        <Select.Option value='N/A'>Ground Unit(s)</Select.Option>
+      </Select>
+    </Input.Group>
+  );
+
+  // Form Layouts
+  const formItemLayout = {
+    labelCol: { span: 6 },
+    wrapperCol: { span: 16 },
   };
 
-  render() {
-    const { missionData, resources, onUpdate } = this.props;
+  const formItemFullLengthLayout = {
+    labelCol: { span: 3 },
+    wrapperCol: { span: 20 },
+  };
 
-    const numberOfAircraft = missionData.element.length;
-
-    /**
-     * Some of the input fields should be readOnly if there is data (from an event):
-     * Callsign
-     * Aircraft Type
-     * Departure Airfield
-     * Recovery Airfield
-     * ETD - If decided by event host (time-essential departure)
-     */
-
-    // Values for aircraft selection
-    const aircraftSelector = (
-      <Input.Group compact>
-        <Input style={{ width: '20%' }} value={`${numberOfAircraft} x `} readOnly />
-        <Select
-          style={{ width: '80%' }}
-          defaultValue='F/A18-C'
-          name='aircraft'
-          value={missionData.aircraft}
-          onChange={(value) => this.handleChange({ name: 'aircraft', value })}>
-          <Select.Option value='F/A18-C'>F/A-18C</Select.Option>
-          <Select.Option value='A-10C'>A-10C</Select.Option>
-          <Select.Option value='KA-50'>KA-50</Select.Option>
-          <Select.Option value='Mi-8'>Mi-8</Select.Option>
-          <Select.Option value='M2000C'>M2000C</Select.Option>
-          <Select.Option value='N/A'>Ground Unit(s)</Select.Option>
-        </Select>
-      </Input.Group>
-    );
-
-    const formItemLayout = {
-      labelCol: { span: 6 },
-      wrapperCol: { span: 16 },
-    };
-
-    const formItemFullLengthLayout = {
-      labelCol: { span: 3 },
-      wrapperCol: { span: 20 },
-    };
-
-    return (
-      <React.Fragment>
+  return (
+    <AirfieldsConsumer>
+      {({ airfields }) => (
         <Row gutter={8}>
           <Col className='gutter-row' span={24} md={16}>
             <Row gutter={8}>
@@ -121,7 +94,7 @@ class Flightplan extends Component {
               </Col>
             </Row>
             <Row gutter={8} className='advanced-form'>
-              <Form onSubmit={this.handleSubmit} layout='horizontal'>
+              <Form layout='horizontal'>
                 <Row>
                   <Col span={24} md={12}>
                     <Form.Item label='Flight Date' {...formItemLayout}>
@@ -132,31 +105,31 @@ class Flightplan extends Component {
                         placeholder='FALCON'
                         name='callsign'
                         value={missionData.callsign}
-                        onChange={this.handleChange}
+                        onChange={handleChange}
                       />
                     </Form.Item>
                     <Form.Item label='Departure' {...formItemLayout}>
                       <AirfieldSearchInput
                         airfields={missionData.airfields}
                         name='departure'
-                        onChange={this.handleChange}
-                        options={resources.airfields}
+                        onChange={handleChange}
+                        options={airfields}
                       />
                     </Form.Item>
                     <Form.Item label='Recovery' {...formItemLayout}>
                       <AirfieldSearchInput
                         airfields={missionData.airfields}
                         name='recovery'
-                        onChange={this.handleChange}
-                        options={resources.airfields}
+                        onChange={handleChange}
+                        options={airfields}
                       />
                     </Form.Item>
                     <Form.Item label='Alternate' {...formItemLayout}>
                       <AirfieldSearchInput
                         airfields={missionData.airfields}
                         name='alternate'
-                        onChange={this.handleChange}
-                        options={resources.airfields}
+                        onChange={handleChange}
+                        options={airfields}
                       />
                     </Form.Item>
                   </Col>
@@ -166,7 +139,7 @@ class Flightplan extends Component {
                         placeholder='Mission Number'
                         name='missionNumber'
                         value={missionData.missionNumber}
-                        onChange={this.handleChange}
+                        onChange={handleChange}
                       />
                     </Form.Item>
                     <Form.Item label='Aircraft' {...formItemLayout}>
@@ -189,29 +162,19 @@ class Flightplan extends Component {
                 </Row>
               </Form>
             </Row>
-            {/* <Navigation onUpdate={onUpdate} missionData={missionData} /> */}
           </Col>
           <Col className='gutter-row' span={24} md={8}>
             CHAT ETC....
           </Col>
         </Row>
-      </React.Fragment>
-    );
-  }
+      )}
+    </AirfieldsConsumer>
+  );
 }
 
 Flightplan.propTypes = {
   onUpdate: PropTypes.func.isRequired,
   missionData: PropTypes.object.isRequired,
-  resources: PropTypes.object.isRequired,
-  fetchAirfields: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  resources: state.data,
-});
-
-export default connect(
-  mapStateToProps,
-  { fetchAirfields: getAirfields },
-)(Flightplan);
+export default Flightplan;

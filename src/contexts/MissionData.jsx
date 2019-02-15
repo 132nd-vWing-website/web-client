@@ -24,7 +24,6 @@ export default function MissionDataProvider(props) {
   const [missionData, setMissionData] = useState(null);
   useEffect(() => {
     // set a default mission object
-    console.log('MissionDataProvider:[]');
     setMissionData(mdc.defaultData);
   }, []);
 

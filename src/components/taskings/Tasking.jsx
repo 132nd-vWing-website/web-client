@@ -106,6 +106,9 @@ export default class Tasking extends Component {
 
   render() {
     const { missionData, panes, list } = this.state;
+
+    const { setMissionData } = this.props;
+
     if (!missionData) return <div>Loading...</div>;
 
     // Generate the content array from available MDC pages
@@ -155,7 +158,7 @@ export default class Tasking extends Component {
                 onEdit={this.onTabEdit}
                 tabBarExtraContent={tabActions}>
                 <TabPane tab='Flightplan' key='tasking-flightplan' closable={false}>
-                  <Flightplan onUpdate={this.updateData} missionData={missionData} />
+                  <Flightplan onUpdate={setMissionData} missionData={missionData} />
                 </TabPane>
                 <TabPane tab='Navigation' key='tasking-nav' closable={false}>
                   <Navigation onUpdate={this.updateData} missionData={missionData} />
