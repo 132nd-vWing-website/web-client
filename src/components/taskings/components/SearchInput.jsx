@@ -9,14 +9,7 @@ import React, { useEffect, useState } from 'react';
 function SearchInput(props) {
   const { name, onChange, style, placeholder, data, value } = props;
 
-  const [result, setResult] = useState(null);
-  useEffect(
-    () => {
-      if (result) onChange({ name, value: result });
-    },
-    [result],
-  );
-
+  // Create airfield option components
   const [options, setOptions] = useState(null);
   useEffect(
     () => {
@@ -29,6 +22,15 @@ function SearchInput(props) {
       );
     },
     [data],
+  );
+
+  // Return any input value to parent component
+  const [result, setResult] = useState(null);
+  useEffect(
+    () => {
+      if (result) onChange({ name, value: result });
+    },
+    [result],
   );
 
   return (
