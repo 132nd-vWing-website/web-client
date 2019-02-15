@@ -1,26 +1,18 @@
 import { Button, Card, Col, Row, Tabs } from 'antd';
 import React, { Component } from 'react';
-// import Loadable from 'react-loadable';
+import PropTypes from 'prop-types';
 import pdfBuilder, { mdc } from '../../pdf/pdfBuilder';
 import PageForm from './components/PageForm';
 import PageList from './components/PageList';
 import Flightplan from './tabs/Flightplan';
 import Navigation from './tabs/Navigation';
 
+import AirfieldProvider from '../../contexts/Airfields';
+
 // Antd Destructuring
 const { TabPane } = Tabs;
 
-// LazyLoading
-// const LoadingComponent = <div>Loading...</div>;
-// const pdfBuilder = Loadable({
-//   loader: () => import('../../pdf/pdfBuilder'),
-//   loading: () => LoadingComponent,
-// });
-
-// const mdc = Loadable({
-//   loader: () => import('../../pdf/pdfBuilder').mdc,
-//   loading: () => LoadingComponent,
-// });
+// LazyLoading !!!
 
 /** MDC BUILDER */
 export default class Tasking extends Component {
@@ -31,11 +23,18 @@ export default class Tasking extends Component {
   };
 
   componentDidMount() {
-    // Load the default mission values as a starting point
-    const { defaultData } = mdc;
+    const { missionData } = this.props;
+    this.setState({ missionData });
+  }
 
-    // Update state
-    this.setState({ missionData: defaultData });
+  componentDidUpdate(prevProps) {
+    const { missionData } = this.props;
+
+    if (missionData !== prevProps.missionData) {
+      this.setState(() => ({
+        missionData: Object.assign({}, missionData),
+      }));
+    }
   }
 
   generatePDF = () => {
@@ -145,33 +144,43 @@ export default class Tasking extends Component {
     );
 
     return (
-      <Card title='MDC Builder'>
-        <Row>
-          <Col className='gutter-row' span={24} md={24}>
-            <Tabs
-              hideAdd
-              type='editable-card'
-              onChange={this.onTabChange}
-              onEdit={this.onTabEdit}
-              tabBarExtraContent={tabActions}>
-              <TabPane tab='Flightplan' key='tasking-flightplan' closable={false}>
-                <Flightplan onUpdate={this.updateData} missionData={missionData} />
-              </TabPane>
-              <TabPane tab='Navigation' key='tasking-nav' closable={false}>
-                <Navigation onUpdate={this.updateData} missionData={missionData} />
-              </TabPane>
-              <TabPane tab='Signals' key='tasking-signals' closable={false}>
-                <p>Flightplan</p>
-              </TabPane>
-              <TabPane tab='Pages' key='tasking-mdc-setup' closable={false}>
-                <p>Some instructions here, followed by the add/remove/rearrange pages</p>
-                <PageList list={list} content={templates} onUpdate={this.updatePages} />
-              </TabPane>
-              {mdcPanes}
-            </Tabs>
-          </Col>
-        </Row>
-      </Card>
+      <AirfieldProvider>
+        <Card title='MDC Builder'>
+          <Row>
+            <Col className='gutter-row' span={24} md={24}>
+              <Tabs
+                hideAdd
+                type='editable-card'
+                onChange={this.onTabChange}
+                onEdit={this.onTabEdit}
+                tabBarExtraContent={tabActions}>
+                <TabPane tab='Flightplan' key='tasking-flightplan' closable={false}>
+                  <Flightplan onUpdate={this.updateData} missionData={missionData} />
+                </TabPane>
+                <TabPane tab='Navigation' key='tasking-nav' closable={false}>
+                  <Navigation onUpdate={this.updateData} missionData={missionData} />
+                </TabPane>
+                <TabPane tab='Signals' key='tasking-signals' closable={false}>
+                  <p>Flightplan</p>
+                </TabPane>
+                <TabPane tab='Pages' key='tasking-mdc-setup' closable={false}>
+                  <p>Some instructions here, followed by the add/remove/rearrange pages</p>
+                  <PageList list={list} content={templates} onUpdate={this.updatePages} />
+                </TabPane>
+                {mdcPanes}
+              </Tabs>
+            </Col>
+          </Row>
+        </Card>
+      </AirfieldProvider>
     );
   }
 }
+
+Tasking.propTypes = {
+  missionData: PropTypes.object,
+};
+
+Tasking.defaultProps = {
+  missionData: null,
+};
