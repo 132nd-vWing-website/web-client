@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import SearchInput from './SearchInput';
 
-function AirfieldSearchInput(props) {
+function AirfieldSelector(props) {
   const { airfields, name, style, onChange, options } = props;
 
   // Create airfield options from the list of airfields available
@@ -74,7 +74,7 @@ function AirfieldSearchInput(props) {
   );
 }
 
-AirfieldSearchInput.propTypes = {
+AirfieldSelector.propTypes = {
   name: PropTypes.string.isRequired,
   airfields: PropTypes.array.isRequired,
   onChange: PropTypes.func.isRequired,
@@ -82,8 +82,8 @@ AirfieldSearchInput.propTypes = {
   style: PropTypes.object,
 };
 
-AirfieldSearchInput.defaultProps = {
+AirfieldSelector.defaultProps = {
   style: {},
 };
 
-export default AirfieldSearchInput;
+export default AirfieldSelector;
