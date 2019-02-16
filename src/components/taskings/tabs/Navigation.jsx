@@ -6,6 +6,9 @@ import { findBearing, findCoordDistance } from '../../../utils/utility';
 import NavImport from '../components/navimport/NavImport';
 import NavPoint from '../components/NavPoint';
 
+import GeoImporter from '../../geo-importer/GeoImporter';
+import GeoImporterTable from '../../geo-importer/GeoImporterTable';
+
 export default class Navigation extends Component {
   state = {
     missionData: null,
@@ -104,6 +107,15 @@ export default class Navigation extends Component {
     }));
   };
 
+  tableActions = (text, record) => {
+    const ident = record.ident.toLowerCase();
+    return (
+      <React.Fragment>
+        <span onClick={() => console.log(record)}>Add</span>
+      </React.Fragment>
+    );
+  };
+
   render() {
     const { missionData, navOptions } = this.state;
 
@@ -121,6 +133,8 @@ export default class Navigation extends Component {
     return (
       <Row gutter={8} className='advanced-form'>
         <Col className='gutter-row' span={24} md={24}>
+          <GeoImporter />
+          <GeoImporterTable actions={this.tableActions} />
           <NavImport onImport={this.handleNavImport} />
           <Form layout='horizontal'>{points}</Form>
         </Col>
