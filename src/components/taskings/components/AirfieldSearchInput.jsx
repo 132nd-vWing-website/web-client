@@ -57,7 +57,7 @@ function AirfieldSearchInput(props) {
         };
 
         airfields[index] = Object.assign({}, airfields[index], updatedAirfield);
-        onChange({ name: 'airfields', value: airfields });
+        onChange((prev) => ({ ...prev, ...{ name: 'airfields', value: airfields } }));
       }
     },
     [result],
