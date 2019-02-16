@@ -57,12 +57,6 @@ export default function AircraftTypesProvider(props) {
   //     .then((res) => setTypes(res.data))
   //     .catch(() => setTypes([]));
   // }, []);
-  useEffect(
-    () => {
-      console.log(types);
-    },
-    [types],
-  );
 
   return (
     <AircraftTypesContext.Provider value={{ types, setTypes }}>
