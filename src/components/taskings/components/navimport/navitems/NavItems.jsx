@@ -115,7 +115,7 @@ export default class Items extends Component {
         {
           key: 'actions',
           title: 'Actions',
-          dataIndex: 'ddsY',
+          dataIndex: 'actions',
           width: '2rem',
           render: (text, record) => {
             const actions = [];
