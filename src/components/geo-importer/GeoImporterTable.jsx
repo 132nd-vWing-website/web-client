@@ -1,8 +1,7 @@
-import { Table, Divider } from 'antd';
-import React, { useState, useEffect, useContext } from 'react';
+import { Table } from 'antd';
 import PropTypes from 'prop-types';
-import moment from 'moment';
-import { DDtoDMS, DDtoDDS, knotsToMs } from '../../utils/utility';
+import React, { useContext } from 'react';
+import { DDtoDDS, DDtoDMS } from '../../utils/utility';
 import { GeoImporterDataContext } from './GeoImporterDataProvider';
 
 export default function GeoImporter(props) {
@@ -74,7 +73,6 @@ export default function GeoImporter(props) {
   ];
 
   const dataSource = [];
-
   if (data) {
     data.features.forEach((f, index) => {
       if (f.geometry.type === 'Point') {
@@ -82,8 +80,8 @@ export default function GeoImporter(props) {
           key: index,
           ident: f.properties.name,
           feature: f,
-          ddX: f.geometry.coordinates[1],
-          ddY: f.geometry.coordinates[0],
+          ddX: Math.round(f.geometry.coordinates[1] * 1000) / 1000,
+          ddY: Math.round(f.geometry.coordinates[0] * 1000) / 1000,
           dmsX: DDtoDMS(f.geometry.coordinates[1]),
           dmsY: DDtoDMS(f.geometry.coordinates[0]),
           ddsX: DDtoDDS(f.geometry.coordinates[1]),
