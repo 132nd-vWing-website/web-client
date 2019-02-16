@@ -79,7 +79,13 @@ const defaultData = {
       lon: 42.48123,
     },
   ],
-  aircraft: 'F/A-18C',
+  // aircraft: 'F/A-18C',
+  aircraft: {
+    id: 1,
+    type: 'F/A-18C',
+    nato: 'Hornet',
+    role: 'multi',
+  },
   element: [
     {
       pilot: 'DEX',
