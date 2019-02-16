@@ -79,7 +79,6 @@ export default function Flightplan(props) {
                     airfields={missionData.airfields}
                     name='departure'
                     onChange={onUpdate}
-                    options={airfields}
                   />
                 </Form.Item>
                 <Form.Item label='Recovery' {...formItemLayout}>
@@ -87,7 +86,6 @@ export default function Flightplan(props) {
                     airfields={missionData.airfields}
                     name='recovery'
                     onChange={onUpdate}
-                    options={airfields}
                   />
                 </Form.Item>
                 <Form.Item label='Alternate' {...formItemLayout}>
