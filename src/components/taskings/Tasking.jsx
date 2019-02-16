@@ -47,10 +47,6 @@ export default function Tasking(props) {
 
   if (!missionData) return <div>Loading...</div>;
 
-  const updateData = (dataObject) => {
-    setMissionData((prev) => ({ ...prev, ...dataObject }));
-  };
-
   const generatePDF = () => {
     const content = [];
     pages.forEach((page) => {
@@ -79,7 +75,9 @@ export default function Tasking(props) {
   panes.forEach((pane) => {
     /* eslint no-param-reassign:0 */
     if (pane.form) {
-      pane.content = <PageForm form={pane.form} onUpdate={updateData} missionData={missionData} />;
+      pane.content = (
+        <PageForm form={pane.form} onUpdate={setMissionData} missionData={missionData} />
+      );
     }
   });
 
@@ -105,10 +103,10 @@ export default function Tasking(props) {
           <Col className='gutter-row' span={24} md={24}>
             <Tabs hideAdd type='editable-card' tabBarExtraContent={tabActions}>
               <TabPane tab='Flightplan' key='tasking-flightplan' closable={false}>
-                <Flightplan onUpdate={updateData} missionData={missionData} />
+                <Flightplan onUpdate={setMissionData} missionData={missionData} />
               </TabPane>
               <TabPane tab='Navigation' key='tasking-nav' closable={false}>
-                <Navigation onUpdate={updateData} missionData={missionData} />
+                <Navigation onUpdate={setMissionData} missionData={missionData} />
               </TabPane>
               <TabPane tab='Signals' key='tasking-signals' closable={false}>
                 <p>Flightplan</p>
