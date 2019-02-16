@@ -1,9 +1,14 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import SearchInput from './SearchInput';
 
+import { AirfieldsContext } from '../../../contexts/Airfields';
+
 function AirfieldSelector(props) {
-  const { airfields, name, style, onChange, options } = props;
+  const { airfields, name, style, onChange } = props;
+
+  // Contexts
+  const options = useContext(AirfieldsContext).airfields;
 
   // Create airfield options from the list of airfields available
   const [airfieldOptions, setAirfieldOptions] = useState([]);
