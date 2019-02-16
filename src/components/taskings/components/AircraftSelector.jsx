@@ -1,26 +1,27 @@
-import { Input, Select } from 'antd';
-import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import React, { useContext, useEffect, useState } from 'react';
+import { AircraftTypesContext } from '../../../contexts/AircraftTypes';
 import SearchInput from './SearchInput';
 
 export default function AircraftSelector(props) {
-  const { onChange, name, style, options, value } = props;
+  const { onChange, name, style, value } = props;
 
-  // console.log('options: ', options);
+  // Contexts
+  const { types } = useContext(AircraftTypesContext);
 
   // Create aircraft options from props
   const [aircraftOptions, setAircraftOptions] = useState([]);
   useEffect(
     () => {
       setAircraftOptions(
-        options.map((type) => ({
+        types.map((type) => ({
           key: `${type.ac_id}`,
           label: `${type.ac_type} ${type.ac_nato}`,
           value: type.ac_id,
         })),
       );
     },
-    [options],
+    [types],
   );
 
   // Store value in state
@@ -38,7 +39,7 @@ export default function AircraftSelector(props) {
   useEffect(
     () => {
       if (result) {
-        const data = options.find((option) => option.ac_id === result.value);
+        const data = types.find((t) => t.ac_id === result.value);
         onChange((prev) => ({
           ...prev,
           aircraft: {
@@ -66,7 +67,6 @@ export default function AircraftSelector(props) {
 
 AircraftSelector.propTypes = {
   onChange: PropTypes.func.isRequired,
-  options: PropTypes.array,
   name: PropTypes.string,
   style: PropTypes.object,
   value: PropTypes.object,
@@ -75,6 +75,5 @@ AircraftSelector.propTypes = {
 AircraftSelector.defaultProps = {
   name: 'aircraft',
   style: {},
-  options: [],
   value: {},
 };
