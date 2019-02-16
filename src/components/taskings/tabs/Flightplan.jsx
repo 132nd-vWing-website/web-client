@@ -7,21 +7,11 @@ import AirfieldSearchInput from '../components/AirfieldSearchInput';
 export default function Flightplan(props) {
   const { onUpdate, missionData } = props;
 
+  // Note: Use this for all un-wrapped AntD form inputs, as they return the value in e.target.value
   const handleChange = (e) => {
-    let change;
-
-    // Need to account for both recieving Syntethicevents (e.target) data and normal objects
-    if (!e.target) {
-      change = { [e.name]: e.value };
-    } else {
-      change = { [e.target.name]: e.target.value };
-    }
-
-    // Update parent object, using the context provided updater function
-    onUpdate((data) => ({ ...data, ...change }));
+    const change = { [e.target.name]: e.target.value };
+    onUpdate((prev) => ({ ...prev, ...change }));
   };
-
-  //     const { missionData, resources, onUpdate } = this.props;
 
   const numberOfAircraft = missionData.element.length;
 
@@ -112,7 +102,7 @@ export default function Flightplan(props) {
                       <AirfieldSearchInput
                         airfields={missionData.airfields}
                         name='departure'
-                        onChange={handleChange}
+                        onChange={onUpdate}
                         options={airfields}
                       />
                     </Form.Item>
@@ -120,7 +110,7 @@ export default function Flightplan(props) {
                       <AirfieldSearchInput
                         airfields={missionData.airfields}
                         name='recovery'
-                        onChange={handleChange}
+                        onChange={onUpdate}
                         options={airfields}
                       />
                     </Form.Item>
@@ -128,7 +118,7 @@ export default function Flightplan(props) {
                       <AirfieldSearchInput
                         airfields={missionData.airfields}
                         name='alternate'
-                        onChange={handleChange}
+                        onChange={onUpdate}
                         options={airfields}
                       />
                     </Form.Item>
