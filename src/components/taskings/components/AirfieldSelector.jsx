@@ -83,7 +83,6 @@ AirfieldSelector.propTypes = {
   name: PropTypes.string.isRequired,
   airfields: PropTypes.array.isRequired,
   onChange: PropTypes.func.isRequired,
-  options: PropTypes.array.isRequired,
   style: PropTypes.object,
 };
 
