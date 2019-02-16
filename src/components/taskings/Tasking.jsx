@@ -8,6 +8,7 @@ import Flightplan from './tabs/Flightplan';
 import Navigation from './tabs/Navigation';
 
 import AirfieldProvider from '../../contexts/Airfields';
+import AircraftTypesProvider from '../../contexts/AircraftTypes';
 
 // Antd Destructuring
 const { TabPane } = Tabs;
@@ -98,28 +99,30 @@ export default function Tasking(props) {
 
   return (
     <AirfieldProvider>
-      <Card title='MDC Builder'>
-        <Row>
-          <Col className='gutter-row' span={24} md={24}>
-            <Tabs hideAdd type='editable-card' tabBarExtraContent={tabActions}>
-              <TabPane tab='Flightplan' key='tasking-flightplan' closable={false}>
-                <Flightplan onUpdate={setMissionData} missionData={missionData} />
-              </TabPane>
-              <TabPane tab='Navigation' key='tasking-nav' closable={false}>
-                <Navigation onUpdate={setMissionData} missionData={missionData} />
-              </TabPane>
-              <TabPane tab='Signals' key='tasking-signals' closable={false}>
-                <p>Flightplan</p>
-              </TabPane>
-              <TabPane tab='Pages' key='tasking-mdc-setup' closable={false}>
-                <p>Some instructions here, followed by the add/remove/rearrange pages</p>
-                <PageList content={templates} onUpdate={setPages} />
-              </TabPane>
-              {mdcPanes}
-            </Tabs>
-          </Col>
-        </Row>
-      </Card>
+      <AircraftTypesProvider>
+        <Card title='MDC Builder'>
+          <Row>
+            <Col className='gutter-row' span={24} md={24}>
+              <Tabs hideAdd type='editable-card' tabBarExtraContent={tabActions}>
+                <TabPane tab='Flightplan' key='tasking-flightplan' closable={false}>
+                  <Flightplan onUpdate={setMissionData} missionData={missionData} />
+                </TabPane>
+                <TabPane tab='Navigation' key='tasking-nav' closable={false}>
+                  <Navigation onUpdate={setMissionData} missionData={missionData} />
+                </TabPane>
+                <TabPane tab='Signals' key='tasking-signals' closable={false}>
+                  <p>Flightplan</p>
+                </TabPane>
+                <TabPane tab='Pages' key='tasking-mdc-setup' closable={false}>
+                  <p>Some instructions here, followed by the add/remove/rearrange pages</p>
+                  <PageList content={templates} onUpdate={setPages} />
+                </TabPane>
+                {mdcPanes}
+              </Tabs>
+            </Col>
+          </Row>
+        </Card>
+      </AircraftTypesProvider>
     </AirfieldProvider>
   );
 }
