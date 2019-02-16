@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import API_ROOT from './api-config';
 
-const AirfieldsContext = React.createContext({
+export const AirfieldsContext = React.createContext({
   airfields: [],
   setAirfields: () => null,
 });

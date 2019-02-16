@@ -1,27 +1,28 @@
 import PropTypes from 'prop-types';
-import React, { useContext, useEffect, useState } from 'react';
-import { AircraftTypesContext } from '../../../contexts/AircraftTypes';
+import React, { useEffect, useState, useContext } from 'react';
 import SearchInput from './SearchInput';
+
+import { AircraftTypesContext } from '../../../contexts/AircraftTypes';
 
 export default function AircraftSelector(props) {
   const { onChange, name, style, value } = props;
 
   // Contexts
-  const { types } = useContext(AircraftTypesContext);
+  const options = useContext(AircraftTypesContext).types;
 
   // Create aircraft options from props
   const [aircraftOptions, setAircraftOptions] = useState([]);
   useEffect(
     () => {
       setAircraftOptions(
-        types.map((type) => ({
+        options.map((type) => ({
           key: `${type.ac_id}`,
           label: `${type.ac_type} ${type.ac_nato}`,
           value: type.ac_id,
         })),
       );
     },
-    [types],
+    [options],
   );
 
   // Store value in state
@@ -39,7 +40,7 @@ export default function AircraftSelector(props) {
   useEffect(
     () => {
       if (result) {
-        const data = types.find((t) => t.ac_id === result.value);
+        const data = options.find((option) => option.ac_id === result.value);
         onChange((prev) => ({
           ...prev,
           aircraft: {
