@@ -1,5 +1,4 @@
 import { Button, Card, Col, Row, Tabs } from 'antd';
-import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
 import AircraftTypesProvider from '../../contexts/AircraftTypes';
 import AirfieldProvider from '../../contexts/Airfields';
@@ -132,12 +131,3 @@ export default function Tasking() {
     </AirfieldProvider>
   );
 }
-
-Tasking.propTypes = {
-  missionData: PropTypes.object,
-  setMissionData: PropTypes.func.isRequired,
-};
-
-Tasking.defaultProps = {
-  missionData: null,
-};
