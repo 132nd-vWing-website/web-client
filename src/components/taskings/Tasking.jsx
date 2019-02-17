@@ -1,24 +1,24 @@
 import { Button, Card, Col, Row, Tabs } from 'antd';
-import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import React, { useContext, useEffect, useState } from 'react';
+import AircraftTypesProvider from '../../contexts/AircraftTypes';
+import AirfieldProvider from '../../contexts/Airfields';
+import { MissionDataContext } from '../../contexts/MissionData';
+import NavPointsProvider from '../../contexts/NavPoints';
 import pdfBuilder, { mdc } from '../../pdf/pdfBuilder';
+import GeoImporterDataProvider from '../geo-importer/GeoImporterDataProvider';
 import PageForm from './components/PageForm';
 import PageList from './components/PageList';
 import Flightplan from './tabs/Flightplan';
 import Navigation from './tabs/Navigation';
-
-import AirfieldProvider from '../../contexts/Airfields';
-import AircraftTypesProvider from '../../contexts/AircraftTypes';
-import NavPointsProvider from '../../contexts/NavPoints';
-import GeoImporterDataProvider from '../geo-importer/GeoImporterDataProvider';
 
 // Antd Destructuring
 const { TabPane } = Tabs;
 
 // LazyLoading !!!
 
-export default function Tasking(props) {
-  const { missionData, setMissionData } = props;
+export default function Tasking() {
+  const { missionData, setMissionData } = useContext(MissionDataContext);
 
   const [pages, setPages] = useState([]);
   const [panes, setPanes] = useState([]);
