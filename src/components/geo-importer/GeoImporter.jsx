@@ -72,7 +72,6 @@ export default function GeoImporter(props) {
         className='geoimporter-upload'
         htmlFor='geoimporter-upload-input'
         id='geoimporter-upload-label'>
-        {/* <span style={{ marginRight: '1em' }}>Upload File: </span> */}
         <input
           type='file'
           name='geoimporter-file'
