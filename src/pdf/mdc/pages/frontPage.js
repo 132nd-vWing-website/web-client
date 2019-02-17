@@ -279,8 +279,10 @@ frontPage.flightplanShort = (flightplan) => {
   // Pad with empty rows until we have 20 rows
   do {
     flightplan.push({
+      type: 'feature',
       geometry: {
         coordinates: [0, 0, 0],
+        type: 'Point',
       },
       properties: {
         name: '-',
