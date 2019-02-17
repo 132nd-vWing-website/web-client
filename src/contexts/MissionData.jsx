@@ -10,7 +10,7 @@ import { mdc } from '../pdf/pdfBuilder';
  * @function setMissionData - updates the current mission data array
  * @function setTaskingID - Sets a database-id for what will be used to populate the mission data array
  */
-const MissionDataContext = React.createContext({
+export const MissionDataContext = React.createContext({
   missionData: null,
   setMissionData: () => null,
   setTaskingID: () => null,
