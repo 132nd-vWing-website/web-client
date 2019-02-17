@@ -1,16 +1,16 @@
 import { Col, Form, Input, Row } from 'antd';
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useContext } from 'react';
+import { MissionDataContext } from '../../../contexts/MissionData';
 import AircraftSelector from '../components/AircraftSelector';
 import AirfieldSelector from '../components/AirfieldSelector';
 
-export default function Flightplan(props) {
-  const { onUpdate, missionData } = props;
+export default function Flightplan() {
+  const { missionData, setMissionData } = useContext(MissionDataContext);
 
   // Note: Use this for all un-wrapped AntD form inputs, as they return the value in e.target.value
   const handleChange = (e) => {
     const change = { [e.target.name]: e.target.value };
-    onUpdate((prev) => ({ ...prev, ...change }));
+    setMissionData((prev) => ({ ...prev, ...change }));
   };
 
   /**
@@ -78,21 +78,21 @@ export default function Flightplan(props) {
                   <AirfieldSelector
                     airfields={missionData.airfields}
                     name='departure'
-                    onChange={onUpdate}
+                    onChange={setMissionData}
                   />
                 </Form.Item>
                 <Form.Item label='Recovery' {...formItemLayout}>
                   <AirfieldSelector
                     airfields={missionData.airfields}
                     name='recovery'
-                    onChange={onUpdate}
+                    onChange={setMissionData}
                   />
                 </Form.Item>
                 <Form.Item label='Alternate' {...formItemLayout}>
                   <AirfieldSelector
                     airfields={missionData.airfields}
                     name='alternate'
-                    onChange={onUpdate}
+                    onChange={setMissionData}
                   />
                 </Form.Item>
               </Col>
@@ -115,7 +115,7 @@ export default function Flightplan(props) {
                     <AircraftSelector
                       style={{ width: '80%' }}
                       element={missionData.element}
-                      onChange={onUpdate}
+                      onChange={setMissionData}
                       value={missionData.aircraft}
                     />
                   </Input.Group>
@@ -144,8 +144,3 @@ export default function Flightplan(props) {
     </Row>
   );
 }
-
-Flightplan.propTypes = {
-  onUpdate: PropTypes.func.isRequired,
-  missionData: PropTypes.object.isRequired,
-};
