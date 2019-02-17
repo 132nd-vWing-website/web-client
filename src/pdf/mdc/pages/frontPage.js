@@ -274,8 +274,6 @@ frontPage.flightplanShort = (flightplan) => {
     },
   };
 
-  console.log('FP: ', flightplan);
-
   // Pad with empty rows until we have 20 rows
   do {
     flightplan.push({
