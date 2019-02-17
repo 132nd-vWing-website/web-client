@@ -4,7 +4,7 @@ import { MissionDataContext } from '../../../contexts/MissionData';
 import GeoImporter from '../../geo-importer/GeoImporter';
 import GeoImporterTable from '../../geo-importer/GeoImporterTable';
 
-export default function Navigation(props) {
+export default function Navigation() {
   const { addGeoPoint } = useContext(MissionDataContext);
 
   const tableActions = (text, record) => (

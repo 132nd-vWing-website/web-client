@@ -108,7 +108,7 @@ export default function Tasking() {
                 <Col className='gutter-row' span={24} md={24}>
                   <Tabs hideAdd type='editable-card' tabBarExtraContent={tabActions}>
                     <TabPane tab='Navigation' key='tasking-nav' closable={false}>
-                      <Navigation onUpdate={setMissionData} missionData={missionData} />
+                      <Navigation />
                     </TabPane>
                     <TabPane tab='Flightplan' key='tasking-flightplan' closable={false}>
                       <Flightplan onUpdate={setMissionData} missionData={missionData} />
