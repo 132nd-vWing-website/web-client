@@ -103,7 +103,7 @@ export default function Tasking() {
       <GeoImporterDataProvider>
         <NavPointsProvider>
           <AircraftTypesProvider>
-            <Card title='MDC Builder'>
+            <Card title='Tasking'>
               <Row>
                 <Col className='gutter-row' span={24} md={24}>
                   <Tabs hideAdd type='editable-card' tabBarExtraContent={tabActions}>
@@ -111,7 +111,7 @@ export default function Tasking() {
                       <Navigation />
                     </TabPane>
                     <TabPane tab='Flightplan' key='tasking-flightplan' closable={false}>
-                      <Flightplan onUpdate={setMissionData} missionData={missionData} />
+                      <Flightplan />
                     </TabPane>
                     <TabPane tab='Signals' key='tasking-signals' closable={false}>
                       <p>Flightplan</p>
