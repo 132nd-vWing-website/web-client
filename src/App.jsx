@@ -90,10 +90,6 @@ if (localStorage.jwtToken) {
 function App() {
   console.log('App reloaded at ', new Date());
 
-  const TaskingWrapper = () => (
-    <MissionDataConsumer>{(props) => <Tasking {...props} />}</MissionDataConsumer>
-  );
-
   return (
     <Provider store={store}>
       <MissionDataProvider>
@@ -108,7 +104,7 @@ function App() {
                   <Route exact path='/register' component={Register} />
                   <Route exact path='/login' component={Login} />
                   <Route path='/events' component={Events} />
-                  <Route path='/taskings' component={TaskingWrapper} />
+                  <Route path='/taskings' component={Tasking} />
                   <Route path='/pdf' component={MDCDemo} />
                   <Route component={Landing} />
                 </Switch>
