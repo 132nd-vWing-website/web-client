@@ -1,9 +1,8 @@
+/* eslint no-param-reassign: ["error", { "props": false }] */
 import toGeoJSON from '@mapbox/togeojson';
 import React, { useContext } from 'react';
 import { GeoImporterDataContext } from './GeoImporterDataProvider';
 import './style.css';
-
-// import addFileNameToInput from '../../utils/addFileNameToInput';
 
 export default function GeoImporter(props) {
   const { setData } = useContext(GeoImporterDataContext);
