@@ -1,13 +1,12 @@
-import { Col, Form, Row } from 'antd';
+import { Button, Col, Form, Row } from 'antd';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { findBearing, findCoordDistance } from '../../../utils/utility';
-import NavImport from '../components/navimport/NavImport';
-import NavPoint from '../components/NavPoint';
-
 import GeoImporter from '../../geo-importer/GeoImporter';
 import GeoImporterTable from '../../geo-importer/GeoImporterTable';
+import NavImport from '../components/navimport/NavImport';
+import NavPoint from '../components/NavPoint';
 
 export default class Navigation extends Component {
   state = {
@@ -108,10 +107,26 @@ export default class Navigation extends Component {
   };
 
   tableActions = (text, record) => {
-    const ident = record.ident.toLowerCase();
+    // const ident = record.ident.toLowerCase();
+    const margin = { marginRight: '0.3em' };
+
+    // REMEMBER THAT ALL BUTTON MUTING ETC. NEEDS TO HAPPEN IN THIS COMPONENT
+    // THE TABLE COMPONENT DOESN'T CARE ABOUT ANYTHING BUT PRESENTING DATA GIVEN
+    // i.e. logic for showing REMOVE BUTTON needs to happen here, based on membership in the plan
+
     return (
       <React.Fragment>
-        <span onClick={() => console.log(record)}>Add</span>
+        <Button
+          style={margin}
+          shape='circle'
+          size='small'
+          icon='plus'
+          type='primary'
+          onClick={() => console.log(record)}
+        />
+        {/* <Button style={margin} shape='circle' size='small' icon='up' />
+        <Button style={margin} shape='circle' size='small' icon='down' /> */}
+        <Button shape='circle' size='small' icon='minus' type='danger' />
       </React.Fragment>
     );
   };
