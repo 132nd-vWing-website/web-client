@@ -1,12 +1,15 @@
 import { Table } from 'antd';
 import PropTypes from 'prop-types';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { DDtoDDS, DDtoDMS } from '../../utils/utility';
 import { GeoImporterDataContext } from './GeoImporterDataProvider';
 
 export default function GeoImporter(props) {
   const { actions } = props;
   const { data } = useContext(GeoImporterDataContext);
+
+  const [showDD, setShowDD] = useState(false);
+  const [showDDS, setShowDDS] = useState(false);
 
   // const [filteredData, setFilteredData] = useState;
   // useEffect(
@@ -52,24 +55,23 @@ export default function GeoImporter(props) {
 
   const columns = [
     {
-      key: 'ident',
-      title: 'Identifier',
-      dataIndex: 'ident',
-      width: '2rem',
-    },
-    { key: 'ddX', title: 'DD Lat', dataIndex: 'ddX', width: '2rem' },
-    { key: 'ddY', title: 'DD Lon', dataIndex: 'ddY', width: '2rem' },
-    { key: 'dmsX', title: 'DMS Lat', dataIndex: 'dmsX', width: '2rem' },
-    { key: 'dmsY', title: 'DMS Lon', dataIndex: 'dmsY', width: '2rem' },
-    { key: 'ddsX', title: 'DDS Lat', dataIndex: 'ddsX', width: '2rem' },
-    { key: 'ddsY', title: 'DDS Lon', dataIndex: 'ddsY', width: '2rem' },
-    {
       key: 'actions',
       title: ' ',
       dataIndex: 'actions',
-      width: '2rem',
+      width: '0.5em',
       render: (text, record) => actions(text, record),
     },
+    {
+      key: 'ident',
+      title: 'Identifier',
+      dataIndex: 'ident',
+    },
+    { key: 'dmsX', title: 'DMS Lat', dataIndex: 'dmsX' },
+    { key: 'dmsY', title: 'DMS Lon', dataIndex: 'dmsY' },
+    // { key: 'ddX', title: 'DD Lat', dataIndex: 'ddX', width: '2rem' },
+    // { key: 'ddY', title: 'DD Lon', dataIndex: 'ddY', width: '2rem' },
+    // { key: 'ddsX', title: 'DDS Lat', dataIndex: 'ddsX', width: '2rem' },
+    // { key: 'ddsY', title: 'DDS Lon', dataIndex: 'ddsY', width: '2rem' },
   ];
 
   const dataSource = [];
