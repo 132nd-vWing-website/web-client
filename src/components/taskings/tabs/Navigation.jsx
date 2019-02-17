@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 import { MissionDataContext } from '../../../contexts/MissionData';
 import GeoImporter from '../../geo-importer/GeoImporter';
 import GeoImporterTable from '../../geo-importer/GeoImporterTable';
+import NavPlan from '../../nav-plan/NavPlan';
 
 export default function Navigation() {
   const { addGeoPoint } = useContext(MissionDataContext);
@@ -18,6 +19,7 @@ export default function Navigation() {
       <Col className='gutter-row' span={24} md={24}>
         <GeoImporter />
         <GeoImporterTable actions={tableActions} />
+        <NavPlan />
       </Col>
     </Row>
   );

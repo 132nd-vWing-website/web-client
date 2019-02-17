@@ -1,0 +1,31 @@
+.navplan-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 1em;
+}
+
+.navplan-table td,
+.navplan-table th {
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding: 8px;
+}
+
+.navplan-table th {
+  text-align: center;
+  background-color: palegoldenrod;
+}
+
+.navplan-table tr:nth-child(even) {
+  background-color: lemonchiffon;
+}
+
+.navplan-table .no-data {
+  text-align: center;
+  background-color: #dddddd;
+  font-style: italic;
+}
+
+.navplan-table .navplan-footer {
+  text-align: right;
+}
