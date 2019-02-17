@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 
 export const GeoImporterDataContext = React.createContext({
   data: null,
