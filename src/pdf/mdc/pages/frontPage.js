@@ -274,7 +274,24 @@ frontPage.flightplanShort = (flightplan) => {
     },
   };
 
-  flightplan.forEach((steerpt, index) => {
+  // If we have less than 20 waypoints, then we need to append the missing ones
+  do {
+    flightplan.push({
+      id: flightplan.length,
+      name: '-',
+      lat: 0,
+      lon: 0,
+      tos: 0,
+      hdg: 0,
+      dist: 0, // meters
+      gs: 0, // meters pr. second
+      alt: 0,
+      action: '-',
+    });
+  } while (flightplan.length < 20);
+
+  // Add rows for the first 20 waypoints
+  flightplan.slice(0, 20).forEach((steerpt, index) => {
     const tos = moment(steerpt.tos).format('HH:mm:ss');
     const hdg = Math.round(steerpt.hdg);
     const dist = Math.round(metersToNautical(steerpt.dist));

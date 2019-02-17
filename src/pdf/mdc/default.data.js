@@ -1,26 +1,26 @@
-const makeFakePlan = (index) => {
-  const lines = 20;
-  const collection = [];
+// const makeFakePlan = (index) => {
+//   const lines = 20;
+//   const collection = [];
 
-  let n = index || 0;
-  while (n !== lines) {
-    collection.push({
-      id: n,
-      name: '-',
-      lat: 0,
-      lon: 0,
-      tos: 0,
-      hdg: 0,
-      dist: 0, // meters
-      gs: 0, // meters pr. second
-      alt: 0,
-      action: '-',
-    });
-    n += 1;
-  }
+//   let n = index || 0;
+//   while (n !== lines) {
+//     collection.push({
+//       id: n,
+//       name: '-',
+//       lat: 0,
+//       lon: 0,
+//       tos: 0,
+//       hdg: 0,
+//       dist: 0, // meters
+//       gs: 0, // meters pr. second
+//       alt: 0,
+//       action: '-',
+//     });
+//     n += 1;
+//   }
 
-  return collection;
-};
+//   return collection;
+// };
 
 /**
  * Default Data-object for a MDC to use as default values when generating an MDC
@@ -153,7 +153,7 @@ const defaultData = {
       alt: 0,
       action: 'FLY OVER',
     },
-    ...makeFakePlan(3),
+    // ...makeFakePlan(3),
   ],
   radioPresets: [
     { label: 'INT PRI', preset: 'PRI2' },
