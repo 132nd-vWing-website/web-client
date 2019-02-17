@@ -1,11 +1,29 @@
 import toGeoJSON from '@mapbox/togeojson';
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import { GeoImporterDataContext } from './GeoImporterDataProvider';
+import './style.css';
+
+// import addFileNameToInput from '../../utils/addFileNameToInput';
 
 export default function GeoImporter(props) {
   const { setData } = useContext(GeoImporterDataContext);
 
   const nodeRef = React.createRef();
+
+  const addFileNameToInput = (value) => {
+    const selector = '.geoimporter-upload-form::after';
+    const prop = 'content';
+    const sheets = document.styleSheets;
+
+    Object.values(sheets).forEach((sheet) => {
+      Object.values(sheet.cssRules).forEach((rule) => {
+        if (rule.selectorText === selector) {
+          rule.style[prop] = `"${value}"`;
+        }
+        return null;
+      });
+    });
+  };
 
   const handleUpload = () => {
     const allowedTypes = ['kml', 'json', 'geojson'];
@@ -21,12 +39,14 @@ export default function GeoImporter(props) {
       reader.type = file.type;
       reader.readAsText(file);
 
-      // reader.onloadstart = () => {
-      //   console.log('loading file...')
-      // };
+      reader.onloadstart = () => {
+        addFileNameToInput('Loading file...');
+      };
 
       reader.onloadend = (e) => {
         let { result } = e.target;
+
+        addFileNameToInput(file.name);
 
         // If input file is KML
         if (fileType === 'kml') {
@@ -48,12 +68,12 @@ export default function GeoImporter(props) {
   };
 
   return (
-    <div className='input-group-append'>
+    <div>
       <label
+        className='geoimporter-upload'
         htmlFor='geoimporter-upload-input'
-        id='geoimporter-upload-label'
-        className='mb-0 btn btn-outline-secondary'>
-        <span style={{ marginRight: '1em' }}>Upload File: </span>
+        id='geoimporter-upload-label'>
+        {/* <span style={{ marginRight: '1em' }}>Upload File: </span> */}
         <input
           type='file'
           name='geoimporter-file'
@@ -62,6 +82,7 @@ export default function GeoImporter(props) {
           ref={nodeRef}
           onChange={handleUpload}
         />
+        <span className='geoimporter-upload-form' />
       </label>
     </div>
   );
