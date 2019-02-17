@@ -84,6 +84,22 @@ Utility.metersToFL = (meters) => {
   return fl;
 };
 
+/**
+ * Converts meters into either feet or flight-level, depending on the provided treshold
+ * @param {number} meters altitude to convert, in meters
+ * @param {number} treshold transition altitude, in meters
+ * @returns {string} Altitude with either ft or FL
+ */
+Utility.metersToAltitude = (meters, treshold) => {
+  const alt = Math.round(meters * 3.28084);
+  if (meters > treshold) {
+    const fl = Math.round(alt / 100);
+    if (fl < 100) return `FL0${fl}`;
+    return `FL${fl}`;
+  }
+  return `${alt} ft`;
+};
+
 Utility.knotsToMs = (knots) => {
   const ms = knots * 0.514444444;
   return ms;
