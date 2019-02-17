@@ -1,6 +1,6 @@
 import moment from 'moment';
 import pdfMake from 'pdfmake/build/pdfmake';
-import { metersToNautical, msToKnots } from '../../../utils/utility';
+import { metersToNautical, msToKnots, metersToAltitude } from '../../../utils/utility';
 import Bahnschrift from '../../fonts/bahnschrift';
 
 /**
@@ -274,41 +274,82 @@ frontPage.flightplanShort = (flightplan) => {
     },
   };
 
-  // If we have less than 20 waypoints, then we need to append the missing ones
+  console.log('FP: ', flightplan);
+
+  // Pad with empty rows until we have 20 rows
   do {
     flightplan.push({
-      id: flightplan.length,
-      name: '-',
-      lat: 0,
-      lon: 0,
-      tos: 0,
-      hdg: 0,
-      dist: 0, // meters
-      gs: 0, // meters pr. second
-      alt: 0,
-      action: '-',
+      geometry: {
+        coordinates: [0, 0, 0],
+      },
+      properties: {
+        name: '-',
+        tos: 0,
+        hdg: 0,
+        dist: 0, // meters
+        gs: 0, // meters pr. second
+        alt: 0,
+        action: '-',
+      },
     });
   } while (flightplan.length < 20);
 
-  // Add rows for the first 20 waypoints
-  flightplan.slice(0, 20).forEach((steerpt, index) => {
-    const tos = moment(steerpt.tos).format('HH:mm:ss');
-    const hdg = Math.round(steerpt.hdg);
-    const dist = Math.round(metersToNautical(steerpt.dist));
-    const speed = Math.round(msToKnots(steerpt.gs));
+  // Add rows for all waypoints, limited to the first 20
+  flightplan.slice(0, 20).forEach((feature, index) => {
+    const tos = moment(feature.properties.tos).format('HH:mm:ss');
+    const hdg = Math.round(feature.properties.hdg);
+    const dist = Math.round(metersToNautical(feature.properties.dist));
+    const speed = Math.round(msToKnots(feature.properties.gs));
+    const alt = metersToAltitude(feature.geometry.coordinates[2], 2438);
 
     td.table.body.push([
       { text: index, style: styles.default },
-      { text: steerpt.name, colSpan: 2, style: styles.default },
+      { text: feature.properties.name, colSpan: 2, style: styles.default },
       {},
       { text: tos, style: styles.default },
       { text: hdg, style: styles.default },
       { text: dist, style: styles.default },
       { text: speed, style: styles.default },
-      { text: steerpt.alt, style: styles.default },
-      { text: steerpt.action, style: styles.default },
+      { text: alt, style: styles.default },
+      { text: feature.properties.action, style: styles.default },
     ]);
   });
+
+  // // Pad with empty rows until we have 20 rows
+  // do {
+  //   flightplan.push({
+  //     id: flightplan.length,
+  //     name: '-',
+  //     lat: 0,
+  //     lon: 0,
+  //     tos: 0,
+  //     hdg: 0,
+  //     dist: 0, // meters
+  //     gs: 0, // meters pr. second
+  //     alt: 0,
+  //     action: '-',
+  //   });
+  // } while (flightplan.length < 20);
+
+  // // Add rows for the first 20 waypoints
+  // flightplan.slice(0, 20).forEach((steerpt, index) => {
+  //   const tos = moment(steerpt.tos).format('HH:mm:ss');
+  //   const hdg = Math.round(steerpt.hdg);
+  //   const dist = Math.round(metersToNautical(steerpt.dist));
+  //   const speed = Math.round(msToKnots(steerpt.gs));
+
+  //   td.table.body.push([
+  //     { text: index, style: styles.default },
+  //     { text: steerpt.name, colSpan: 2, style: styles.default },
+  //     {},
+  //     { text: tos, style: styles.default },
+  //     { text: hdg, style: styles.default },
+  //     { text: dist, style: styles.default },
+  //     { text: speed, style: styles.default },
+  //     { text: steerpt.alt, style: styles.default },
+  //     { text: steerpt.action, style: styles.default },
+  //   ]);
+  // });
 
   return td;
 };
