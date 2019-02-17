@@ -65,7 +65,7 @@ export default function GeoImporter(props) {
     { key: 'ddsY', title: 'DDS Lon', dataIndex: 'ddsY', width: '2rem' },
     {
       key: 'actions',
-      title: 'Actions',
+      title: ' ',
       dataIndex: 'actions',
       width: '2rem',
       render: (text, record) => actions(text, record),
