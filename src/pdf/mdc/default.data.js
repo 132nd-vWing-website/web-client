@@ -1,27 +1,3 @@
-// const makeFakePlan = (index) => {
-//   const lines = 20;
-//   const collection = [];
-
-//   let n = index || 0;
-//   while (n !== lines) {
-//     collection.push({
-//       id: n,
-//       name: '-',
-//       lat: 0,
-//       lon: 0,
-//       tos: 0,
-//       hdg: 0,
-//       dist: 0, // meters
-//       gs: 0, // meters pr. second
-//       alt: 0,
-//       action: '-',
-//     });
-//     n += 1;
-//   }
-
-//   return collection;
-// };
-
 /**
  * Default Data-object for a MDC to use as default values when generating an MDC
  * It is important that each key/value pair has a value of either int, string or an array of objects!
@@ -116,45 +92,7 @@ const defaultData = {
     { sequence: '1-2-3-4-5-6-7-8-9-10' },
     { sequence: '1-2-3-4-5-6-7-8-9-10' },
   ],
-  navPoints: [
-    // {
-    //   id: 0,
-    //   name: 'UGKO',
-    //   lat: 42.177616666,
-    //   lon: 42.48123,
-    //   tos: 1549562400000,
-    //   hdg: 0,
-    //   dist: 0,
-    //   gs: 180.05556,
-    //   alt: 0,
-    //   action: 'DEPARTURE',
-    // },
-    // {
-    //   id: 1,
-    //   name: 'ALIKA',
-    //   lat: 42.25365,
-    //   lon: 41.5328,
-    //   tos: 0,
-    //   hdg: 0,
-    //   dist: 0,
-    //   gs: 180.05556,
-    //   alt: 0,
-    //   action: 'FLY OVER',
-    // },
-    // {
-    //   id: 2,
-    //   name: 'TETRO',
-    //   lat: 41.673417,
-    //   lon: 42.858267,
-    //   tos: 0,
-    //   hdg: 0,
-    //   dist: 0,
-    //   gs: 180.05556,
-    //   alt: 0,
-    //   action: 'FLY OVER',
-    // },
-    // ...makeFakePlan(3),
-  ],
+  navPoints: [],
   radioPresets: [
     { label: 'INT PRI', preset: 'PRI2' },
     { label: 'INT AUX', preset: '133.500' },
