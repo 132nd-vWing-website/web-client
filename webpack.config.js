@@ -64,8 +64,8 @@ module.exports = {
             options: {
               modifyVars: {
                 /* For all available AntD LESS Variables, see https://github.com/ant-design/ant-design/blob/master/components/style/themes/default.less */
-                'primary-color': '#C9793A',
-                'link-color': '#1DA57A',
+                // 'primary-color': '#C9793A',
+                // 'link-color': '#1DA57A',
               },
               javascriptEnabled: true,
             },
