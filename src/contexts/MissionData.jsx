@@ -44,8 +44,6 @@ export default function MissionDataProvider(props) {
     features.push(feature);
 
     const newPlan = makeNavPlan(features);
-    console.log(newPlan);
-
     setMissionData((prev) => ({ ...prev, ...{ navPoints: newPlan } }));
   };
 
