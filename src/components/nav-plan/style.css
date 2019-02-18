@@ -26,6 +26,7 @@
   font-style: italic;
 }
 
-.navplan-table .navplan-footer {
+.navplan-footer {
+  margin-top: 0.5em;
   text-align: right;
 }
