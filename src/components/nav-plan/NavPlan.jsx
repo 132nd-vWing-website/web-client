@@ -1,14 +1,27 @@
+import { Button } from 'antd';
 import moment from 'moment';
-import ReactToPrint from 'react-to-print';
 import React, { useContext } from 'react';
+import ReactToPrint from 'react-to-print';
 import { MissionDataContext } from '../../contexts/MissionData';
-import { metersToAltitude, metersToNautical, msToKnots, DDtoDMS } from '../../utils/utility';
+import exportKML from '../../utils/kmlExporter';
+import { DDtoDMS, metersToAltitude, metersToNautical, msToKnots } from '../../utils/utility';
 import './style.css';
 
 export default function NavPlan() {
   const { missionData } = useContext(MissionDataContext);
 
   let tableData;
+
+  const handleExport = () => {
+    const filename = `${missionData.missionNumber}-${missionData.callsign}-NAVPLAN.kml`;
+    const geoJson = missionData.navPoints;
+    const options = {
+      documentName: `${missionData.missionNumber}-${missionData.callsign}-NAVPLAN.kml`,
+      documentDescription: 'A navplan generated using the 132nd vWing webpage',
+    };
+
+    exportKML(filename, geoJson, options);
+  };
 
   if (!missionData || missionData.navPoints.length < 1) {
     tableData = (
@@ -69,7 +82,12 @@ export default function NavPlan() {
         <tbody>{tableData}</tbody>
       </table>
       <div className='navplan-footer'>
-        <ReactToPrint trigger={() => <a href='#'>Print this</a>} content={() => printRef} />
+        {missionData.navPoints.length !== 0 ? (
+          <Button type='primary' block onClick={handleExport}>
+            Export Navplan
+          </Button>
+        ) : null}
+        <ReactToPrint trigger={() => <Button>Print this</Button>} content={() => printRef} />
       </div>
     </React.Fragment>
   );
