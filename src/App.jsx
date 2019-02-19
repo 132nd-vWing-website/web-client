@@ -15,7 +15,7 @@ import Login from './components/auth/Login';
 import PrivateRoute from './components/auth/PrivateRoute';
 import Events from './components/events/Events';
 // LazyLoading
-import HeaderCarousel from './components/headercarousel/HeaderCarousel';
+// import HeaderCarousel from './components/headercarousel/HeaderCarousel';
 // Public Routes
 import Landing from './components/landing/Landing';
 import MDCDemo from './components/pdf/MDCDemo';
@@ -136,9 +136,10 @@ export default App;
  * Header Component
  */
 const HeaderComponent = () => (
-  <Header style={{ background: '#fff', padding: 0, minHeight: '350px', margin: '1em 1em 0' }}>
-    <HeaderCarousel />
-  </Header>
+  // <Header style={{ background: '#fff', padding: 0, minHeight: '350px', margin: '1em 1em 0' }}>
+  //   <HeaderCarousel />
+  // </Header>
+  <div />
 );
 
 // function App() {
