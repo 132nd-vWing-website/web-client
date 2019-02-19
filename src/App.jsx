@@ -24,7 +24,7 @@ import Register from './components/registration/Register';
 import Sidebar from './components/sidebar/Sidebar';
 import Tasking from './components/taskings/Tasking';
 // Context
-import MissionDataProvider, { MissionDataConsumer } from './contexts/MissionData';
+import MissionDataProvider from './contexts/MissionData';
 // Redux Store
 import store from './store';
 // Utils
