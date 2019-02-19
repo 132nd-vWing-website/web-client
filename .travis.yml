@@ -19,6 +19,7 @@ cache:
     - node_modules
 
 install:
+  - ls -la
   - npm install
 
 script:
