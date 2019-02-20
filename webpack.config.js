@@ -45,10 +45,13 @@ module.exports = {
     // },
     splitChunks: {
       chunks: 'all',
+      // chunks: 'async',
       maxInitialRequests: Infinity,
       minSize: 0,
+      name: false,
       cacheGroups: {
         vendor: {
+          reuseExistingChunk: true,
           test: /[\\/]node_modules[\\/]/,
           name(module) {
             // get the name. E.g. node_modules/packageName/not/this/part.js
