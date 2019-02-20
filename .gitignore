@@ -12,6 +12,7 @@
 # Production/Build
 public/chunks
 public/css
+public/runtime.*.js*
 /_old
 
 # misc
