@@ -13,13 +13,13 @@ addons:
 before_install:
   - sudo apt-get -qq update
   - sudo apt-get install sshpass -y
-  - sudo npm i -g yarn
 
 cache:
   directories:
     - node_modules
 
 install:
+  - npm i -g yarn
   - ls -la
   # - npm install
   - yarn install
