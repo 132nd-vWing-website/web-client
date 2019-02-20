@@ -15,16 +15,12 @@ module.exports = {
       template: path.resolve(__dirname, 'src/index.html'),
       favicon: path.resolve(__dirname, 'src/favicon.ico'),
       manifest: path.resolve(__dirname, 'src/manifest.json'),
+      // chunks: ['runtime', 'react'],
     }),
   ],
   entry: {
     bundle: './src/index.js',
   },
-  // entry: [
-  //   'core-js/modules/es6.promise',
-  //   'core-js/modules/es6.array.iterator',
-  //   path.resolve(__dirname, 'src/index.js'),
-  // ],
   output: {
     path: path.resolve(__dirname, 'public'),
     publicPath: '/',
@@ -34,15 +30,6 @@ module.exports = {
   },
   optimization: {
     runtimeChunk: 'single',
-    // splitChunks: {
-    //   cacheGroups: {
-    //     vendor: {
-    //       test: /[\\/]node_modules[\\/]/,
-    //       name: 'vendors',
-    //       chunks: 'all',
-    //     },
-    //   },
-    // },
     splitChunks: {
       chunks: 'all',
       // chunks: 'async',
@@ -50,9 +37,17 @@ module.exports = {
       minSize: 0,
       name: false,
       cacheGroups: {
+        'initial-react': {
+          name: 'react',
+          test: /[\\/]node_modules[\\/]react.*?[\\/]/,
+          chunks: 'initial',
+          priority: 3,
+        },
         vendor: {
           reuseExistingChunk: true,
           test: /[\\/]node_modules[\\/]/,
+          chunks: 'initial',
+          priority: 2,
           name(module) {
             // get the name. E.g. node_modules/packageName/not/this/part.js
             // or node_modules/packageName
@@ -61,6 +56,12 @@ module.exports = {
             // npm package names are URL-safe, but some servers don't like @ symbols
             return `npm.${packageName.replace('@', '')}`;
           },
+        },
+        'heavy-vendor-pdf': {
+          name: 'heavy-pdf',
+          test: /[\\/]node_modules[\\/]pdf.*?[\\/]/,
+          chunks: 'initial',
+          priority: 1,
         },
       },
     },
