@@ -1,6 +1,5 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const devMode = process.env.NODE_ENV !== 'production';
 
@@ -10,11 +9,6 @@ module.exports = {
       filename: './css/[name].css',
       chunkFilename: './css/[id].css',
     }),
-    new HtmlWebpackPlugin({
-      // title: 'Caching',
-      template: path.resolve(__dirname, 'src/index.html'),
-      favicon: path.resolve(__dirname, 'src/favicon.ico'),
-    }),
   ],
   entry: {
     bundle: './src/index.js',
@@ -22,40 +16,10 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'public'),
     publicPath: '/',
-    filename: '[name].[contenthash].js',
-    // filename: '[name].js',
+    filename: '[name].js',
     chunkFilename: './chunks/[name].chunk.js',
   },
-  optimization: {
-    runtimeChunk: 'single',
-    splitChunks: {
-      cacheGroups: {
-        vendor: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
-          chunks: 'all',
-        },
-      },
-    },
-    // splitChunks: {
-    //   chunks: 'all',
-    //   maxInitialRequests: Infinity,
-    //   minSize: 0,
-    //   cacheGroups: {
-    //     vendor: {
-    //       test: /[\\/]node_modules[\\/]/,
-    //       name(module) {
-    //         // get the name. E.g. node_modules/packageName/not/this/part.js
-    //         // or node_modules/packageName
-    //         const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
-
-    //         // npm package names are URL-safe, but some servers don't like @ symbols
-    //         return `npm.${packageName.replace('@', '')}`;
-    //       },
-    //     },
-    //   },
-    // },
-  },
+  // devtool: devMode ? 'cheap-module-source-map' : 'hidden-source-map',
   devtool: devMode ? 'cheap-module-source-map' : 'source-map',
   devServer: {
     contentBase: './public',
