@@ -3,26 +3,21 @@ import 'antd/lib/layout/style/css';
 import jwtDecode from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { logoutUser, setCurrentUser } from './actions/authActions';
 import { getUnreadNotams } from './actions/postActions';
 import { clearCurrentProfile } from './actions/profileActions';
 import './App.css';
-import PrivateRoute from './components/auth/PrivateRoute';
-import Landing from './components/landing/Landing';
+import Spinner from './components/loaders/Spinner';
 import Sidebar from './components/sidebar/Sidebar';
 import MissionDataProvider from './contexts/MissionData';
 import store from './store';
 import setAuthToken from './utils/setAuthToken';
-// import SkeletonLoader from './components/loaders/SkeletonLoader';
-import Spinner from './components/loaders/Spinner';
 
-const { Header, Content, Footer } = Layout;
+const { Header, Footer } = Layout;
 
-// const LoadingComponent = <SkeletonLoader active />;
+const ContentsWrapper = React.lazy(() => import('./components/content-wrapper/ContentWrapper'));
 const LoadingComponent = <Spinner />;
-
-const Tasking = React.lazy(() => import('./components/taskings/Tasking'));
 
 /**
  * Check for token to keep a loged in user authenticated
@@ -69,32 +64,13 @@ export default function App() {
           <Layout style={{ minHeight: '100vh' }}>
             <Sidebar />
             <Layout style={{ background: '#272727' }}>
-              {/* <HeaderComponent /> */}
-              <Content style={{ margin: '1em 1em 0' }}>
-                <React.Suspense fallback={LoadingComponent}>
-                  <Switch>
-                    <Route exact path='/' component={Landing} />
-                    {/* <Route exact path='/register' component={Register} /> */}
-                    {/* <Route exact path='/login' component={Login} /> */}
-                    {/* <Route path='/events' component={Events} /> */}
-                    <Route path='/taskings' component={Tasking} />
-                    <Route component={Landing} />
-                  </Switch>
-                  <Switch>
-                    {/* <PrivateRoute exact path='/dashboard' component={ProfileDashboard} /> */}
-                  </Switch>
-                  <Switch>
-                    <PrivateRoute
-                      exact
-                      path='/create-profile'
-                      component={<div>CREATE A PROFILE</div>}
-                    />
-                  </Switch>
-                </React.Suspense>
-              </Content>
-              <Footer style={{ textAlign: 'center', background: '#272727', color: '#aaa' }}>
-                132nd Virtual Wing ©2019
-              </Footer>
+              <React.Suspense fallback={LoadingComponent}>
+                {/* <HeaderComponent /> */}
+                <ContentsWrapper />
+                <Footer style={{ textAlign: 'center', background: '#272727', color: '#aaa' }}>
+                  132nd Virtual Wing ©2019
+                </Footer>
+              </React.Suspense>
             </Layout>
           </Layout>
         </Router>
@@ -102,3 +78,14 @@ export default function App() {
     </Provider>
   );
 }
+
+/**
+ * Header Component
+ */
+// function HeaderComponent() {
+//   return (
+//     <Header style={{ background: '#fff', padding: 0, minHeight: '350px', margin: '1em 1em 0' }}>
+//       <HeaderCarousel />
+//     </Header>
+//   );
+// }
