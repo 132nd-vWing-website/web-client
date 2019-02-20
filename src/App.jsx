@@ -1,65 +1,28 @@
-/* eslint no-console: 0 */
-// UI Components
-import { Layout } from 'antd';
+import Layout from 'antd/lib/layout';
+import 'antd/lib/layout/style/css';
 import jwtDecode from 'jwt-decode';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-// Redux Actions
 import { logoutUser, setCurrentUser } from './actions/authActions';
 import { getUnreadNotams } from './actions/postActions';
 import { clearCurrentProfile } from './actions/profileActions';
 import './App.css';
-import Login from './components/auth/Login';
-// Private Routes
 import PrivateRoute from './components/auth/PrivateRoute';
-import Events from './components/events/Events';
-// LazyLoading
-// import HeaderCarousel from './components/headercarousel/HeaderCarousel';
-// Public Routes
 import Landing from './components/landing/Landing';
-import MDCDemo from './components/pdf/MDCDemo';
-import ProfileDashboard from './components/profile-dashboard/ProfileDashboard';
-import Register from './components/registration/Register';
 import Sidebar from './components/sidebar/Sidebar';
-import Tasking from './components/taskings/Tasking';
-// Context
 import MissionDataProvider from './contexts/MissionData';
-// Redux Store
 import store from './store';
-// Utils
 import setAuthToken from './utils/setAuthToken';
-
-// Lazy Loading
-const LoadingComponent = <div>Loading...</div>;
-
-// const Tasking = React.lazy(() => import('./components/taskings/Tasking'));
-// const HeaderCarousel = Loadable({
-//   loader: () => import('./components/headercarousel/HeaderCarousel'),
-//   loading: () => LoadingComponent,
-// });
-
-// const Register = Loadable({
-//   loader: () => import('./components/registration/Register'),
-//   loading: () => LoadingComponent,
-// });
-
-// const Login = Loadable({
-//   loader: () => import('./components/auth/Login'),
-//   loading: () => LoadingComponent,
-// });
-
-// const MDCDemo = Loadable({
-//   loader: () => import('./components/pdf/MDCDemo'),
-//   loading: () => LoadingComponent,
-// });
-
-// const Tasking = Loadable({
-//   loader: () => import('./components/taskings/Tasking'),
-//   loading: () => LoadingComponent,
-// });
+// import SkeletonLoader from './components/loaders/SkeletonLoader';
+import Spinner from './components/loaders/Spinner';
 
 const { Header, Content, Footer } = Layout;
+
+// const LoadingComponent = <SkeletonLoader active />;
+const LoadingComponent = <Spinner />;
+
+const Tasking = React.lazy(() => import('./components/taskings/Tasking'));
 
 /**
  * Check for token to keep a loged in user authenticated
@@ -90,30 +53,35 @@ if (localStorage.jwtToken) {
 /**
  * App Component
  */
-function App() {
+export default function App() {
   console.log('App reloaded at ', new Date());
 
+  const [loading, setLoading] = useState(true);
+  useEffect(() => setLoading(false), []);
+
+  // Triggers CSS rule .loader:empty
+  if (loading) return null;
+
   return (
-    <React.Suspense fallback={LoadingComponent}>
-      <Provider store={store}>
-        <MissionDataProvider>
-          <Router>
-            <Layout style={{ minHeight: '100vh' }}>
-              <Sidebar />
-              <Layout style={{ background: '#272727' }}>
-                {/* <HeaderComponent /> */}
-                <Content style={{ margin: '1em 1em 0' }}>
+    <Provider store={store}>
+      <MissionDataProvider>
+        <Router>
+          <Layout style={{ minHeight: '100vh' }}>
+            <Sidebar />
+            <Layout style={{ background: '#272727' }}>
+              {/* <HeaderComponent /> */}
+              <Content style={{ margin: '1em 1em 0' }}>
+                <React.Suspense fallback={LoadingComponent}>
                   <Switch>
                     <Route exact path='/' component={Landing} />
-                    <Route exact path='/register' component={Register} />
-                    <Route exact path='/login' component={Login} />
-                    <Route path='/events' component={Events} />
+                    {/* <Route exact path='/register' component={Register} /> */}
+                    {/* <Route exact path='/login' component={Login} /> */}
+                    {/* <Route path='/events' component={Events} /> */}
                     <Route path='/taskings' component={Tasking} />
-                    <Route path='/pdf' component={MDCDemo} />
                     <Route component={Landing} />
                   </Switch>
                   <Switch>
-                    <PrivateRoute exact path='/dashboard' component={ProfileDashboard} />
+                    {/* <PrivateRoute exact path='/dashboard' component={ProfileDashboard} /> */}
                   </Switch>
                   <Switch>
                     <PrivateRoute
@@ -122,26 +90,15 @@ function App() {
                       component={<div>CREATE A PROFILE</div>}
                     />
                   </Switch>
-                </Content>
-                <Footer style={{ textAlign: 'center', background: '#272727', color: '#aaa' }}>
-                  132nd Virtual Wing ©2019
-                </Footer>
-              </Layout>
+                </React.Suspense>
+              </Content>
+              <Footer style={{ textAlign: 'center', background: '#272727', color: '#aaa' }}>
+                132nd Virtual Wing ©2019
+              </Footer>
             </Layout>
-          </Router>
-        </MissionDataProvider>
-      </Provider>
-    </React.Suspense>
+          </Layout>
+        </Router>
+      </MissionDataProvider>
+    </Provider>
   );
 }
-
-export default App;
-
-/**
- * Header Component
- */
-// const HeaderComponent = () => (
-//   <Header style={{ background: '#fff', padding: 0, minHeight: '350px', margin: '1em 1em 0' }}>
-//     <HeaderCarousel />
-//   </Header>
-// );
