@@ -78,11 +78,11 @@ module.exports = {
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        use: ['babel-loader'],
-        // loader: 'babel-loader',
-        // query: {
-        //   presets: ['@babel/env', '@babel/preset-react'],
-        // },
+        // use: ['babel-loader'],
+        loader: 'babel-loader',
+        query: {
+          presets: ['@babel/env', '@babel/preset-react'],
+        },
       },
       {
         test: /\.js$/,
