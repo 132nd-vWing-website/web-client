@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { mdc } from '../pdf/pdfBuilder';
+import defaultData from '../pdf/mdc/default.data';
 import makeNavPlan from '../utils/makeNavplan';
 
 /**
@@ -22,18 +22,14 @@ export default function MissionDataProvider(props) {
 
   const [missionData, setMissionData] = useState(null);
   useEffect(() => {
-    // set a default mission object
-    setMissionData(mdc.defaultData);
+    setMissionData(defaultData);
   }, []);
 
   const [taskingID, setTaskingID] = useState(null);
-  useEffect(
-    () => {
-      // If a taskingID is set, we want to get data from the database, format it and run setMissionData()
-      if (taskingID) console.log('...do something');
-    },
-    [taskingID],
-  );
+  useEffect(() => {
+    // If a taskingID is set, we want to get data from the database, format it and run setMissionData()
+    if (taskingID) console.log('...do something');
+  }, [taskingID]);
 
   /**
    * Append a GeoJSON point to the nav-plan
