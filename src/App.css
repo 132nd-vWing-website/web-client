@@ -26,3 +26,11 @@
 .navpoint-input {
   font-size: 12px !important;
 }
+
+/** 
+* This might need to be removed later. Temp fix for missing 
+* header-component causing mobile menu selector to be invisible 
+*/
+.sider-main {
+  z-index: 1;
+}
