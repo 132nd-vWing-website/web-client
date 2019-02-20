@@ -10,6 +10,7 @@
 /coverage
 
 # Production/Build
+/config/keys_dev.js
 /public
 /_old
 
@@ -23,6 +24,3 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-# 132nd Ignores
-/config/keys_dev.js
