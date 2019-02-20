@@ -1,10 +1,10 @@
 /* eslint react/jsx-filename-extension: 0 */
 // import Loadable from 'react-loadable';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 // import registerServiceWorker from './registerServiceWorker';
 
-import App from './App';
+// import App from './App';
 
 /* eslint import/no-extraneous-dependencies: 0 */
 // import 'core-js/modules/es6.promise';
@@ -27,5 +27,12 @@ import App from './App';
 //   loading: LoadingComponent,
 // });
 
-ReactDOM.render(<App />, document.getElementById('root'));
+function Main() {
+  const [content, setContent] = useState(null);
+  useEffect(() => import('./App.jsx').then((module) => setContent(module.default)), []);
+
+  return content || <div>Loading...</div>;
+}
+
+ReactDOM.render(<Main />, document.getElementById('root'));
 // registerServiceWorker();

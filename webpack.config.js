@@ -14,11 +14,17 @@ module.exports = {
       // title: 'Caching',
       template: path.resolve(__dirname, 'src/index.html'),
       favicon: path.resolve(__dirname, 'src/favicon.ico'),
+      manifest: path.resolve(__dirname, 'src/manifest.json'),
     }),
   ],
   entry: {
     bundle: './src/index.js',
   },
+  // entry: [
+  //   'core-js/modules/es6.promise',
+  //   'core-js/modules/es6.array.iterator',
+  //   path.resolve(__dirname, 'src/index.js'),
+  // ],
   output: {
     path: path.resolve(__dirname, 'public'),
     publicPath: '/',
@@ -72,10 +78,11 @@ module.exports = {
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
-        query: {
-          presets: ['@babel/env', '@babel/preset-react'],
-        },
+        use: ['babel-loader'],
+        // loader: 'babel-loader',
+        // query: {
+        //   presets: ['@babel/env', '@babel/preset-react'],
+        // },
       },
       {
         test: /\.js$/,

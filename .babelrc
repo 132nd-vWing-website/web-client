@@ -1,5 +1,4 @@
 {
-  "presets": ["@babel/env", ["@babel/preset-react", { "development": "true" }]],
   "plugins": [
     "@babel/plugin-syntax-dynamic-import",
     "@babel/plugin-transform-modules-commonjs",
@@ -16,5 +15,17 @@
         "style": true
       }
     ]
+  ],
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          // "esmodules": true,
+          "browsers": "> 0.25%, not dead"
+        }
+      }
+    ],
+    ["@babel/preset-react", { "development": "true" }]
   ]
 }
