@@ -4,46 +4,49 @@ import PropType from 'prop-types';
 import LandingCard from './LandingCard';
 
 /** These should be loaded via the API in the future! Used to display a random image for each slide */
-import slider1 from '../../img/sliders/slider1.png';
-import slider2 from '../../img/sliders/slider2.png';
-import slider3 from '../../img/sliders/slider3.png';
-import slider4 from '../../img/sliders/slider4.png';
-import slider5 from '../../img/sliders/slider5.png';
+import avatar from '../../img/132nd-logo-web-100.png';
+
+const slider1 = 'https://i.imgur.com/jCC4dEe.jpg';
+const slider2 = 'https://i.imgur.com/jCC4dEe.jpg';
+const slider3 = 'https://i.imgur.com/jCC4dEe.jpg';
+const slider4 = 'https://i.imgur.com/jCC4dEe.jpg';
+const slider5 = 'https://i.imgur.com/jCC4dEe.jpg';
 
 const generateKey = () => new Date().getUTCMilliseconds() + Math.random();
 
 const newsItems = [
   {
     key: generateKey(),
-    avatarUrl: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+    avatarUrl: avatar,
     cover: slider1,
     title: 'Card Title',
     body: 'This is the card body',
   },
   {
     key: generateKey(),
-    avatarUrl: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+    avatarUrl: avatar,
+
     cover: slider2,
     title: 'Card Title',
     body: 'This is the card body',
   },
   {
     key: generateKey(),
-    avatarUrl: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+    avatarUrl: avatar,
     cover: slider3,
     title: 'Card Title',
     body: 'This is the card body',
   },
   {
     key: generateKey(),
-    avatarUrl: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+    avatarUrl: avatar,
     cover: slider4,
     title: 'Card Title',
     body: 'This is the card body',
   },
   {
     key: generateKey(),
-    avatarUrl: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+    avatarUrl: avatar,
     cover: slider5,
     title: 'Card Title',
     body: 'This is the card body',
