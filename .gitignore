@@ -9,9 +9,9 @@
 # testing
 /coverage
 
-# production
-/build
-public/bundle.js
+# Production/Build
+public/chunks
+public/css
 /_old
 
 # misc
