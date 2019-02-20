@@ -1,6 +1,11 @@
-import React, { Component } from 'react';
+import Avatar from 'antd/lib/avatar';
+import 'antd/lib/avatar/style/css';
+import Card from 'antd/lib/card';
+import 'antd/lib/card/style/css';
+import Icon from 'antd/lib/icon';
+import 'antd/lib/icon/style/css';
 import PropTypes from 'prop-types';
-import { Card, Icon, Avatar } from 'antd';
+import React, { useState } from 'react';
 
 const { Meta } = Card;
 
@@ -11,48 +16,40 @@ const { Meta } = Card;
  * @param {string} avatarUrl
  * @param {string} cover
  */
-export default class LandingCard extends Component {
-  state = {
-    isLoading: true,
-  };
+export default function LandingCard(props) {
+  const { title, body, avatarUrl, cover } = props;
 
-  componentDidMount() {
-    this.setState({ isLoading: false });
-  }
+  const [isLoading, setIsLoading] = useState(false);
 
-  render() {
-    const { isLoading } = this.state;
-    const { title, body, avatarUrl, cover } = this.props;
+  const coverComponent = (
+    <div
+      style={{
+        minWidth: '100%',
+        maxHeight: '200px',
+        minHeight: '200px',
+        backgroundColor: '#CCC',
+        background: `url(${cover}) center center no-repeat`,
+        backgroundSize: 'cover',
+      }}
+    />
+  );
 
-    const coverComponent = (
-      <div
-        style={{
-          minWidth: '100%',
-          maxHeight: '200px',
-          minHeight: '200px',
-          background: `url(${cover}) center center no-repeat`,
-          backgroundSize: 'cover',
-        }}
-      />
-    );
+  const avatarComponent = <Avatar src={avatarUrl} />;
+  const actionsComponent = [
+    <Icon type='setting' />,
+    <Icon type='edit' />,
+    <Icon type='ellipsis' />,
+  ];
 
-    const avatarComponent = <Avatar src={avatarUrl} />;
-    const actionsComponent = [
-      <Icon type='setting' />,
-      <Icon type='edit' />,
-      <Icon type='ellipsis' />,
-    ];
-
-    return (
-      <Card
-        style={{ width: '100%', margin: '0 0 1em 0' }}
-        cover={coverComponent}
-        actions={actionsComponent}
-        loading={isLoading}>
-        <Meta avatar={avatarComponent} title={title} description={body} />
-      </Card>
-    );
-  }
+  return (
+    <Card
+      style={{ width: '100%', margin: '0 0 1em 0' }}
+      cover={coverComponent}
+      actions={actionsComponent}
+      loading={isLoading}>
+      <Meta avatar={avatarComponent} title={title} description={body} />
+    </Card>
+  );
 }
 
 LandingCard.propTypes = {
