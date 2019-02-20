@@ -10,9 +10,7 @@
 /coverage
 
 # Production/Build
-public/chunks
-public/css
-public/runtime.*.js*
+public/
 /_old
 
 # misc
