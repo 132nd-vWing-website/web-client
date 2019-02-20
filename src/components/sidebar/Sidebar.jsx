@@ -1,17 +1,19 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import Icon from 'antd/lib/icon';
+import 'antd/lib/icon/style/css';
+import Layout from 'antd/lib/layout';
+import 'antd/lib/layout/style/css';
+import Menu from 'antd/lib/menu';
+import 'antd/lib/menu/style/css';
 import { PropTypes } from 'prop-types';
+import React from 'react';
 import { connect } from 'react-redux';
-
-import { Layout, Menu, Icon } from 'antd';
-
+import { Link } from 'react-router-dom';
 import { logoutUser } from '../../actions/authActions';
 import { clearCurrentProfile } from '../../actions/profileActions';
-
 import Logo from '../../img/132nd-logo-web-100.png';
 
 const { Sider } = Layout;
-const { SubMenu, MenuItemGroup } = Menu;
+const { SubMenu } = Menu;
 
 /**
  * Sidebar Componet
