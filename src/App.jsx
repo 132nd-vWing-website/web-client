@@ -8,16 +8,20 @@ import { logoutUser, setCurrentUser } from './actions/authActions';
 import { getUnreadNotams } from './actions/postActions';
 import { clearCurrentProfile } from './actions/profileActions';
 import './App.css';
-import Spinner from './components/loaders/Spinner';
 import Sidebar from './components/sidebar/Sidebar';
 import MissionDataProvider from './contexts/MissionData';
 import store from './store';
 import setAuthToken from './utils/setAuthToken';
+import Spinner from './components/loaders/Spinner';
 
-const { Header, Footer } = Layout;
+// Antd components
+const { Footer } = Layout;
 
-const ContentsWrapper = React.lazy(() => import('./components/content-wrapper/ContentWrapper'));
+// Other Assets
 const LoadingComponent = <Spinner />;
+
+// Lazy Loading
+const ContentsWrapper = React.lazy(() => import('./components/content-wrapper/ContentWrapper'));
 
 /**
  * Check for token to keep a loged in user authenticated

@@ -84,6 +84,9 @@
     "babel": "babel ./src/App.jsx -d public",
     "serve": "npm run build && serve -l 80 public",
     "serve:only": "serve -l 80 public",
+    "git:log": "git log development...master --oneline --grep='^FIX:' --grep='^CHANGE:' --grep='^ADD:' --grep='^DELETE:'",
+    "git:log:html": "git log development...master --pretty=format:'<li> <a href=\"https: //github.com/132nd-vWing-website/web-client/commit/%H\">view commit &bull;</a> %s</li> ' --grep='^FIX:' --grep='^CHANGE:' --grep='^ADD:' --grep='^DELETE:'",
+    "git:log:tags": "git log $(git describe --tags --abbrev=0 @^)..@ --oneline --grep='^FIX:' --grep='^CHANGE:' --grep='^ADD:' --grep='^DELETE:'",
     "format": "prettier --write '**/*.{js,jsx}'",
     "lint": "eslint src/* --fix",
     "count": "find . -name '*.js' -not -path './node_modules*' -not -path './client/node_modules*' | xargs wc -l"
