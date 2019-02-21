@@ -1,4 +1,11 @@
-import { Col, Form, Input, Row } from 'antd';
+import Col from 'antd/lib/col';
+import 'antd/lib/col/style/css';
+import Form from 'antd/lib/form';
+import 'antd/lib/form/style/css';
+import Input from 'antd/lib/input';
+import 'antd/lib/input/style/css';
+import Row from 'antd/lib/row';
+import 'antd/lib/row/style/css';
 import React, { useContext } from 'react';
 import { MissionDataContext } from '../../../contexts/MissionData';
 import AircraftSelector from '../components/AircraftSelector';

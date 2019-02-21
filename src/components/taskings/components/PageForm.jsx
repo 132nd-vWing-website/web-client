@@ -1,4 +1,7 @@
-import { Form, Input } from 'antd';
+import Form from 'antd/lib/form';
+import 'antd/lib/form/style/css';
+import Input from 'antd/lib/input';
+import 'antd/lib/input/style/css';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 

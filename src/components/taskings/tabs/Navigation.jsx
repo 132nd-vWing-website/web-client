@@ -1,4 +1,9 @@
-import { Button, Col, Row } from 'antd';
+import Button from 'antd/lib/button';
+import 'antd/lib/button/style/css';
+import Col from 'antd/lib/col';
+import 'antd/lib/col/style/css';
+import Row from 'antd/lib/row';
+import 'antd/lib/row/style/css';
 import React, { useContext } from 'react';
 import { MissionDataContext } from '../../../contexts/MissionData';
 import GeoImporter from '../../geo-importer/GeoImporter';

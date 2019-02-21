@@ -1,4 +1,9 @@
-import { Button, Popover, Table } from 'antd';
+import Button from 'antd/lib/button';
+import 'antd/lib/button/style/css';
+import Popover from 'antd/lib/popover';
+import 'antd/lib/popover/style/css';
+import Table from 'antd/lib/table';
+import 'antd/lib/table/style/css';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import ReactDragListView from 'react-drag-listview';

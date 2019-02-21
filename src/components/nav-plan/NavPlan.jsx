@@ -1,4 +1,5 @@
-import { Button } from 'antd';
+import Button from 'antd/lib/button';
+import 'antd/lib/button/style/css';
 import moment from 'moment';
 import React, { useContext } from 'react';
 import ReactToPrint from 'react-to-print';

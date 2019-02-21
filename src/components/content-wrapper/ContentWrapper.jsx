@@ -7,7 +7,11 @@ import Landing from '../landing/Landing';
 
 const { Content } = Layout;
 
-const Tasking = React.lazy(() => import('../taskings/Tasking'));
+// const Tasking = React.lazy(() => import('../taskings/Tasking'));
+
+const Tasking = React.lazy(() =>
+  import(/* webpackChunkName: "jsx-tasking" */ '../taskings/Tasking'),
+);
 
 export default function ContentsWrapper() {
   return (

@@ -17,9 +17,6 @@ import Spinner from './components/loaders/Spinner';
 // Antd components
 const { Footer } = Layout;
 
-// Other Assets
-const LoadingComponent = <Spinner />;
-
 // Lazy Loading
 const ContentsWrapper = React.lazy(() => import('./components/content-wrapper/ContentWrapper'));
 
@@ -68,7 +65,7 @@ export default function App() {
           <Layout style={{ minHeight: '100vh' }}>
             <Sidebar />
             <Layout style={{ background: '#272727' }}>
-              <React.Suspense fallback={LoadingComponent}>
+              <React.Suspense fallback={<Spinner />}>
                 {/* <HeaderComponent /> */}
                 <ContentsWrapper />
                 <Footer style={{ textAlign: 'center', background: '#272727', color: '#aaa' }}>

@@ -1,3 +1,4 @@
+import Button from 'antd/lib/button';
 import 'antd/lib/button/style/css';
 import Card from 'antd/lib/card';
 import 'antd/lib/card/style/css';
@@ -12,21 +13,28 @@ import AircraftTypesProvider from '../../contexts/AircraftTypes';
 import AirfieldProvider from '../../contexts/Airfields';
 import { MissionDataContext } from '../../contexts/MissionData';
 import NavPointsProvider from '../../contexts/NavPoints';
-import mdc from '../../pdf/mdc';
+// import pdfBuilder, { mdc } from '../../pdf/pdfBuilder';
+// import pdfBuilder from '../../pdf/pdfBuilder';
+
 import GeoImporterDataProvider from '../geo-importer/GeoImporterDataProvider';
-import Spinner from '../loaders/Spinner';
 import PageForm from './components/PageForm';
 import PageList from './components/PageList';
 import Flightplan from './tabs/Flightplan';
 import Navigation from './tabs/Navigation';
 
-// Lazy Loading
-const PrintPdfButton = React.lazy(() => import('./components/PrintPdfButton')); // 2.2MB/448KB
+import mdc from '../../pdf/mdc';
+
+const PrintPdfButton = React.lazy(() => import('./components/PrintPdfButton'));
+
+// const pdfBuilder = React.lazy(() => import('../../pdf/pdfBuilder'));
+
+// Antd Destructuring
+const { TabPane } = Tabs;
 
 export default function Tasking() {
   const { missionData, setMissionData } = useContext(MissionDataContext);
 
-  const [pages, setPages] = useState([]); // make into a context...?
+  const [pages, setPages] = useState([]);
   const [panes, setPanes] = useState([]);
   useEffect(() => {
     // Create new panes for all PDF pages (i.e. they have a createPage function)
@@ -44,15 +52,28 @@ export default function Tasking() {
       return null;
     });
 
-    // A check to see that we have the data we need to render. Render a loader if not
-    if (!missionData) return <Spinner />;
-
     // Keep all default panes (i.e. they have isDefault:true set)
     const defaultPanes = panes.filter((pane) => pane.isDefault === true);
 
     // Update state with the new pages
     setPanes([...defaultPanes, ...formPanes]);
   }, [pages]);
+
+  if (!missionData) return <div>Loading...</div>;
+
+  // const generatePDF = () => {
+  //   const content = [];
+  //   pages.forEach((page) => {
+  //     if (page.createPage) {
+  //       content.push(page.createPage(missionData));
+  //     }
+  //     return null;
+  //   });
+
+  //   /**  Generate and then open the pdf */
+  //   const pdf = pdfBuilder.makePdf(`132ND-MDC-${missionData.missionNumber}`, content);
+  //   pdf.open();
+  // };
 
   // Generate the content array from available MDC pages
   const templates = Object.keys(mdc.pages).map((page) => {
@@ -76,12 +97,20 @@ export default function Tasking() {
 
   // Autogenerate MDC Panes
   const mdcPanes = panes.map((pane) => (
-    <Tabs.TabPane tab={pane.title} key={pane.key} closable={false}>
+    <TabPane tab={pane.title} key={pane.key} closable={false}>
       {pane.content}
-    </Tabs.TabPane>
+    </TabPane>
   ));
 
-  const tabActions = <PrintPdfButton pages={[]} block />;
+  // const tabActions = (
+  //   <React.Fragment>
+  //     <Button type='primary' onClick={generatePDF} style={{ marginLeft: '0.5em' }}>
+  //       Print MDC
+  //     </Button>
+  //   </React.Fragment>
+  // );
+
+  const tabActions = <PrintPdfButton pages={pages} block />;
 
   return (
     <AirfieldProvider>
@@ -92,23 +121,19 @@ export default function Tasking() {
               <Row>
                 <Col className='gutter-row' span={24} md={24}>
                   <Tabs hideAdd type='editable-card' tabBarExtraContent={tabActions}>
-                    <Tabs.TabPane tab='Flightplan' key='tasking-flightplan-tab' closable={false}>
+                    <TabPane tab='Flightplan' key='tasking-flightplan' closable={false}>
                       <Flightplan />
-                      <PrintPdfButton block />
-                    </Tabs.TabPane>
-                    <Tabs.TabPane tab='Navigation' key='tasking-navigation-tab' closable={false}>
+                    </TabPane>
+                    <TabPane tab='Navigation' key='tasking-nav' closable={false}>
                       <Navigation />
-                      <PrintPdfButton block />
-                    </Tabs.TabPane>
-                    <Tabs.TabPane tab='Signals' key='tasking-signals-tab' closable={false}>
-                      Signals
-                      <PrintPdfButton block />
-                    </Tabs.TabPane>
-                    <Tabs.TabPane tab='Pages' key='tasking-pages-tab' closable={false}>
+                    </TabPane>
+                    <TabPane tab='Signals' key='tasking-signals' closable={false}>
+                      <p>Flightplan</p>
+                    </TabPane>
+                    <TabPane tab='Pages' key='tasking-mdc-setup' closable={false}>
                       <p>Some instructions here, followed by the add/remove/rearrange pages</p>
-                      <PageList content={[]} onUpdate={setPages} />
-                      <PrintPdfButton block />
-                    </Tabs.TabPane>
+                      <PageList content={templates} onUpdate={setPages} />
+                    </TabPane>
                     {mdcPanes}
                   </Tabs>
                 </Col>

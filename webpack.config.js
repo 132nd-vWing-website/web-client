@@ -32,7 +32,7 @@ module.exports = {
       chunks: 'async',
       maxInitialRequests: Infinity,
       minSize: 0,
-      name: false,
+      name: false, // false
       cacheGroups: {
         'initial-react': {
           name: 'react',
