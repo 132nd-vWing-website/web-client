@@ -11,7 +11,6 @@ module.exports = {
       chunkFilename: './css/[id].css',
     }),
     new HtmlWebpackPlugin({
-      // title: 'Caching',
       template: path.resolve(__dirname, 'src/index.html'),
       favicon: path.resolve(__dirname, 'src/favicon.ico'),
       manifest: path.resolve(__dirname, 'src/manifest.json'),
@@ -25,14 +24,12 @@ module.exports = {
     path: path.resolve(__dirname, 'public'),
     publicPath: '/',
     filename: '[name].[contenthash].js',
-    // filename: '[name].js',
     chunkFilename: './chunks/[name].chunk.js',
   },
   optimization: {
-    runtimeChunk: 'single',
+    runtimeChunk: true, // 'single'
     splitChunks: {
-      chunks: 'all',
-      // chunks: 'async',
+      chunks: 'async',
       maxInitialRequests: Infinity,
       minSize: 0,
       name: false,
@@ -49,8 +46,7 @@ module.exports = {
           chunks: 'initial',
           priority: 2,
           name(module) {
-            // get the name. E.g. node_modules/packageName/not/this/part.js
-            // or node_modules/packageName
+            // get the name. E.g. node_modules/packageName/not/this/part.js or node_modules/packageName
             const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
 
             // npm package names are URL-safe, but some servers don't like @ symbols
