@@ -6,6 +6,10 @@ node_js:
 sudo: required
 dist: trusty
 
+branches:
+  only:
+    - master
+
 addons:
   ssh_known_hosts:
     - $DEPLOY_HOST
