@@ -6,6 +6,10 @@ node_js:
 sudo: required
 dist: trusty
 
+branches:
+  only:
+    - master
+
 addons:
   ssh_known_hosts:
     - $DEPLOY_HOST
@@ -30,4 +34,7 @@ script:
   - ls -la
 
 after_success:
-  - sshpass -p $DEPLOY_PASS scp -rv -o stricthostkeychecking=no $DEPLOY_SOURCE $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
+  # - sshpass -p $DEPLOY_PASS scp -rv -o stricthostkeychecking=no $DEPLOY_SOURCE $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
+  if [ branch = master]; then
+  sshpass -p $DEPLOY_PASS scp -rv -o stricthostkeychecking=no $DEPLOY_SOURCE $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH;
+  fi
