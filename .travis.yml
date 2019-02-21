@@ -9,6 +9,7 @@ dist: trusty
 branches:
   only:
     - master
+    - development
 
 addons:
   ssh_known_hosts:
