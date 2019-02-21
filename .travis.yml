@@ -36,6 +36,6 @@ script:
 
 after_success:
   # - sshpass -p $DEPLOY_PASS scp -rv -o stricthostkeychecking=no $DEPLOY_SOURCE $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
-  - if [ branch = master]; then
+  - 'if [ branch = master]; then
     sshpass -p $DEPLOY_PASS scp -rv -o stricthostkeychecking=no $DEPLOY_SOURCE $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH;
-    fi
+    fi'
