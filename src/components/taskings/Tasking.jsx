@@ -14,38 +14,33 @@ import Navigation from './tabs/Navigation';
 // Antd Destructuring
 const { TabPane } = Tabs;
 
-// LazyLoading !!!
-
 export default function Tasking() {
   const { missionData, setMissionData } = useContext(MissionDataContext);
 
   const [pages, setPages] = useState([]);
   const [panes, setPanes] = useState([]);
-  useEffect(
-    () => {
-      // Create new panes for all PDF pages (i.e. they have a createPage function)
-      const formPanes = pages.map((page) => {
-        const properties = mdc.pages[page.pageKey];
-        if (page.createPage) {
-          return {
-            title: page.label,
-            key: `mdc-tab-${page.key}`,
-            create: page.createPage,
-            form: properties.form,
-            content: null,
-          };
-        }
-        return null;
-      });
+  useEffect(() => {
+    // Create new panes for all PDF pages (i.e. they have a createPage function)
+    const formPanes = pages.map((page) => {
+      const properties = mdc.pages[page.pageKey];
+      if (page.createPage) {
+        return {
+          title: page.label,
+          key: `mdc-tab-${page.key}`,
+          create: page.createPage,
+          form: properties.form,
+          content: null,
+        };
+      }
+      return null;
+    });
 
-      // Keep all default panes (i.e. they have isDefault:true set)
-      const defaultPanes = panes.filter((pane) => pane.isDefault === true);
+    // Keep all default panes (i.e. they have isDefault:true set)
+    const defaultPanes = panes.filter((pane) => pane.isDefault === true);
 
-      // Update state with the new pages
-      setPanes([...defaultPanes, ...formPanes]);
-    },
-    [pages],
-  );
+    // Update state with the new pages
+    setPanes([...defaultPanes, ...formPanes]);
+  }, [pages]);
 
   if (!missionData) return <div>Loading...</div>;
 
