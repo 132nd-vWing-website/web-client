@@ -40,6 +40,12 @@ module.exports = {
           chunks: 'initial',
           priority: 3,
         },
+        'initial-antd': {
+          name: 'antd',
+          test: /[\\/]node_modules[\\/]antd.*?[\\/]/,
+          chunks: 'initial',
+          priority: 3,
+        },
         vendor: {
           reuseExistingChunk: true,
           test: /[\\/]node_modules[\\/]/,
