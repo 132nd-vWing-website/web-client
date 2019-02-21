@@ -1,5 +1,5 @@
 import React from 'react';
 
-const spinner = <div className='main-spinner' />;
-
-export default spinner;
+export default function Spinner() {
+  return <div className='main-spinner' />;
+}
