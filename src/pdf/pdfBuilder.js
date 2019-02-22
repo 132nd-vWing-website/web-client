@@ -1,13 +1,8 @@
-// import pdfMake from 'pdfmake/build/pdfmake';
+import pdfMake from 'pdfmake/build/pdfmake';
 import Bahnschrift from './fonts/bahnschrift';
 
 /** sub-classes */
 import mdc from './mdc';
-
-const pdfMake = import(/* webpackChunkName: "jsx-pdf-make" */ 'pdfmake/build/pdfmake');
-
-// const pdfMake = import('pdfmake/build/pdfmake').then((module) => module.default);
-// const mdc = import('./mdc').then((module) => module.default);
 
 /** Fonts */
 pdfMake.vfs = { ...Bahnschrift };

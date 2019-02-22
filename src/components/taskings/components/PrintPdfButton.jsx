@@ -3,9 +3,7 @@ import 'antd/lib/button/style/css';
 import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
 import { MissionDataContext } from '../../../contexts/MissionData';
-// import pdfBuilder from '../../../pdf/pdfBuilder';
-
-const pdfBuilder = import('../../../pdf/pdfBuilder');
+import pdfBuilder from '../../../pdf/pdfBuilder';
 
 export default function PrintPdfButton(props) {
   const { pages } = props;

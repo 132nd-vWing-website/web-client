@@ -1,4 +1,3 @@
-import 'antd/lib/button/style/css';
 import Card from 'antd/lib/card';
 import 'antd/lib/card/style/css';
 import Col from 'antd/lib/col';
@@ -7,6 +6,8 @@ import Row from 'antd/lib/row';
 import 'antd/lib/row/style/css';
 import Tabs from 'antd/lib/tabs';
 import 'antd/lib/tabs/style/css';
+import Button from 'antd/lib/button'; // TEMP!!
+import 'antd/lib/button/style/css'; // TEMP!!
 import React, { useContext, useEffect, useState } from 'react';
 import AircraftTypesProvider from '../../contexts/AircraftTypes';
 import AirfieldProvider from '../../contexts/Airfields';
@@ -19,6 +20,8 @@ import PageForm from './components/PageForm';
 import PageList from './components/PageList';
 import Flightplan from './tabs/Flightplan';
 import Navigation from './tabs/Navigation';
+
+import pdfBuilder from '../../pdf/pdfBuilder'; // TEMP!!!
 
 // Lazy Loading
 const PrintPdfButton = React.lazy(() => import('./components/PrintPdfButton')); // 2.2MB/448KB
@@ -55,6 +58,7 @@ export default function Tasking() {
   }, [pages]);
 
   // Generate the content array from available MDC pages
+  // TODO: THIS COULD BE MOVED TO THE PageList.jsx COMPONENT!
   const templates = Object.keys(mdc.pages).map((page) => {
     const pageObj = mdc.pages[page];
     return {
@@ -81,7 +85,33 @@ export default function Tasking() {
     </Tabs.TabPane>
   ));
 
-  const tabActions = <PrintPdfButton pages={[]} block />;
+  /** TEEEEEEEEEEEEEEEEMP - CONTENT NEEDS TO BE PUT INTO A CONTEXT,
+   * THEN THIS SHOULD BE PUT TO PrintPdfButton.jsx INSTEAD!
+   */
+  const generatePDF = () => {
+    const content = [];
+    pages.forEach((page) => {
+      if (page.createPage) {
+        content.push(page.createPage(missionData));
+      }
+      return null;
+    });
+
+    /**  Generate and then open the pdf */
+    const pdf = pdfBuilder.makePdf(`132ND-MDC-${missionData.missionNumber}`, content);
+    pdf.open();
+  };
+
+  const tabActions = (
+    <React.Fragment>
+      <Button type='primary' onClick={generatePDF} style={{ marginLeft: '0.5em' }}>
+        Print MDC
+      </Button>
+    </React.Fragment>
+  );
+  /** ** TEEEEEEEEEEEEEEEEMP */
+
+  // const tabActions = <PrintPdfButton pages={[]} block />;
 
   return (
     <AirfieldProvider>
@@ -106,7 +136,7 @@ export default function Tasking() {
                     </Tabs.TabPane>
                     <Tabs.TabPane tab='Pages' key='tasking-pages-tab' closable={false}>
                       <p>Some instructions here, followed by the add/remove/rearrange pages</p>
-                      <PageList content={[]} onUpdate={setPages} />
+                      <PageList content={templates} onUpdate={setPages} />
                       <PrintPdfButton block />
                     </Tabs.TabPane>
                     {mdcPanes}

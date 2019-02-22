@@ -142,6 +142,7 @@ export default class PageList extends Component {
             <Button type='default'>+ Add</Button>
           </Popover>
         </Button.Group>
+        <Button.Group style={{ marginTop: '1em' }}>{options}</Button.Group>
       </React.Fragment>
     );
   }

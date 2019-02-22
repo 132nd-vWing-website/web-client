@@ -1,7 +1,7 @@
 import moment from 'moment';
 import pdfMake from 'pdfmake/build/pdfmake';
 import { metersToNautical, msToKnots, metersToAltitude } from '../../../utils/utility';
-import Bahnschrift from '../../fonts/bahnschrift';
+import { font, colors, styles, pageHeader } from './config';
 
 /**
  * Standard 132nd MDC Frontpage
@@ -11,8 +11,14 @@ import Bahnschrift from '../../fonts/bahnschrift';
  */
 
 const frontPage = {
-  title: 'MDC - Frontpage',
+  title: 'Standard - Frontpage',
 };
+
+/** DEFAULTS */
+pdfMake.vfs = { ...font };
+
+frontPage.colors = colors;
+frontPage.styles = styles;
 
 /** Input form definition (parsed by React)
  * @namespace frontpage.form
@@ -31,34 +37,6 @@ frontPage.form = [
   },
 ];
 
-/** DEFAULTS */
-pdfMake.vfs = { ...Bahnschrift };
-
-const colors = {
-  white: '#ffffff',
-  black: '#000000',
-  darkBlue: '#44546a',
-};
-
-const styles = {
-  pageHeader: {
-    alignment: 'center',
-    fillColor: colors.darkBlue,
-    color: colors.white,
-  },
-  tableHeader: {
-    alignment: 'center',
-    fillColor: colors.black,
-    color: colors.white,
-  },
-  default: {
-    alignment: 'center',
-  },
-};
-
-frontPage.colors = colors;
-frontPage.styles = styles;
-
 /**
  * Page Header
  * @param {string} missionNumber - Mission Number
@@ -66,19 +44,7 @@ frontPage.styles = styles;
  * frontPage.pageHeader({ pageNumber: 1, missionNumber: 'TR1234' });
  * @retuns {object} Returns a makePDF table definition
  */
-frontPage.pageHeader = ({ pageNumber, missionNumber }) => ({
-  table: {
-    widths: [60, '*', 50, 60],
-    body: [
-      [
-        { text: `PAGE #${pageNumber}`, style: styles.pageHeader },
-        { text: 'GENERAL INFORMATION', style: styles.pageHeader },
-        { text: 'MSN NR:', style: styles.pageHeader },
-        { text: missionNumber, style: styles.pageHeader },
-      ],
-    ],
-  },
-});
+frontPage.pageHeader = pageHeader;
 
 /**
  * Generates a sub-header for the 494th MDC
@@ -235,10 +201,12 @@ frontPage.packageInfo = (packageInfo) => {
  * @param {array} flightplan - Data for the flightplan
  */
 frontPage.flightplanShort = (flightplan) => {
+  const plan = flightplan.slice(0);
+
   const td = {
     layout: {
       fillColor: function zebraCells(rowIndex) {
-        return rowIndex % 2 === 0 ? '#CCCCCC' : null;
+        return rowIndex % 2 === 0 ? '#fffacd' : null;
       },
     },
     table: {
@@ -276,7 +244,7 @@ frontPage.flightplanShort = (flightplan) => {
 
   // Pad with empty rows until we have 20 rows
   do {
-    flightplan.push({
+    plan.push({
       type: 'feature',
       geometry: {
         coordinates: [0, 0, 0],
@@ -292,10 +260,10 @@ frontPage.flightplanShort = (flightplan) => {
         action: '-',
       },
     });
-  } while (flightplan.length < 20);
+  } while (plan.length < 20);
 
   // Add rows for all waypoints, limited to the first 20
-  flightplan.slice(0, 20).forEach((feature, index) => {
+  plan.slice(0, 20).forEach((feature, index) => {
     const tos = moment(feature.properties.tos).format('HH:mm:ss');
     const hdg = Math.round(feature.properties.hdg);
     const dist = Math.round(metersToNautical(feature.properties.dist));
@@ -314,42 +282,6 @@ frontPage.flightplanShort = (flightplan) => {
       { text: feature.properties.action, style: styles.default },
     ]);
   });
-
-  // // Pad with empty rows until we have 20 rows
-  // do {
-  //   flightplan.push({
-  //     id: flightplan.length,
-  //     name: '-',
-  //     lat: 0,
-  //     lon: 0,
-  //     tos: 0,
-  //     hdg: 0,
-  //     dist: 0, // meters
-  //     gs: 0, // meters pr. second
-  //     alt: 0,
-  //     action: '-',
-  //   });
-  // } while (flightplan.length < 20);
-
-  // // Add rows for the first 20 waypoints
-  // flightplan.slice(0, 20).forEach((steerpt, index) => {
-  //   const tos = moment(steerpt.tos).format('HH:mm:ss');
-  //   const hdg = Math.round(steerpt.hdg);
-  //   const dist = Math.round(metersToNautical(steerpt.dist));
-  //   const speed = Math.round(msToKnots(steerpt.gs));
-
-  //   td.table.body.push([
-  //     { text: index, style: styles.default },
-  //     { text: steerpt.name, colSpan: 2, style: styles.default },
-  //     {},
-  //     { text: tos, style: styles.default },
-  //     { text: hdg, style: styles.default },
-  //     { text: dist, style: styles.default },
-  //     { text: speed, style: styles.default },
-  //     { text: steerpt.alt, style: styles.default },
-  //     { text: steerpt.action, style: styles.default },
-  //   ]);
-  // });
 
   return td;
 };
@@ -422,7 +354,7 @@ frontPage.create = ({
 }) => {
   const pageNumber = 1;
 
-  const pageHeader = frontPage.pageHeader({ pageNumber, missionNumber });
+  const header = frontPage.pageHeader({ pageNumber, missionNumber, title: 'GENERAL INFORMATION' });
   const flightinfoShort = frontPage.flightinfoShort({ callsign, packageName, atis });
   const airfieldList = frontPage.airfieldInfo(airfields);
   const flightInfo = frontPage.flightInfo(element);
@@ -432,7 +364,7 @@ frontPage.create = ({
   const presetsShort = frontPage.presetsShort(radioPresets);
 
   const content = [
-    pageHeader,
+    header,
     flightinfoShort,
     airfieldList,
     flightInfo,
