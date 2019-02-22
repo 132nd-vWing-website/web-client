@@ -32,25 +32,29 @@ module.exports = {
       chunks: 'async',
       maxInitialRequests: Infinity,
       minSize: 0,
-      name: false, // false
+      // name: false, // false
+      name(module) {
+        const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+        return `zzz.${packageName.replace('@', '')}`;
+      },
       cacheGroups: {
         'initial-react': {
           name: 'react',
           test: /[\\/]node_modules[\\/]react.*?[\\/]/,
           chunks: 'initial',
-          priority: 3,
+          priority: 2,
         },
         'initial-antd': {
           name: 'antd',
           test: /[\\/]node_modules[\\/]antd.*?[\\/]/,
           chunks: 'initial',
-          priority: 3,
+          priority: 2,
         },
         vendor: {
           reuseExistingChunk: true,
           test: /[\\/]node_modules[\\/]/,
           chunks: 'initial',
-          priority: 2,
+          priority: 1,
           name(module) {
             // get the name. E.g. node_modules/packageName/not/this/part.js or node_modules/packageName
             const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
@@ -58,12 +62,6 @@ module.exports = {
             // npm package names are URL-safe, but some servers don't like @ symbols
             return `npm.${packageName.replace('@', '')}`;
           },
-        },
-        'heavy-vendor-pdf': {
-          name: 'heavy-pdf',
-          test: /[\\/]node_modules[\\/]pdf.*?[\\/]/,
-          chunks: 'initial',
-          priority: 1,
         },
       },
     },
