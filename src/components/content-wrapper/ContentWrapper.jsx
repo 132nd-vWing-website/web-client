@@ -21,7 +21,7 @@ export default function ContentsWrapper() {
         {/* <Route exact path='/register' component={Register} /> */}
         {/* <Route exact path='/login' component={Login} /> */}
         {/* <Route path='/events' component={Events} /> */}
-        <Route path='/taskings' component={Tasking} />
+        <Route path='/taskings' render={() => <Tasking />} />
         <Route component={Landing} />
       </Switch>
       <Switch>{/* <PrivateRoute exact path='/dashboard' component={ProfileDashboard} /> */}</Switch>

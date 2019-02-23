@@ -16,6 +16,13 @@ import ReactDragListView from 'react-drag-listview';
  * @param {func} onUpdate - Callback for returning the manipulated list to parent
  */
 
+/**
+ *  TODO:
+ * 1. DENNA MÅ SKRIVES OM TIL EN FUNC COMP
+ * 2. template og setPages trenger ikke ligge i Tasking. De kan ligge her
+ * 3. Finne ut hvorfor i huleste ikke setPages trigger... (muligens pga #1 ikke er gjort)
+ */
+
 export default class PageList extends Component {
   state = {
     visible: false,
@@ -142,7 +149,6 @@ export default class PageList extends Component {
             <Button type='default'>+ Add</Button>
           </Popover>
         </Button.Group>
-        <Button.Group style={{ marginTop: '1em' }}>{options}</Button.Group>
       </React.Fragment>
     );
   }
