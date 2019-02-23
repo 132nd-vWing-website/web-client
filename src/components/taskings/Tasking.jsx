@@ -62,8 +62,6 @@ export default function Tasking() {
     }
   });
 
-  // console.log('Panes: ', panes);
-
   // Autogenerate MDC Panes
   const mdcPanes = panes.map((pane) => (
     <Tabs.TabPane tab={pane.title} key={pane.key} closable={false}>

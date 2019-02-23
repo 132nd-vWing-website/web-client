@@ -10,6 +10,7 @@ import React, { useContext } from 'react';
 import { MissionDataContext } from '../../../contexts/MissionData';
 import AircraftSelector from '../components/AircraftSelector';
 import AirfieldSelector from '../components/AirfieldSelector';
+import WeatherData from '../components/WeatherData';
 
 export default function Flightplan() {
   const { missionData, setMissionData } = useContext(MissionDataContext);
@@ -144,6 +145,7 @@ export default function Flightplan() {
             </Row>
           </Form>
         </Row>
+        <WeatherData />
       </Col>
       <Col className='gutter-row' span={24} md={8}>
         CHAT ETC....
