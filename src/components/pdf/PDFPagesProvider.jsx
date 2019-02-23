@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import pdfBuilder from '../../pdf/pdfBuilder'; // TEMP!!!
 
 /**
@@ -36,9 +36,6 @@ export const generatePDF = (pages, data, title) => {
 export default function PDFPagesProvider(props) {
   const { children } = props;
   const [pages, setPages] = useState([]);
-  useEffect(() => {
-    console.log('Context.pages: ', pages);
-  }, [pages]);
 
   return (
     <PDFPagesContext.Provider value={{ pages, setPages, generatePDF }}>
