@@ -72,7 +72,11 @@ export default function Flightplan() {
             <Row>
               <Col span={24} md={12}>
                 <Form.Item label='Flight Date' {...formItemLayout}>
-                  <Input placeholder='301900ZJAN2019' />
+                  <Input
+                    placeholder='241900ZFEB2019'
+                    value={missionData.missionDate}
+                    onChange={handleChange}
+                  />
                 </Form.Item>
                 <Form.Item label='R/T Callsign' {...formItemLayout}>
                   <Input

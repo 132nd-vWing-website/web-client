@@ -1,7 +1,11 @@
 import Input from 'antd/lib/input';
 import 'antd/lib/input/style/css';
+import Select from 'antd/lib/select';
+import 'antd/lib/select/style/css';
 import React from 'react';
 import PropTypes from 'prop-types';
+
+const { Option } = Select;
 
 export default function PressureConverter(props) {
   const { onCalc, value, unit } = props;
@@ -50,6 +54,7 @@ export default function PressureConverter(props) {
 
   const units = {
     mbar: {
+      label: 'mBar',
       toHgIn(mbar) {
         return (mbar / 33.86389).toFixed(2);
       },
@@ -58,6 +63,7 @@ export default function PressureConverter(props) {
       },
     },
     hgin: {
+      label: 'hg/in',
       toMbar(hgin) {
         return Math.round(hgin * 33.86389);
       },
@@ -66,6 +72,7 @@ export default function PressureConverter(props) {
       },
     },
     mmhg: {
+      label: 'mmHg',
       toMbar(mmhg) {
         return Math.round((mmhg / 25.4) * 33.8639);
       },
@@ -82,19 +89,20 @@ export default function PressureConverter(props) {
   // console.log('mmhg', units.mmhg.toMbar(780.06));
   // console.log('mmhg', units.mmhg.toHgIn(780.06));
 
-  //   const convertOptions = {
-  //     const options = units.map((unit) => <Option value=".com">.com</Option>)
-  //     return(
-  //     <Select defaultValue = ".com" style = {{ width: 80 }} >
-  //     <Option value=".com">.com</Option>
-  //     <Option value=".jp">.jp</Option>
-  //     <Option value=".cn">.cn</Option>
-  //     <Option value=".org">.org</Option>
-  //     </Select >
-  //   )
-  // };
+  const availableUnits = Object.keys(units).map((unit) => (
+    // const calcs = units[unit];
+    <Option key={unit} value={unit}>
+      {unit.label}
+    </Option>
+  ));
 
-  return <p>{`${value}${unit}`}</p>;
+  const selectAfter = (
+    <Select defaultValue={units[0]} style={{ width: 80 }}>
+      {availableUnits}
+    </Select>
+  );
+
+  return <Input addonAfter={selectAfter} defaultValue={value} />;
 }
 
 PressureConverter.propTypes = {
