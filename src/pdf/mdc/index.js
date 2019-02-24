@@ -1,5 +1,6 @@
 import defaultData from './default.data';
 import frontPage from './pages/frontPage';
+import navList from './pages/navList';
 
 /**
  * All MDC templates
@@ -9,7 +10,7 @@ import frontPage from './pages/frontPage';
 
 const mdc = {
   defaultData,
-  pages: { frontPage },
+  pages: { frontPage, navList },
 };
 
 export default mdc;

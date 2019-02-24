@@ -1,4 +1,5 @@
-import { Table } from 'antd';
+import Table from 'antd/lib/table';
+import 'antd/lib/table/style/css';
 import PropTypes from 'prop-types';
 import React, { useContext, useState } from 'react';
 import { DDtoDDS, DDtoDMS } from '../../utils/utility';

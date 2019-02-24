@@ -1,4 +1,5 @@
-import { Select } from 'antd';
+import Select from 'antd/lib/select';
+import 'antd/lib/select/style/css';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 
@@ -11,27 +12,21 @@ function SearchInput(props) {
 
   // Create airfield option components
   const [options, setOptions] = useState(null);
-  useEffect(
-    () => {
-      setOptions(
-        data.map((d) => (
-          <Select.Option key={d.key} value={d.value}>
-            {d.label}
-          </Select.Option>
-        )),
-      );
-    },
-    [data],
-  );
+  useEffect(() => {
+    setOptions(
+      data.map((d) => (
+        <Select.Option key={d.key} value={d.value}>
+          {d.label}
+        </Select.Option>
+      )),
+    );
+  }, [data]);
 
   // Return any input value to parent component
   const [result, setResult] = useState(null);
-  useEffect(
-    () => {
-      if (result) onChange({ name, value: result });
-    },
-    [result],
-  );
+  useEffect(() => {
+    if (result) onChange({ name, value: result });
+  }, [result]);
 
   return (
     <Select

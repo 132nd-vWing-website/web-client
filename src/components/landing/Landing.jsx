@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropType from 'prop-types';
 
 import LandingCard from './LandingCard';
@@ -12,6 +12,7 @@ const slider3 = 'https://i.imgur.com/jCC4dEe.jpg';
 const slider4 = 'https://i.imgur.com/jCC4dEe.jpg';
 const slider5 = 'https://i.imgur.com/jCC4dEe.jpg';
 
+/* newsItems is only temp. Should be async fetch in useEffect(,[]) later */
 const generateKey = () => new Date().getUTCMilliseconds() + Math.random();
 
 const newsItems = [
@@ -60,33 +61,23 @@ const newsItems = [
  * @param {string} avatarUrl
  * @param {string} cover
  */
-export default class Landing extends Component {
-  state = {
-    news: [],
-  };
+export default function Landing(props) {
+  const [news, setNews] = useState([]);
+  useEffect(() => {
+    setNews(props.news);
+  }, [props.news]);
 
-  componentDidMount() {
-    const { news } = this.props;
-    this.updateNews(news);
-  }
+  const newsCards = news.map((item) => (
+    <LandingCard
+      key={item.key}
+      title={item.title}
+      body={item.body}
+      avatarUrl={item.avatarUrl}
+      cover={item.cover}
+    />
+  ));
 
-  updateNews = (news) => {
-    this.setState({ news });
-  };
-
-  render() {
-    const { news } = this.state;
-    const newsCards = news.map((item) => (
-      <LandingCard
-        key={item.key}
-        title={item.title}
-        body={item.body}
-        avatarUrl={item.avatarUrl}
-        cover={item.cover}
-      />
-    ));
-    return newsCards;
-  }
+  return newsCards;
 }
 
 Landing.propTypes = {

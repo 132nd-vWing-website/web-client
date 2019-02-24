@@ -1,8 +1,16 @@
-import { Col, Form, Input, Row } from 'antd';
+import Col from 'antd/lib/col';
+import 'antd/lib/col/style/css';
+import Form from 'antd/lib/form';
+import 'antd/lib/form/style/css';
+import Input from 'antd/lib/input';
+import 'antd/lib/input/style/css';
+import Row from 'antd/lib/row';
+import 'antd/lib/row/style/css';
 import React, { useContext } from 'react';
 import { MissionDataContext } from '../../../contexts/MissionData';
 import AircraftSelector from '../components/AircraftSelector';
 import AirfieldSelector from '../components/AirfieldSelector';
+import WeatherData from '../components/WeatherData';
 
 export default function Flightplan() {
   const { missionData, setMissionData } = useContext(MissionDataContext);
@@ -64,7 +72,11 @@ export default function Flightplan() {
             <Row>
               <Col span={24} md={12}>
                 <Form.Item label='Flight Date' {...formItemLayout}>
-                  <Input placeholder='301900ZJAN2019' />
+                  <Input
+                    placeholder='241900ZFEB2019'
+                    value={missionData.missionDate}
+                    onChange={handleChange}
+                  />
                 </Form.Item>
                 <Form.Item label='R/T Callsign' {...formItemLayout}>
                   <Input
@@ -137,6 +149,7 @@ export default function Flightplan() {
             </Row>
           </Form>
         </Row>
+        <WeatherData />
       </Col>
       <Col className='gutter-row' span={24} md={8}>
         CHAT ETC....
