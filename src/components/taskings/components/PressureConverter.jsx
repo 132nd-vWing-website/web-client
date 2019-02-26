@@ -89,18 +89,32 @@ export default function PressureConverter(props) {
   // console.log('mmhg', units.mmhg.toMbar(780.06));
   // console.log('mmhg', units.mmhg.toHgIn(780.06));
 
-  const availableUnits = Object.keys(units).map((unit) => (
-    // const calcs = units[unit];
-    <Option key={unit} value={unit}>
-      {unit.label}
-    </Option>
-  ));
+  // const availableUnits = Object.keys(units).map((unit) => (
+  //   // const calcs = units[unit];
+  //   <Option key={unit} value={unit}>
+  //     {unit.label}
+  //   </Option>
+  // ));
 
-  const selectAfter = (
-    <Select defaultValue={units[0]} style={{ width: 80 }}>
-      {availableUnits}
-    </Select>
-  );
+  const availableUnits = Object.keys(units).map((unit) => {
+    console.log(unit);
+    return (
+      // const calcs = units[unit];
+      <Option key={unit} value={unit}>
+        {unit}
+      </Option>
+    );
+  });
+
+  console.log('WUT!?', availableUnits);
+
+  // const selectAfter = (
+  //   <Select defaultValue={units[0]} style={{ width: 80 }}>
+  //     {availableUnits}
+  //   </Select>
+  // );
+
+  const selectAfter = <Select style={{ width: 80 }}>{availableUnits}</Select>;
 
   return <Input addonAfter={selectAfter} defaultValue={value} />;
 }
