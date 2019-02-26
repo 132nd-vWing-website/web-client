@@ -10,48 +10,6 @@ const { Option } = Select;
 export default function PressureConverter(props) {
   const { onCalc, value, unit } = props;
 
-  // const unitsFoo = [
-  //   {
-  //     name: 'mbar',
-  //     convert: [
-  //       {
-  //         label: 'to hg/in',
-  //         calculate(mbar) {
-  //           return mbar / 33.8639;
-  //         },
-  //       },
-  //       {
-  //         label: 'to mmgh',
-  //         calculate(mbar) {
-  //           return mbar * 25.4;
-  //         },
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     name: 'hg/in',
-  //     convert: [
-  //       {
-  //         label: 'to hg/in',
-  //         calculate(hgin) {
-  //           return hgin / 33.8639;
-  //         },
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     name: 'mmhg',
-  //     convert: [
-  //       {
-  //         label: 'to hg/in',
-  //         calculate(mmhg) {
-  //           return mmhg / 33.8639;
-  //         },
-  //       },
-  //     ],
-  //   },
-  // ];
-
   const units = {
     mbar: {
       label: 'mBar',
@@ -89,32 +47,17 @@ export default function PressureConverter(props) {
   // console.log('mmhg', units.mmhg.toMbar(780.06));
   // console.log('mmhg', units.mmhg.toHgIn(780.06));
 
-  // const availableUnits = Object.keys(units).map((unit) => (
-  //   // const calcs = units[unit];
-  //   <Option key={unit} value={unit}>
-  //     {unit.label}
-  //   </Option>
-  // ));
+  const availableUnits = Object.keys(units).map((u) => (
+    <Option key={u} value={u}>
+      {units[u].label}
+    </Option>
+  ));
 
-  const availableUnits = Object.keys(units).map((unit) => {
-    console.log(unit);
-    return (
-      // const calcs = units[unit];
-      <Option key={unit} value={unit}>
-        {unit}
-      </Option>
-    );
-  });
-
-  console.log('WUT!?', availableUnits);
-
-  // const selectAfter = (
-  //   <Select defaultValue={units[0]} style={{ width: 80 }}>
-  //     {availableUnits}
-  //   </Select>
-  // );
-
-  const selectAfter = <Select style={{ width: 80 }}>{availableUnits}</Select>;
+  const selectAfter = (
+    <Select defaultValue={units.mbar.label} style={{ width: 80 }}>
+      {availableUnits}
+    </Select>
+  );
 
   return <Input addonAfter={selectAfter} defaultValue={value} />;
 }

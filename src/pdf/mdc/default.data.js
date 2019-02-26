@@ -3,7 +3,7 @@
  * It is important that each key/value pair has a value of either int, string or an array of objects!
  */
 const defaultData = {
-  missionDate: '241900ZFEB2019',
+  date: '241900ZFEB2019',
   missionNumber: 'AI0112',
   callsign: 'JEDI-5',
   ato:
@@ -156,6 +156,8 @@ const defaultData = {
       tasking: '',
     },
   ],
+  ta: 7000,
+  tl: 180,
 };
 
 export default defaultData;

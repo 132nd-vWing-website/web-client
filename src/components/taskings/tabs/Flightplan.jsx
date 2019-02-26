@@ -73,8 +73,9 @@ export default function Flightplan() {
               <Col span={24} md={12}>
                 <Form.Item label='Flight Date' {...formItemLayout}>
                   <Input
+                    name='date'
                     placeholder='241900ZFEB2019'
-                    value={missionData.missionDate}
+                    value={missionData.date}
                     onChange={handleChange}
                   />
                 </Form.Item>
