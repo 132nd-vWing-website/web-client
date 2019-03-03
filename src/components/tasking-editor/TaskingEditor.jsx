@@ -27,7 +27,7 @@ import PageList from './forms/PageList';
 import MissionData from './forms/MissionData';
 import WeatherData from './forms/WeatherData';
 import ElementConfig from './forms/ElementConfig';
-// import Navigation from './tabs/Navigation';
+import Navigation from './forms/Navigation';
 // import Signals from './tabs/Signals';
 
 // Lazy Loading
@@ -113,7 +113,7 @@ export default function TaskingEditor() {
                       <p>Lorem Ipsum</p>
                     </CollapsePanel>
                     <CollapsePanel header='Navigation' key='navigation'>
-                      <p>Lorem Ipsum</p>
+                      <Navigation />
                     </CollapsePanel>
                     <CollapsePanel header='Fuel' key='fuel'>
                       <p>Lorem Ipsum</p>

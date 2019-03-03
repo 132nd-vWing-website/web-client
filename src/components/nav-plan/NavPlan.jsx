@@ -2,7 +2,6 @@ import Button from 'antd/lib/button';
 import 'antd/lib/button/style/css';
 import moment from 'moment';
 import React, { useContext } from 'react';
-import ReactToPrint from 'react-to-print';
 import { MissionDataContext } from '../../contexts/MissionData';
 import exportKML from '../../utils/kmlExporter';
 import { DDtoDMS, metersToAltitude, metersToNautical, msToKnots } from '../../utils/utility';
@@ -88,7 +87,6 @@ export default function NavPlan() {
             Export Navplan
           </Button>
         ) : null}
-        <ReactToPrint trigger={() => <Button>Print this</Button>} content={() => printRef} />
       </div>
     </React.Fragment>
   );
