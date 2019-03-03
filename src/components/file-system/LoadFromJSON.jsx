@@ -12,8 +12,6 @@ export default function SaveToJSON(props) {
   };
 
   const handleUpload = () => {
-    console.log('do an upload!');
-
     const allowedTypes = ['txt', 'json'];
     const file = nodeRef.current.files[0];
     const reader = new FileReader();

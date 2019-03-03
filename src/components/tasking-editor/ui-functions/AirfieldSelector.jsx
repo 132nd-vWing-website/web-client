@@ -27,7 +27,6 @@ function AirfieldSelector(props) {
   useEffect(() => {
     // Find the stored airfield...
     const airfield = airfields.find((field) => field.name === name);
-    console.log('airfield:', airfield);
     // ...match that airfield to our options, so that we can display the correct data
     const newValue = airfieldOptions.find((option) => option.key === airfield.id.toString());
     setValue(newValue);
