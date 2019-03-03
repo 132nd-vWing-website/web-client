@@ -8,10 +8,8 @@ import PDFPagesProvider from '../pdf/PDFPagesProvider';
 
 const { Content } = Layout;
 
-// const Tasking = React.lazy(() => import('../taskings/Tasking'));
-
-const Tasking = React.lazy(() =>
-  import(/* webpackChunkName: "jsx-tasking" */ '../taskings/Tasking'),
+const TaskingEditor = React.lazy(() =>
+  import(/* webpackChunkName: "jsx-tasking" */ '../tasking-editor/TaskingEditor'),
 );
 
 export default function ContentsWrapper() {
@@ -26,7 +24,7 @@ export default function ContentsWrapper() {
           path='/taskings'
           render={() => (
             <PDFPagesProvider>
-              <Tasking />
+              <TaskingEditor />
             </PDFPagesProvider>
           )}
         />

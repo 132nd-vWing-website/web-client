@@ -23,7 +23,7 @@ import PageForm from './components/PageForm';
 import PageList from './components/PageList';
 import Flightplan from './tabs/Flightplan';
 import Navigation from './tabs/Navigation';
-import Signals from './tabs/Signals'
+import Signals from './tabs/Signals';
 
 // Lazy Loading
 const PrintPdfButton = React.lazy(() => import('./components/PrintPdfButton'));
