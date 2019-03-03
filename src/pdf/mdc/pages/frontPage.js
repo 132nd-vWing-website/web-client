@@ -200,8 +200,9 @@ frontPage.packageInfo = (packageInfo) => {
 /** Short version of the Flight Plan
  * @param {array} flightplan - Data for the flightplan
  */
-frontPage.flightplanShort = (flightplan) => {
+frontPage.flightplanShort = (flightplan, reduceLinesBy) => {
   const plan = flightplan.slice(0);
+  const noOfLines = 20 - reduceLinesBy;
 
   const td = {
     layout: {
@@ -260,10 +261,10 @@ frontPage.flightplanShort = (flightplan) => {
         action: '-',
       },
     });
-  } while (plan.length < 20);
+  } while (plan.length < noOfLines);
 
-  // Add rows for all waypoints, limited to the first 20
-  plan.slice(0, 20).forEach((feature, index) => {
+  // Add rows for all waypoints, limited to the first 20 (or noOfLines)
+  plan.slice(0, noOfLines).forEach((feature, index) => {
     const tos = moment(feature.properties.tos).format('HH:mm:ss');
     const hdg = Math.round(feature.properties.hdg);
     const dist = Math.round(metersToNautical(feature.properties.dist));
@@ -353,13 +354,14 @@ frontPage.create = ({
   packageMembers,
 }) => {
   const pageNumber = 1;
+  const reduceFlighPlanBy = packageMembers.slice(5, packageMembers.length).length;
 
   const header = frontPage.pageHeader({ pageNumber, missionNumber, title: 'GENERAL INFORMATION' });
   const flightinfoShort = frontPage.flightinfoShort({ callsign, packageName, atis });
   const airfieldList = frontPage.airfieldInfo(airfields);
   const flightInfo = frontPage.flightInfo(element);
   const packageInfo = frontPage.packageInfo(packageMembers);
-  const flightplanShort = frontPage.flightplanShort(navPoints);
+  const flightplanShort = frontPage.flightplanShort(navPoints, reduceFlighPlanBy);
   const sequenceShort = frontPage.sequenceShort(navSequences);
   const presetsShort = frontPage.presetsShort(radioPresets);
 

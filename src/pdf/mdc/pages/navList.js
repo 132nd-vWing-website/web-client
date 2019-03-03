@@ -28,7 +28,10 @@ navList.pageHeader = pageHeader;
  */
 navList.flightPlan = (flightplan) => {
   const plan = flightplan.slice(0);
-  const minRows = 42;
+  const minRows = 33;
+
+  const rowStyle = Object.assign({}, styles.default);
+  rowStyle.fontSize = 15;
 
   const td = {
     layout: {
@@ -85,7 +88,7 @@ navList.flightPlan = (flightplan) => {
     });
   } while (plan.length < minRows);
 
-  // Add rows for all waypoints, limited to the first 20
+  // Add rows for all waypoints, limited to minRows value
   plan.slice(0, minRows).forEach((feature, index) => {
     const lat = DDtoDMS(feature.geometry.coordinates[1]);
     const lon = DDtoDMS(feature.geometry.coordinates[0]);
@@ -94,16 +97,15 @@ navList.flightPlan = (flightplan) => {
     const name = feature.properties.name.substring(0, limit);
 
     const action = feature.properties.action || '-';
-    // action = feature.properties.action.substring(0, limit);
 
     td.table.body.push([
-      { text: index, style: styles.default },
-      { text: action, style: styles.default },
-      { text: name, style: styles.default },
-      { text: lat, style: styles.default },
-      { text: lon, style: styles.default },
-      { text: '-', style: styles.default },
-      { text: '-', style: styles.default },
+      { text: index, style: rowStyle },
+      { text: action, style: rowStyle },
+      { text: name, style: rowStyle },
+      { text: lat, style: rowStyle },
+      { text: lon, style: rowStyle },
+      { text: '-', style: rowStyle },
+      { text: '-', style: rowStyle },
     ]);
   });
 

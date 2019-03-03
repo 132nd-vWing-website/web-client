@@ -1,3 +1,5 @@
+import Button from 'antd/lib/button';
+import 'antd/lib/button/style/css';
 import Card from 'antd/lib/card';
 import 'antd/lib/card/style/css';
 import Col from 'antd/lib/col';
@@ -14,12 +16,14 @@ import NavPointsProvider from '../../contexts/NavPoints';
 import mdc from '../../pdf/mdc';
 import GeoImporterDataProvider from '../geo-importer/GeoImporterDataProvider';
 import Spinner from '../loaders/Spinner';
+import LoadButton from '../local-storage/LoadButton';
+import SaveButton from '../local-storage/SaveButton';
 import { PDFPagesContext } from '../pdf/PDFPagesProvider';
-
 import PageForm from './components/PageForm';
 import PageList from './components/PageList';
 import Flightplan from './tabs/Flightplan';
 import Navigation from './tabs/Navigation';
+import Signals from './tabs/Signals';
 
 // Lazy Loading
 const PrintPdfButton = React.lazy(() => import('./components/PrintPdfButton'));
@@ -69,6 +73,15 @@ export default function Tasking() {
     </Tabs.TabPane>
   ));
 
+  // Tab Action Components
+
+  const tabActions = (
+    <Button.Group>
+      <LoadButton name='missionData' onLoad={setMissionData} />
+      <SaveButton name='missionData' value={missionData} type='primary' />
+    </Button.Group>
+  );
+
   return (
     <AirfieldProvider>
       <GeoImporterDataProvider>
@@ -77,15 +90,15 @@ export default function Tasking() {
             <Card title='Tasking'>
               <Row>
                 <Col className='gutter-row' span={24} md={24}>
-                  <Tabs hideAdd type='editable-card'>
+                  <Tabs hideAdd type='editable-card' tabBarExtraContent={tabActions}>
                     <Tabs.TabPane tab='Flightplan' key='tasking-flightplan-tab' closable={false}>
+                      <Signals />
                       <Flightplan />
                     </Tabs.TabPane>
                     <Tabs.TabPane tab='Navigation' key='tasking-navigation-tab' closable={false}>
                       <Navigation />
                     </Tabs.TabPane>
                     <Tabs.TabPane tab='Signals' key='tasking-signals-tab' closable={false}>
-                      Signals
                     </Tabs.TabPane>
                     <Tabs.TabPane tab='Pages' key='tasking-pages-tab' closable={false}>
                       <p>Some instructions here, followed by the add/remove/rearrange pages</p>

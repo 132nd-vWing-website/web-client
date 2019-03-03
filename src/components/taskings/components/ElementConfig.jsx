@@ -18,6 +18,46 @@ export default function WeatherData() {
     setMissionData((prev) => ({ ...prev, ...change }));
   };
 
+  const handleElementChange = (e) => {
+    const { key } = e.target.dataset;
+    const { element } = missionData;
+    element[key] = { ...element[key], ...{ [e.target.name]: e.target.value } };
+    setMissionData((prev) => ({ ...prev, ...element }));
+  };
+
+  const elementInputs = missionData.element.map((el, index) => (
+    <Input.Group compact key={`element-${index}`}>
+      <Input
+        style={{ width: '20%' }}
+        name='pilot'
+        value={el.pilot}
+        onChange={handleElementChange}
+        data-key={index}
+      />
+      <Input
+        style={{ width: '20%' }}
+        name='tcn'
+        value={el.tcn}
+        onChange={handleElementChange}
+        data-key={index}
+      />
+      <Input
+        style={{ width: '20%' }}
+        name='laser'
+        value={el.laser}
+        onChange={handleElementChange}
+        data-key={index}
+      />
+      <Input
+        style={{ width: '20%' }}
+        name='mode'
+        value={el.mode}
+        onChange={handleElementChange}
+        data-key={index}
+      />
+    </Input.Group>
+  ));
+
   const formItemLayout = {
     labelCol: { span: 6 },
     wrapperCol: { span: 16 },
@@ -33,13 +73,14 @@ export default function WeatherData() {
       <Form layout='horizontal'>
         <Row>
           <Col span={24} md={24}>
-            <Form.Item label='ATIS' {...formItemFullLengthLayout}>
-              <Input
-                name='atis'
-                placeholder='... some METAR'
-                value={missionData.atis}
-                onChange={handleChange}
-              />
+            <Form.Item {...formItemLayout}>
+              <span className='ant-input-group ant-input-group-compact'>
+                <div style={{ width: '20%', paddingLeft: '1em' }}>Pilot:</div>
+                <div style={{ width: '20%', paddingLeft: '1em' }}>TACAN:</div>
+                <div style={{ width: '20%', paddingLeft: '1em' }}>LASER:</div>
+                <div style={{ width: '20%', paddingLeft: '1em' }}>MODE-C:</div>
+              </span>
+              {elementInputs}
             </Form.Item>
           </Col>
         </Row>
