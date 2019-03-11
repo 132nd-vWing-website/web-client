@@ -1,27 +1,15 @@
-import Col from 'antd/lib/col';
-import 'antd/lib/col/style/css';
-import Form from 'antd/lib/form';
-import 'antd/lib/form/style/css';
-import Input from 'antd/lib/input';
-import 'antd/lib/input/style/css';
-import Row from 'antd/lib/row';
-import 'antd/lib/row/style/css';
 import React, { useContext } from 'react';
 import { MissionDataContext } from '../../../contexts/MissionData';
+import { Table, Tbody, Td, Th, Tr } from '../../styled/Table';
 
 export default function WeatherData() {
   const { missionData, setMissionData } = useContext(MissionDataContext);
-
-  // const handleChange = (e) => {
-  //   const change = { [e.target.name]: e.target.value };
-  //   setMissionData((prev) => ({ ...prev, ...change }));
-  // };
+  const { element } = missionData;
 
   const handleElementChange = (e) => {
     const { key } = e.target.dataset;
-    const { element } = missionData;
     element[key] = { ...element[key], ...{ [e.target.name]: e.target.value } };
-    setMissionData((prev) => ({ ...prev, ...element }));
+    setMissionData((prev) => ({ ...prev, element }));
   };
 
   // Updates all wingmen if FL's tacan gets updated
@@ -32,68 +20,56 @@ export default function WeatherData() {
   //   setMissionData((prev) => ({ ...prev, ...element }));
   // };
 
-  const elementInputs = missionData.element.map((el, index) => (
-    <Input.Group compact key={`element-${index}`}>
-      <Input
-        style={{ width: '25%' }}
+  const elements = missionData.element.map((el, index) => (
+    <Tr key={index}>
+      <Td
+        input
         name='pilot'
         value={el.pilot}
+        placeholder='Callsign...'
         onChange={handleElementChange}
         data-key={index}
       />
-      <Input
-        style={{ width: '25%' }}
+      <Td
+        input
         name='tcn'
         value={el.tcn}
+        placeholder='Callsign...'
         onChange={handleElementChange}
         data-key={index}
       />
-      <Input
-        style={{ width: '25%' }}
+      <Td
+        input
         name='laser'
         value={el.laser}
+        placeholder='Callsign...'
         onChange={handleElementChange}
         data-key={index}
       />
-      <Input
-        style={{ width: '25%' }}
+      <Td
+        input
         name='mode'
         value={el.mode}
+        placeholder='Callsign...'
         onChange={handleElementChange}
         data-key={index}
       />
-    </Input.Group>
+    </Tr>
   ));
 
-  // const formItemLayout = {
-  //   labelCol: { span: 6 },
-  //   wrapperCol: { span: 16 },
-  // };
-
-  const formItemFullLengthLayout = {
-    labelCol: { span: 3 },
-    wrapperCol: { span: 20 },
-  };
-
   return (
-    <Row gutter={8}>
-      <Col className='gutter-row' span={24} md={16}>
-        <Form layout='horizontal'>
-          <Row>
-            <Col span={24} md={24}>
-              <Form.Item {...formItemFullLengthLayout}>
-                <span className='ant-input-group ant-input-group-compact'>
-                  <div style={{ width: '25%', paddingLeft: '1em' }}>Pilot:</div>
-                  <div style={{ width: '25%', paddingLeft: '1em' }}>TACAN:</div>
-                  <div style={{ width: '25%', paddingLeft: '1em' }}>LASER:</div>
-                  <div style={{ width: '25%', paddingLeft: '1em' }}>MODE-C:</div>
-                </span>
-                {elementInputs}
-              </Form.Item>
-            </Col>
-          </Row>
-        </Form>
-      </Col>
-    </Row>
+    <React.Fragment>
+      <Table>
+        <thead>
+          <Tr>
+            <Th>Pilot</Th>
+            <Th>TCN</Th>
+            <Th>LASER</Th>
+            <Th>MODE-C</Th>
+          </Tr>
+        </thead>
+        <Tbody>{elements}</Tbody>
+      </Table>
+    </React.Fragment>
   );
 }

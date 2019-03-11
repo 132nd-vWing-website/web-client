@@ -263,7 +263,7 @@ frontPage.flightplanShort = (flightplan, reduceLinesBy) => {
     });
   } while (plan.length < noOfLines);
 
-  // Add rows for all waypoints, limited to the first 20 (or noOfLines)
+  // Add rows for all waypoints, limited to the first 20 (noOfLines)
   plan.slice(0, noOfLines).forEach((feature, index) => {
     const tos = moment(feature.properties.tos).format('HH:mm:ss');
     const hdg = Math.round(feature.properties.hdg);
@@ -353,8 +353,15 @@ frontPage.create = ({
   packageName,
   packageMembers,
 }) => {
+  // Number of rows to adjust the flightplan with, depending on package rows
+  let reduceFlighPlanBy;
+  if (packageMembers.length < 5) {
+    reduceFlighPlanBy = packageMembers.length - 5;
+  } else {
+    reduceFlighPlanBy = packageMembers.slice(5, packageMembers.length).length;
+  }
+
   const pageNumber = 1;
-  const reduceFlighPlanBy = packageMembers.slice(5, packageMembers.length).length;
 
   const header = frontPage.pageHeader({ pageNumber, missionNumber, title: 'GENERAL INFORMATION' });
   const flightinfoShort = frontPage.flightinfoShort({ callsign, packageName, atis });

@@ -28,6 +28,7 @@ import MissionData from './forms/MissionData';
 import WeatherData from './forms/WeatherData';
 import ElementConfig from './forms/ElementConfig';
 import Navigation from './forms/Navigation';
+import PackageConfig from './forms/PackageConfig';
 // import Signals from './tabs/Signals';
 
 // Lazy Loading
@@ -99,18 +100,19 @@ export default function TaskingEditor() {
               </Row>
               <Row>
                 <Col className='gutter-row' span={24} md={24}>
-                  <Collapse accordion defaultActiveKey='mission-data'>
+                  {/* <Collapse accordion defaultActiveKey='mission-data'> */}
+                  <Collapse accordion defaultActiveKey='package-config'>
                     <CollapsePanel header='Mission Data' key='mission-data'>
                       <MissionData />
                     </CollapsePanel>
                     <CollapsePanel header='Weather Data' key='weather-data'>
                       <WeatherData />
                     </CollapsePanel>
-                    <CollapsePanel header='Element Setup' key='element-setup'>
+                    <CollapsePanel header='Element Setup' key='element-config'>
                       <ElementConfig />
                     </CollapsePanel>
-                    <CollapsePanel header='Package Setup' key='package-setup'>
-                      <p>Lorem Ipsum</p>
+                    <CollapsePanel header='Package Setup' key='package-config'>
+                      <PackageConfig />
                     </CollapsePanel>
                     <CollapsePanel header='Navigation' key='navigation'>
                       <Navigation />
