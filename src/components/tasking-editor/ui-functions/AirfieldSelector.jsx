@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState, useContext } from 'react';
 import SearchInput from './SearchInput';
 
+import Autocomplete from '../../styled/Autocomplete';
+
 import { AirfieldsContext } from '../../../contexts/Airfields';
 
 function AirfieldSelector(props) {
@@ -22,23 +24,13 @@ function AirfieldSelector(props) {
     );
   }, [options]);
 
-  // Match the current selected airfield to the airfieldOption object
-  const [value, setValue] = useState(null);
-  useEffect(() => {
-    // Find the stored airfield...
-    const airfield = airfields.find((field) => field.name === name);
-    // ...match that airfield to our options, so that we can display the correct data
-    const newValue = airfieldOptions.find((option) => option.key === airfield.id.toString());
-    setValue(newValue);
-  }, [airfieldOptions]);
-
   // Return data to parent component when a new airfield is selected
   const [result, setResult] = useState(null);
   useEffect(() => {
     if (result) {
       const index = airfields.findIndex((field) => field.name === result.name);
 
-      const data = options.find((option) => option.airfield_id === result.value);
+      const data = options.find((option) => option.airfield_id === parseInt(result.value, 10));
       const updatedAirfield = {
         id: result.value,
         icao: data.af_icao,
@@ -59,13 +51,25 @@ function AirfieldSelector(props) {
     }
   }, [result]);
 
+  // Match the current selected airfield to the airfieldOption object every render
+  const [value, setValue] = useState(null);
+  useEffect(() => {
+    // Find the stored airfield...
+    const airfield = airfields.find((field) => field.name === name);
+    // ...match that airfield to our options, so that we can display the correct data
+    const newValue = airfieldOptions.find((option) => option.key === airfield.id.toString());
+    setValue(newValue);
+  });
+
   return (
-    <SearchInput
+    <Autocomplete
+      key={name}
       value={value ? value.label : ''}
       name={name}
       onChange={setResult}
       data={airfieldOptions}
       style={style}
+      placeholder='Select Airfield...'
     />
   );
 }

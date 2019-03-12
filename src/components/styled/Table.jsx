@@ -110,25 +110,25 @@ const Action = styled.div`
 `;
 
 const AddAction = styled(Action)`
-  color: #fff;
-  background: #1890ff;
-  border-color: #1890ff;
+  color: ${colors.primary.color}
+  background: ${colors.primary.background}
+  border-color:: ${colors.primary.border}
 
   &:hover {
-    background: #40a9ff;
-    border-color: #1890ff;
+    background: ${colors.primary.highlight.background}
+    border-color: ${colors.primary.highlight.border}
   }
 `;
 
 const RemoveAction = styled(Action)`
-  color: #f5222d;
-  background-color: #f5f5f5;
-  border-color: #d9d9d9;
+  color: ${colors.danger.color}
+  background: ${colors.danger.background}
+  border-color:: ${colors.danger.border}
 
   &:hover {
-    color: white;
-    background: #f5222d;
-    border-color: #f5222d;
+    color: ${colors.danger.highlight.color}
+    background: ${colors.danger.highlight.background}
+    border-color: ${colors.danger.highlight.border}
   }
 `;
 
