@@ -1,7 +1,5 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState, useContext } from 'react';
-import SearchInput from './SearchInput';
-
 import Autocomplete from '../../styled/Autocomplete';
 
 import { AirfieldsContext } from '../../../contexts/Airfields';

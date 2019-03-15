@@ -16,6 +16,10 @@ export const Th = styled.th`
   padding-top: 1em;
   border-bottom: 1px solid #dadada;
 
+  width: ${(props) => (props.width ? props.width : 'auto')};
+
+  text-align: ${(props) => (props.center ? 'center' : 'inherit')};
+
   @media (max-width: ${media.md}) {
     display: none;
   }
@@ -40,6 +44,8 @@ const StyledTd = styled.td`
   padding: 0.5em;
   background: ${(props) => (props.readOnly ? colors.global.readOnly : 'inherit')};
 
+  text-align: ${(props) => (props.center ? 'center' : 'inherit')};
+
   @media (max-width: ${media.md}) {
     width: 100%
     display: block;
@@ -59,6 +65,7 @@ const StyledInput = styled.input`
   width: 100%;
   border: 0;
   background: none;
+  text-align: ${(props) => (props.center ? 'center' : 'inherit')};
 `;
 
 export function Td(props) {

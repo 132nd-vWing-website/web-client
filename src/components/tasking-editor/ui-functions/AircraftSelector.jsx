@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState, useContext } from 'react';
-import SearchInput from './SearchInput';
+import Autocomplete from '../../styled/Autocomplete';
 
 import { AircraftTypesContext } from '../../../contexts/AircraftTypes';
 
@@ -27,13 +27,13 @@ export default function AircraftSelector(props) {
   useEffect(() => {
     const newType = aircraftOptions.find((option) => option.key === value.id.toString());
     setType(newType);
-  }, [aircraftOptions]);
+  });
 
   // Return data to the missionData object when a new aircraft is selected
   const [result, setResult] = useState(null);
   useEffect(() => {
     if (result) {
-      const data = options.find((option) => option.ac_id === result.value);
+      const data = options.find((option) => option.ac_id === parseInt(result.value, 10));
       onChange((prev) => ({
         ...prev,
         aircraft: {
@@ -47,12 +47,14 @@ export default function AircraftSelector(props) {
   }, [result]);
 
   return (
-    <SearchInput
+    <Autocomplete
+      key={name}
       value={type ? type.label : ''}
       name={name}
       onChange={setResult}
       data={aircraftOptions}
       style={style}
+      placeholder='Select Aircraft...'
     />
   );
 }
