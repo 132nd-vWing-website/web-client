@@ -140,7 +140,9 @@ export default function NavPlan() {
               ALT
             </Th>
             <Th center>ACTION</Th>
-            <Th center>FORM</Th>
+            <Th width='8%' center>
+              FORM
+            </Th>
             <Th width='8%' center>
               MIN.FUEL
             </Th>

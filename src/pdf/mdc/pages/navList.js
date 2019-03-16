@@ -98,14 +98,17 @@ navList.flightPlan = (flightplan) => {
 
     const action = feature.properties.action || '-';
 
+    const form = feature.properties.form || '-';
+    const minFuel = feature.properties.minFuel || '-';
+
     td.table.body.push([
       { text: index, style: rowStyle },
       { text: action, style: rowStyle },
       { text: name, style: rowStyle },
       { text: lat, style: rowStyle },
       { text: lon, style: rowStyle },
-      { text: '-', style: rowStyle },
-      { text: '-', style: rowStyle },
+      { text: minFuel, style: rowStyle },
+      { text: form, style: rowStyle },
     ]);
   });
 
