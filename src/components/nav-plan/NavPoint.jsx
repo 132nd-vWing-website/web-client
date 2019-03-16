@@ -49,9 +49,9 @@ export default function NavPoint(props) {
       <Td center name='alt'>
         {alt}
       </Td>
-      <Td input name='action' value={action || ''} onChange={handleChange} data-key={index} />
-      <Td input name='form' value={form || ''} onChange={handleChange} data-key={index} />
-      <Td input name='minFuel' value={minFuel || ''} onChange={handleChange} data-key={index} />
+      <Td input name='action' value={action} onChange={handleChange} data-key={index} />
+      <Td input name='form' value={form} onChange={handleChange} data-key={index} />
+      <Td input name='minFuel' value={minFuel} onChange={handleChange} data-key={index} />
     </Tr>
   );
 }
@@ -60,9 +60,29 @@ NavPoint.propTypes = {
   index: PropTypes.number.isRequired,
   name: PropTypes.string,
   lat: PropTypes.string,
+  lon: PropTypes.string,
+  tos: PropTypes.string,
+  hdg: PropTypes.number,
+  dist: PropTypes.number,
+  speed: PropTypes.number,
+  alt: PropTypes.string,
+  action: PropTypes.string,
+  form: PropTypes.string,
+  minFuel: PropTypes.string,
+  onChange: PropTypes.func,
 };
 
 NavPoint.defaultProps = {
   name: '',
   lat: "00°00'00",
+  lon: '',
+  tos: '',
+  hdg: '',
+  dist: '',
+  speed: '',
+  alt: '',
+  action: '',
+  form: '',
+  minFuel: '',
+  onChange: () => null,
 };
