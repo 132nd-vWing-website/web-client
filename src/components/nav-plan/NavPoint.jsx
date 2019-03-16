@@ -49,9 +49,9 @@ export default function NavPoint(props) {
       <Td center name='alt'>
         {alt}
       </Td>
-      <Td input name='action' value={action} onChange={handleChange} data-key={index} />
-      <Td input name='form' value={form} onChange={handleChange} data-key={index} />
-      <Td input name='minFuel' value={minFuel} onChange={handleChange} data-key={index} />
+      <Td center input name='action' value={action} onChange={handleChange} data-key={index} />
+      <Td center input name='form' value={form} onChange={handleChange} data-key={index} />
+      <Td center input name='minFuel' value={minFuel} onChange={handleChange} data-key={index} />
     </Tr>
   );
 }

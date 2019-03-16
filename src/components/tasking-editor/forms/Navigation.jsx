@@ -9,6 +9,7 @@ import { MissionDataContext } from '../../../contexts/MissionData';
 import GeoImporter from '../../geo-importer/GeoImporter';
 import GeoImporterTable from '../../geo-importer/GeoImporterTable';
 import NavPlan from '../../nav-plan/NavPlan';
+import NavSequences from '../../nav-plan/NavSequences';
 
 export default function Navigation() {
   const { addGeoPoint } = useContext(MissionDataContext);
@@ -25,6 +26,7 @@ export default function Navigation() {
         <GeoImporter />
         <GeoImporterTable actions={tableActions} />
         <NavPlan />
+        <NavSequences />
       </Col>
     </Row>
   );
