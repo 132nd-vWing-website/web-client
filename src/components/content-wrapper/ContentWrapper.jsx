@@ -5,6 +5,7 @@ import { Route, Switch } from 'react-router-dom';
 import PrivateRoute from '../auth/PrivateRoute';
 import Landing from '../landing/Landing';
 import PDFPagesProvider from '../pdf/PDFPagesProvider';
+import Taskings from '../taskings/Taskings';
 
 const { Content } = Layout;
 
@@ -20,14 +21,15 @@ export default function ContentsWrapper() {
         {/* <Route exact path='/register' component={Register} /> */}
         {/* <Route exact path='/login' component={Login} /> */}
         {/* <Route path='/events' component={Events} /> */}
-        <Route
+        <Route path='/taskings' component={Taskings} />
+        {/* <Route
           path='/taskings'
           render={() => (
             <PDFPagesProvider>
               <TaskingEditor />
             </PDFPagesProvider>
           )}
-        />
+        /> */}
         <Route component={Landing} />
       </Switch>
       <Switch>{/* <PrivateRoute exact path='/dashboard' component={ProfileDashboard} /> */}</Switch>

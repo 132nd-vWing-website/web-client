@@ -10,25 +10,23 @@ import 'antd/lib/collapse/style/css';
 import Row from 'antd/lib/row';
 import 'antd/lib/row/style/css';
 import React, { useContext } from 'react';
-import AircraftTypesProvider from '../../contexts/AircraftTypes';
-import AirfieldProvider from '../../contexts/Airfields';
 import { MissionDataContext } from '../../contexts/MissionData';
 import NavPointsProvider from '../../contexts/NavPoints';
+import LoadFromJSON from '../file-system/LoadFromJSON';
+import SaveToJSON from '../file-system/SaveToJSON';
 import GeoImporterDataProvider from '../geo-importer/GeoImporterDataProvider';
 import Spinner from '../loaders/Spinner';
 import LoadButton from '../local-storage/LoadButton';
 import SaveButton from '../local-storage/SaveButton';
-import SaveToJSON from '../file-system/SaveToJSON';
-import LoadFromJSON from '../file-system/LoadFromJSON';
 import { PDFPagesContext } from '../pdf/PDFPagesProvider';
+import ElementConfig from './forms/ElementConfig';
+import MissionData from './forms/MissionData';
+import Navigation from './forms/Navigation';
+import PackageConfig from './forms/PackageConfig';
 // import PageForm from './components/PageForm';
 // import Flightplan from './tabs/Flightplan';
 import PageList from './forms/PageList';
-import MissionData from './forms/MissionData';
 import WeatherData from './forms/WeatherData';
-import ElementConfig from './forms/ElementConfig';
-import Navigation from './forms/Navigation';
-import PackageConfig from './forms/PackageConfig';
 // import Signals from './tabs/Signals';
 
 // Lazy Loading
@@ -87,52 +85,48 @@ export default function TaskingEditor() {
   );
 
   return (
-    <AirfieldProvider>
       <GeoImporterDataProvider>
         <NavPointsProvider>
-          <AircraftTypesProvider>
-            <Card title='Tasking'>
-              <Row>
-                <Col className='gutter-row' span={24} md={24}>
-                  {introText}
-                  {menuActions}
-                </Col>
-              </Row>
-              <Row>
-                <Col className='gutter-row' span={24} md={24}>
-                  <Collapse accordion defaultActiveKey='mission-data'>
+          <Card title='Tasking'>
+            <Row>
+              <Col className='gutter-row' span={24} md={24}>
+                {introText}
+                {menuActions}
+              </Col>
+            </Row>
+            <Row>
+              <Col className='gutter-row' span={24} md={24}>
+                <Collapse accordion defaultActiveKey='mission-data'>
                   {/* <Collapse accordion defaultActiveKey='package-config'> */}
-                    <CollapsePanel header='Mission Data' key='mission-data'>
-                      <MissionData />
-                    </CollapsePanel>
-                    <CollapsePanel header='Weather Data' key='weather-data'>
-                      <WeatherData />
-                    </CollapsePanel>
-                    <CollapsePanel header='Element Setup' key='element-config'>
-                      <ElementConfig />
-                    </CollapsePanel>
-                    <CollapsePanel header='Package Setup' key='package-config'>
-                      <PackageConfig />
-                    </CollapsePanel>
-                    <CollapsePanel header='Navigation' key='navigation'>
-                      <Navigation />
-                    </CollapsePanel>
-                    <CollapsePanel header='Fuel' key='fuel'>
-                      <p>Lorem Ipsum</p>
-                    </CollapsePanel>
-                    <CollapsePanel header='Signals' key='signals'>
-                      <p>Lorem Ipsum</p>
-                    </CollapsePanel>
-                    <CollapsePanel header='Print Settings' key='print'>
-                      <PageList />
-                    </CollapsePanel>
-                  </Collapse>
-                </Col>
-              </Row>
-            </Card>
-          </AircraftTypesProvider>
+                  <CollapsePanel header='Mission Data' key='mission-data'>
+                    <MissionData />
+                  </CollapsePanel>
+                  <CollapsePanel header='Weather Data' key='weather-data'>
+                    <WeatherData />
+                  </CollapsePanel>
+                  <CollapsePanel header='Element Setup' key='element-config'>
+                    <ElementConfig />
+                  </CollapsePanel>
+                  <CollapsePanel header='Package Setup' key='package-config'>
+                    <PackageConfig />
+                  </CollapsePanel>
+                  <CollapsePanel header='Navigation' key='navigation'>
+                    <Navigation />
+                  </CollapsePanel>
+                  <CollapsePanel header='Fuel' key='fuel'>
+                    <p>Lorem Ipsum</p>
+                  </CollapsePanel>
+                  <CollapsePanel header='Signals' key='signals'>
+                    <p>Lorem Ipsum</p>
+                  </CollapsePanel>
+                  <CollapsePanel header='Print Settings' key='print'>
+                    <PageList />
+                  </CollapsePanel>
+                </Collapse>
+              </Col>
+            </Row>
+          </Card>
         </NavPointsProvider>
       </GeoImporterDataProvider>
-    </AirfieldProvider>
   );
 }
