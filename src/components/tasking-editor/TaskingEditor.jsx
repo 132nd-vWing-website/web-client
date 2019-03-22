@@ -32,9 +32,13 @@ import WeatherData from './forms/WeatherData';
 // Lazy Loading
 const PrintPdfButton = React.lazy(() => import('./ui-functions/PrintPdfButton'));
 
-export default function TaskingEditor() {
-  const { missionData, setMissionData } = useContext(MissionDataContext);
+export default function TaskingEditor(props) {
+  const { missionData, setMissionData, setTaskingID } = useContext(MissionDataContext);
   const { pages } = useContext(PDFPagesContext);
+
+  // If a tasking ID was supplied, we want to retrieve and show that data instead of the default object
+  const { match } = props;
+  if (match.params.id) setTaskingID(match.params.id)
 
   // A check to see that we have the data we need to render. Render a loader if not
   if (!missionData) return <Spinner />;
@@ -85,48 +89,48 @@ export default function TaskingEditor() {
   );
 
   return (
-      <GeoImporterDataProvider>
-        <NavPointsProvider>
-          <Card title='Tasking'>
-            <Row>
-              <Col className='gutter-row' span={24} md={24}>
-                {introText}
-                {menuActions}
-              </Col>
-            </Row>
-            <Row>
-              <Col className='gutter-row' span={24} md={24}>
-                <Collapse accordion defaultActiveKey='mission-data'>
-                  {/* <Collapse accordion defaultActiveKey='package-config'> */}
-                  <CollapsePanel header='Mission Data' key='mission-data'>
-                    <MissionData />
-                  </CollapsePanel>
-                  <CollapsePanel header='Weather Data' key='weather-data'>
-                    <WeatherData />
-                  </CollapsePanel>
-                  <CollapsePanel header='Element Setup' key='element-config'>
-                    <ElementConfig />
-                  </CollapsePanel>
-                  <CollapsePanel header='Package Setup' key='package-config'>
-                    <PackageConfig />
-                  </CollapsePanel>
-                  <CollapsePanel header='Navigation' key='navigation'>
-                    <Navigation />
-                  </CollapsePanel>
-                  <CollapsePanel header='Fuel' key='fuel'>
-                    <p>Lorem Ipsum</p>
-                  </CollapsePanel>
-                  <CollapsePanel header='Signals' key='signals'>
-                    <p>Lorem Ipsum</p>
-                  </CollapsePanel>
-                  <CollapsePanel header='Print Settings' key='print'>
-                    <PageList />
-                  </CollapsePanel>
-                </Collapse>
-              </Col>
-            </Row>
-          </Card>
-        </NavPointsProvider>
-      </GeoImporterDataProvider>
+    <GeoImporterDataProvider>
+      <NavPointsProvider>
+        <Card title='Tasking'>
+          <Row>
+            <Col className='gutter-row' span={24} md={24}>
+              {introText}
+              {menuActions}
+            </Col>
+          </Row>
+          <Row>
+            <Col className='gutter-row' span={24} md={24}>
+              <Collapse accordion defaultActiveKey='mission-data'>
+                {/* <Collapse accordion defaultActiveKey='package-config'> */}
+                <CollapsePanel header='Mission Data' key='mission-data'>
+                  <MissionData />
+                </CollapsePanel>
+                <CollapsePanel header='Weather Data' key='weather-data'>
+                  <WeatherData />
+                </CollapsePanel>
+                <CollapsePanel header='Element Setup' key='element-config'>
+                  <ElementConfig />
+                </CollapsePanel>
+                <CollapsePanel header='Package Setup' key='package-config'>
+                  <PackageConfig />
+                </CollapsePanel>
+                <CollapsePanel header='Navigation' key='navigation'>
+                  <Navigation />
+                </CollapsePanel>
+                <CollapsePanel header='Fuel' key='fuel'>
+                  <p>Lorem Ipsum</p>
+                </CollapsePanel>
+                <CollapsePanel header='Signals' key='signals'>
+                  <p>Lorem Ipsum</p>
+                </CollapsePanel>
+                <CollapsePanel header='Print Settings' key='print'>
+                  <PageList />
+                </CollapsePanel>
+              </Collapse>
+            </Col>
+          </Row>
+        </Card>
+      </NavPointsProvider>
+    </GeoImporterDataProvider>
   );
 }

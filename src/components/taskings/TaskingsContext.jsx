@@ -7,6 +7,7 @@ import API_ROOT from '../../contexts/api-config';
 export const TaskingsContext = React.createContext({
   taskings: null,
   setTasking: () => null,
+  addTasking: () => null,
 });
 
 export const TaskingsConsumer = TaskingsContext.Consumer;
@@ -27,8 +28,16 @@ export default function TaskingsProvider(props) {
     refreshTaskings();
   }, []);
 
+  const addTasking = (tasking) =>
+    axios
+      .post(`${API_ROOT}/taskings`, tasking)
+      .then((res) => res.data)
+      .catch((err) => console.log(err.response.data));
+
+  // TODO: ADD updateTasking(id, data) for updating a record
+
   return (
-    <TaskingsContext.Provider value={{ taskings, refreshTaskings }}>
+    <TaskingsContext.Provider value={{ taskings, refreshTaskings, addTasking }}>
       {children}
     </TaskingsContext.Provider>
   );

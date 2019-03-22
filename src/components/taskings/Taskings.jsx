@@ -21,32 +21,27 @@ export default class Taskings extends Component {
 
     return (
       <React.Fragment>
-        {/* <Route path={`${match.path}/:id`} component={Event} /> */}
-        <Route
-          path={`${match.path}/:id`}
-          render={() => (
-            <PDFPagesProvider>
-              <AirfieldProvider>
-                <AircraftTypesProvider>
-                  <TaskingEditor {...match} />
-                </AircraftTypesProvider>
-              </AirfieldProvider>
-            </PDFPagesProvider>
-          )}
-        />
-        <Route
-          exact
-          path={match.path}
-          render={(props) => (
-            <TaskingsProvider>
-              <AirfieldProvider>
-                <AircraftTypesProvider>
+        <AirfieldProvider>
+          <AircraftTypesProvider>
+            <Route
+              path={`${match.path}/:id`}
+              render={(props) => (
+                <PDFPagesProvider>
+                  <TaskingEditor {...props} />
+                </PDFPagesProvider>
+              )}
+            />
+            <Route
+              exact
+              path={match.path}
+              render={(props) => (
+                <TaskingsProvider>
                   <TaskingList {...props} activeOnly />
-                </AircraftTypesProvider>
-              </AirfieldProvider>
-            </TaskingsProvider>
-          )}
-        />
+                </TaskingsProvider>
+              )}
+            />
+          </AircraftTypesProvider>
+        </AirfieldProvider>
       </React.Fragment>
     );
   }

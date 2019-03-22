@@ -1,7 +1,9 @@
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import defaultData from '../pdf/mdc/default.data';
 import makeNavPlan from '../utils/makeNavplan';
+import API_ROOT from './api-config';
 
 /**
  * MissionData Context
@@ -28,7 +30,11 @@ export default function MissionDataProvider(props) {
   const [taskingID, setTaskingID] = useState(null);
   useEffect(() => {
     // If a taskingID is set, we want to get data from the database, format it and run setMissionData()
-    if (taskingID) console.log('...do something');
+    if (taskingID) {
+      axios
+        .get(`${API_ROOT}/taskings/tasking?id=${taskingID}`)
+        .then((res) => setMissionData(JSON.parse(res.data[0].mission_data)));
+    }
   }, [taskingID]);
 
   /**

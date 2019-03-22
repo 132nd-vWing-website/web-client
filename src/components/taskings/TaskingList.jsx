@@ -13,8 +13,10 @@ import { TaskingsContext } from './TaskingsContext';
 import { AircraftTypesContext } from '../../contexts/AircraftTypes';
 import { AirfieldsContext } from '../../contexts/Airfields';
 
+import defaultData from '../../pdf/mdc/default.data';
+
 export default function TaskingList(props) {
-  const { taskings } = useContext(TaskingsContext);
+  const { taskings, addTasking } = useContext(TaskingsContext);
   const aircraftTypes = useContext(AircraftTypesContext).types;
   const { airfields } = useContext(AirfieldsContext);
 
@@ -25,6 +27,16 @@ export default function TaskingList(props) {
   if (redirect) {
     return <Redirect push to={`${match.path}/${redirect}`} />;
   }
+  const handleAdd = () => {
+    const add = addTasking({
+      event_id: 0,
+      mission_data: defaultData,
+      msnacft_callsign: defaultData.callsign,
+      amsndat_msnno: defaultData.missionNumber,
+    });
+
+    add.then((res) => setRedirect(res.insertId));
+  };
 
   const content = taskings.map((task) => {
     const taskId = task.task_id;
@@ -35,9 +47,14 @@ export default function TaskingList(props) {
     const type = aircraftTypes.find((el) => el.ac_id.toString() === task.msnacft_type);
     const acNo = task.msnacft_acno;
 
+    let dep = ' - ';
+    let arr = ' - ';
     const missionData = JSON.parse(task.mission_data);
-    const dep = airfields.find((el) => el.airfield_id === missionData.airfields[0].id);
-    const arr = airfields.find((el) => el.airfield_id === missionData.airfields[1].id);
+
+    if (missionData && missionData.airfields) {
+      dep = airfields.find((el) => el.airfield_id === missionData.airfields[0].id);
+      arr = airfields.find((el) => el.airfield_id === missionData.airfields[1].id);
+    }
 
     return (
       <Tr key={taskId} onClick={() => setRedirect(taskId)} style={{ cursor: 'pointer' }}>
@@ -70,6 +87,9 @@ export default function TaskingList(props) {
             </thead>
             <Tbody>{content}</Tbody>
           </Table>
+          <button type='button' onClick={handleAdd}>
+            Add New
+          </button>
         </Col>
       </Row>
     </Card>

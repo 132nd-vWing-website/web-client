@@ -66,9 +66,9 @@ export default function AircraftTypesProvider(props) {
 }
 
 AircraftTypesProvider.propTypes = {
-  children: PropTypes.object,
+  children: PropTypes.any,
 };
 
 AircraftTypesProvider.defaultProps = {
-  children: {},
+  children: null,
 };
