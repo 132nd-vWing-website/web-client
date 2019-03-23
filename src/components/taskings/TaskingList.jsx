@@ -5,15 +5,15 @@ import 'antd/lib/col/style/css';
 import 'antd/lib/collapse/style/css';
 import Row from 'antd/lib/row';
 import 'antd/lib/row/style/css';
+import PropTypes from 'prop-types';
 import React, { useContext, useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { Table, Tbody, Td, Th, Tr } from '../styled/Table';
-import { TaskingsContext } from './TaskingsContext';
 import { AircraftTypesContext } from '../../contexts/AircraftTypes';
 import { AirfieldsContext } from '../../contexts/Airfields';
-
 import defaultData from '../../pdf/mdc/default.data';
+import { Table, Tbody, Td, Th, Tr } from '../styled/Table';
+import TaskingCard from './TaskingCard';
+import { TaskingsContext } from './TaskingsContext';
 
 export default function TaskingList(props) {
   const { taskings, addTasking } = useContext(TaskingsContext);
@@ -38,58 +38,20 @@ export default function TaskingList(props) {
     add.then((res) => setRedirect(res.insertId));
   };
 
-  const content = taskings.map((task) => {
+  const taskingCards = taskings.map((task) => {
     const taskId = task.task_id;
-    const msnNo = task.amsndat_msnno;
-    const eventId = task.event_id;
-    const callsign = task.msnacft_callsign;
-    const flightNo = task.msnacft_flightno;
-    const type = aircraftTypes.find((el) => el.ac_id.toString() === task.msnacft_type);
-    const acNo = task.msnacft_acno;
-
-    let dep = ' - ';
-    let arr = ' - ';
-    const missionData = JSON.parse(task.mission_data);
-
-    if (missionData && missionData.airfields) {
-      dep = airfields.find((el) => el.airfield_id === missionData.airfields[0].id);
-      arr = airfields.find((el) => el.airfield_id === missionData.airfields[1].id);
-    }
-
-    return (
-      <Tr key={taskId} onClick={() => setRedirect(taskId)} style={{ cursor: 'pointer' }}>
-        <Td center>{taskId}</Td>
-        <Td center>{eventId}</Td>
-        <Td center>{msnNo}</Td>
-        <Td center>{`${callsign}-${flightNo}`}</Td>
-        <Td center>{`${acNo} x ${type.ac_type}`}</Td>
-        <Td center>{dep ? dep.af_icao : ' - '}</Td>
-        <Td center>{arr ? arr.af_icao : ' - '}</Td>
-      </Tr>
-    );
+    return <TaskingCard key={taskId} data={task} onClick={() => setRedirect(taskId)} />;
   });
 
   return (
     <Card title='Taskings'>
       <Row>
         <Col className='gutter-row' span={24} md={24}>
-          <Table>
-            <thead>
-              <Tr>
-                <Th center>#</Th>
-                <Th center>EVENT</Th>
-                <Th center>MSN NO.</Th>
-                <Th center>CALLSIGN</Th>
-                <Th center>A/C TYPE</Th>
-                <Th center>DEP</Th>
-                <Th center>ARR</Th>
-              </Tr>
-            </thead>
-            <Tbody>{content}</Tbody>
-          </Table>
           <button type='button' onClick={handleAdd}>
             Add New
           </button>
+          <hr />
+          {taskingCards}
         </Col>
       </Row>
     </Card>

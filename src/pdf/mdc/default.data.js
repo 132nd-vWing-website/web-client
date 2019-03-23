@@ -5,7 +5,7 @@
 const defaultData = {
   date: '241900ZFEB2019',
   missionNumber: 'TR0277',
-  callsign: 'VENOM-8',
+  callsign: 'VENOM',
   ato:
     'VTASK/132vW/20112/241900ZFEB2019//TASKUNIT/ 494th/ICAO:UGKO//AMSNDAT / AI0112 / AI / -/-/2 / -/-/DEPLOC: UGKO / ARRLOC: UGKO// MSNACFT / 4 / F / A - 18C / JEDI51 - 54 / -/-/CORAL9 / YELLOW11//',
   atis: 'UGKO 044500Z 31021KTS 9999M 05/-1 Q1007 NOSIG',
@@ -58,9 +58,6 @@ const defaultData = {
   ],
   aircraft: {
     id: 1,
-    type: 'A-10C',
-    nato: 'Warthog',
-    role: 'cas',
   },
   element: [
     {
@@ -76,13 +73,13 @@ const defaultData = {
       mode: '4232',
     },
     {
-      pilot: ' - ',
+      pilot: '',
       tcn: '83X',
       laser: '1682',
       mode: '4233',
     },
     {
-      pilot: ' - ',
+      pilot: '',
       tcn: '83X',
       laser: '1683',
       mode: '4234',

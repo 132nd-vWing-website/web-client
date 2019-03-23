@@ -17,10 +17,27 @@ export default function TaskingsProvider(props) {
 
   const [taskings, setTaskings] = useState([]);
 
+  // const refreshTaskings = () => {
+  //   axios
+  //     .get(`${API_ROOT}/taskings`)
+  //     .then((res) => setTaskings(res.data))
+  //     .catch(() => setTaskings([]));
+  // };
+
   const refreshTaskings = () => {
     axios
       .get(`${API_ROOT}/taskings`)
-      .then((res) => setTaskings(res.data))
+      .then((res) => {
+        // Need to make sure sql-stored json is parsed before returning
+        const collection = [];
+        res.data.forEach((el) => {
+          collection.push({
+            ...el,
+            ...{ mission_data: JSON.parse(el.mission_data) },
+          });
+        });
+        setTaskings(collection);
+      })
       .catch(() => setTaskings([]));
   };
 
