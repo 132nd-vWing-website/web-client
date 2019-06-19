@@ -100,8 +100,8 @@ export default function TaskingEditor(props) {
           </Row>
           <Row>
             <Col className='gutter-row' span={24} md={24}>
-              <Collapse accordion defaultActiveKey='mission-data'>
-                {/* <Collapse accordion defaultActiveKey='package-config'> */}
+              {/* <Collapse accordion defaultActiveKey='mission-data'> */}
+              <Collapse accordion>
                 <CollapsePanel header='Mission Data' key='mission-data'>
                   <MissionData />
                 </CollapsePanel>
