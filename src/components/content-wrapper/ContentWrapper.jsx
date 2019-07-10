@@ -7,6 +7,8 @@ import Landing from '../landing/Landing';
 import PDFPagesProvider from '../pdf/PDFPagesProvider';
 import Taskings from '../taskings/Taskings';
 
+import { FlightplanProvider } from '../flightplanner/FlightplanContext';
+
 const { Content } = Layout;
 
 const TaskingEditor = React.lazy(() =>
@@ -21,7 +23,10 @@ export default function ContentsWrapper() {
         {/* <Route exact path='/register' component={Register} /> */}
         {/* <Route exact path='/login' component={Login} /> */}
         {/* <Route path='/events' component={Events} /> */}
-        <Route path='/taskings' component={Taskings} />
+        <Route path='/events' component={TaskingEditor} />
+        {/* <Route path='/taskings' component={Taskings} /> */}
+        <Route path='/taskings' component={FlightplanProvider} />
+
         {/* <Route
           path='/taskings'
           render={() => (

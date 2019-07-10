@@ -73,6 +73,7 @@ export default function TaskingCard(props) {
   const { data, onClick } = props;
 
   const msnNo = data.amsndat_msnno;
+  const msnType = data.amsndat_primsn;
   const wing = '132nd vWing';
   const sqn = '494th VFS';
   const callsign = data.msnacft_callsign;
@@ -104,7 +105,7 @@ export default function TaskingCard(props) {
       <td>{`${callsign} ${flightNo}-1`}</td>
       <td>Flight Lead</td>
       <td>{airframe}</td>
-      <td>TR</td>
+      <td>{msnType}</td>
       <td>{data.mission_data.element[0].pilot}</td>
     </tr>
   );
@@ -117,7 +118,7 @@ export default function TaskingCard(props) {
         <td>{`${callsign} ${flightNo}-${eleNum}`}</td>
         <td>Wingman</td>
         <td>{airframe}</td>
-        <td>TR</td>
+        <td>{msnType}</td>
         <td>{el.pilot}</td>
       </tr>
     );
