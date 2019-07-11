@@ -19,6 +19,9 @@ export const FlightplanConsumer = FlightplanContext.Consumer;
 
 export function FlightplanProvider({ children }) {
   const [flightplan, setFlightplan] = React.useState(null); // Should probably define a default object here
+  React.useEffect(() => {
+    console.log(flightplan)
+  }, [flightplan])
 
   const [taskingId, setTaskingId] = React.useState(null);
 
