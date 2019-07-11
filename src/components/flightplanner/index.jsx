@@ -3,9 +3,9 @@ import { FlightplanContext } from './FlightplanContext';
 import styled from 'styled-components';
 import { Grid, GridItem } from 'styled-grid-component';
 import Collapsible, { CollapsibleGroup } from '../ui/Collapsible';
+import Input, { InputGroup } from '../ui/Input';
 import Page from '../ui/Page';
-
-import Input from '../ui/Input';
+import { FiEdit } from "react-icons/fi";
 
 const PageIngress = styled.div`
   margin-bottom: 1em;
@@ -42,12 +42,16 @@ export default function Flightplanner({ match }) {
         autoRows="minmax(100px, auto)"
       >
         <GridItem column="1 / 7" row="1">
-          <CollapsibleGroup>
+          <InputGroup title="Mission Data" icon={<FiEdit />}>
             <Input label="Flight Date:" placeholder="TR2222" />
             <Input label="Task Number:" />
             <Input label="Tasking:" />
             <Input label="Package:" />
             <Input label="Callsign:" />
+            <Input label="Mission Objective:" multiline />
+          </InputGroup>
+
+          <CollapsibleGroup>
             <Collapsible title='Mission'>
               <p>Some Content Here!</p>
             </Collapsible>
