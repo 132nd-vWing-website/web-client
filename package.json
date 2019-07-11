@@ -13,6 +13,7 @@
     "pdfmake": "^0.1.53",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
+    "react-autosuggest": "^9.4.3",
     "react-dom": "^16.8.6",
     "react-drag-listview": "^0.1.4",
     "react-icons": "^3.7.0",
