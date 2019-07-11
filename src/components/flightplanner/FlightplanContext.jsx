@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Flightplaner from './Flightplanner';
+import Flightplaner from '.';
 
 /**
  * FlightplanContext
