@@ -116,7 +116,7 @@ export function InputGroup({ children, title, icon }) {
     )
 }
 
-export default function Input({ name, label, id, placeholder, multiline }) {
+export default function Input({ name, label, id, placeholder, multiline, onChange }) {
 
     // If there is no label supplied, then have the input element take up the whole space
     if (!label) {
@@ -143,7 +143,7 @@ export default function Input({ name, label, id, placeholder, multiline }) {
                 </InputLabelWrapper>
             </GridItem>
             <GridItem column="2 / 7" row="1">
-                {multiline ? <InputFieldMultiline name={name} id={`input-${id}`} placeholder={placeholder} /> : <InputField name={name} id={`input-${id}`} placeholder={placeholder} />}
+                {multiline ? <InputFieldMultiline onChange={onChange} name={name} id={`input-${id}`} placeholder={placeholder} /> : <InputField onChange={onChange} name={name} id={`input-${id}`} placeholder={placeholder} />}
             </GridItem>
         </Grid>
     )
@@ -155,7 +155,7 @@ Input.propTypes = {
     id: PropTypes.string,
     placeholder: PropTypes.string,
     multiline: PropTypes.bool,
-
+    onChange: PropTypes.func,
 };
 
 Input.defaultProps = {
@@ -164,4 +164,5 @@ Input.defaultProps = {
     id: Date.now().toString(),
     placeholder: null,
     multiline: false,
+    onChange: () => null,
 };
