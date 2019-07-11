@@ -80,7 +80,8 @@
     "git:log:tags": "git log $(git describe --tags --abbrev=0 @^)..@ --oneline --grep='^FIX:' --grep='^CHANGE:' --grep='^ADD:' --grep='^DELETE:'",
     "format": "prettier --write '**/*.{js,jsx}'",
     "lint": "eslint src/* --fix",
-    "count": "find . -name '*.js' -not -path './node_modules*' -not -path './client/node_modules*' | xargs wc -l"
+    "count": "find . -name '*.js' -not -path './node_modules*' -not -path './client/node_modules*' | xargs wc -l",
+    "fix:eol": "find ./src -print0 | xargs -0 dos2unix --"
   },
   "apidoc": {
     "name": "132nd Server API",
