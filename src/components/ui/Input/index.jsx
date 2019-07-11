@@ -117,6 +117,18 @@ export function InputGroup({ children, title, icon }) {
 }
 
 export default function Input({ name, label, id, placeholder, multiline }) {
+
+    // If there is no label supplied, then have the input element take up the whole space
+    if (!label) {
+        return (
+            <React.Fragment>
+
+                {multiline ? <InputFieldMultiline name={name} id={`input-${id}`} placeholder={placeholder} /> : <InputField name={name} id={`input-${id}`} placeholder={placeholder} />}
+            </React.Fragment>
+        )
+    }
+
+    // If there is a label, then we need to present it accordingly
     return (
         <Grid
             width="100%"
@@ -132,7 +144,6 @@ export default function Input({ name, label, id, placeholder, multiline }) {
             </GridItem>
             <GridItem column="2 / 7" row="1">
                 {multiline ? <InputFieldMultiline name={name} id={`input-${id}`} placeholder={placeholder} /> : <InputField name={name} id={`input-${id}`} placeholder={placeholder} />}
-
             </GridItem>
         </Grid>
     )
@@ -149,7 +160,7 @@ Input.propTypes = {
 
 Input.defaultProps = {
     name: Date.now().toString(),
-    label: 'Input:',
+    label: null,
     id: Date.now().toString(),
     placeholder: null,
     multiline: false,
