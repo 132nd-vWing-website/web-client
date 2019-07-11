@@ -5,7 +5,12 @@ import PropTypes from 'prop-types';
 
 const InputLabel = styled.label`
     font-weight: 600;
-    float:right;
+    float: right;
+`;
+
+const InputLabelWrapper = styled.div`
+    min-width: 4em;
+    float:right
 `;
 
 const InputField = styled.input`
@@ -119,9 +124,11 @@ export default function Input({ name, label, id, placeholder, multiline }) {
             gap="10px"
         >
             <GridItem column="1 / 2" row="1">
-                <InputLabel htmlFor={`input-${id}`}>
-                    {label}
-                </InputLabel>
+                <InputLabelWrapper>
+                    <InputLabel htmlFor={`input-${id}`}>
+                        {label}
+                    </InputLabel>
+                </InputLabelWrapper>
             </GridItem>
             <GridItem column="2 / 7" row="1">
                 {multiline ? <InputFieldMultiline name={name} id={`input-${id}`} placeholder={placeholder} /> : <InputField name={name} id={`input-${id}`} placeholder={placeholder} />}
