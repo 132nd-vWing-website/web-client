@@ -11,6 +11,9 @@ const InputLabel = styled.label`
 const InputField = styled.input`
     width: 100%;
     margin-bottom: 2px;
+    border: 1px solid rgba(0, 0, 0, 0.20);
+    border-radius: 2px;
+    padding-left: .5em;
 `;
 
 export default function Input({ label, id, placeholder }) {
@@ -41,6 +44,6 @@ Input.propTypes = {
 
 Input.defaultProps = {
     label: 'Input:',
-    id: Date.now(),
+    id: Date.now().toString(),
     placeholder: null,
 };
