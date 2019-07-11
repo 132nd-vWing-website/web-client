@@ -15,8 +15,8 @@ import { FiChevronRight, FiChevronDown } from 'react-icons/fi';
 // `;
 
 const CollapsibleToggler = styled.div`
-  background-color: rgba(0, 0, 0, 0.85);
-  color: #444;
+  background-color: rgba(0, 0, 0, 0.05);
+  color: rgba(0, 0, 0, 0.65);
   cursor: pointer;
   padding: 18px;
   width: 100%;
@@ -24,16 +24,17 @@ const CollapsibleToggler = styled.div`
   text-align: left;
   outline: none;
   line-height: 22px;
-  border: 1px solid rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.20);
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.95);
+    background-color: rgba(0, 0, 0, 0.10);
   }
 `;
 
 const CollapsibleContent = styled.div`
   display: ${(attr) => (attr.visible ? 'block' : 'none')};
-  background-color: #f1f1f1;
+  border: 1px solid rgba(0, 0, 0, 0.20);
+  background-color: #fff;
   padding: 0 18px;
   padding-top: 2em;
   overflow: hidden;
