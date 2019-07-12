@@ -10,7 +10,7 @@ import Flightplaner from '.';
  */
 
 export const FlightplanContext = React.createContext({
-  flightplan: null,
+  flightplan: [],
   setFlightplan: () => null,
   setTaskingId: () => null,
 });
@@ -18,7 +18,7 @@ export const FlightplanContext = React.createContext({
 export const FlightplanConsumer = FlightplanContext.Consumer;
 
 export function FlightplanProvider({ children }) {
-  const [flightplan, setFlightplan] = React.useState(null); // Should probably define a default object here
+  const [flightplan, setFlightplan] = React.useState([]);
   React.useEffect(() => {
     console.log(flightplan)
   }, [flightplan])
