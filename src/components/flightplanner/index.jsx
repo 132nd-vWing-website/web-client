@@ -20,6 +20,9 @@ import AirfieldSelector from '../ui/Autocomplete/AirfieldSelector';
 import Page from '../ui/Page';
 import Form from '../ui/Form';
 import Table from '../ui/Table';
+import FlightData from '../ui/Table/FlightData';
+
+import connectHtmlElementValueToObject from '../helpers/connectHtmlElementValueToObject';
 
 import airports from './airfields.json';
 
@@ -31,36 +34,6 @@ export default function Flightplanner({ match }) {
   const { flightplan, setFlightplan, setTaskingId } = useContext(FlightplanContext);
 
   // if (match.params.id) setTaskingId(match.params.id);
-
-  /**
-   * connectHtmlElementValueToObject  - This function allows us to name a HTML element in the same way we would reference our targetObj (name="parent.someObject.someKey") and expect that key to be updated onChange
-   * @param {string} name       Name of the html element, like "parentObj.someObj.somekey"
-   * @param {string} value      The value we want to store
-   * @param {object} targetObj  The object we need to store this data in
-   */
-  const connectHtmlElementValueToObject = (name, value, targetObj) => {
-    const path = name.split('.');
-
-    // Create a tree if the name contains multiple parts
-    if (path.length > 1) {
-      // // Remove the first node of the tree so that we can create a new name string
-      const next = path.slice(1, path.length).join('.');
-
-      // Repeat recursivly
-      const res = connectHtmlElementValueToObject(next, value);
-
-      // We need to know the key to populate
-      const key = path.shift();
-
-      // And we also need a copy of the current parent so that we can merge our result to it
-      const copy = targetObj[key];
-
-      // Merge the copy with res, and add them to the parent key
-      return { [key]: { ...copy, ...res } };
-    }
-    // If we don't have a path-string, then just return a key-value pair
-    return { [name]: value };
-  };
 
   const handleChange = (e) => {
     const change = connectHtmlElementValueToObject(e.target.name, e.target.value, flightplan);
@@ -87,12 +60,13 @@ export default function Flightplanner({ match }) {
         <hr />
       </PageIngress>
       <Grid width='100%' templateColumns='repeat(6, 1fr)' gap='10px' autoRows='minmax(100px, auto)'>
-        <GridItem column='1 / 7' row='-1'>
-          <Form title='Flight Data' icon={<MdAirplanemodeActive />}>
+        <GridItem column='1 / 7' row='1'>
+          <Form title='Flight Data (Component)' icon={<MdAirplanemodeActive />}>
+            <FlightData onChange={handleChange} name='flightData' value={flightplan.flightData} />
+          </Form>
+          <Form title='Flight Data (Table)' icon={<MdAirplanemodeActive />}>
             <Table centered />
           </Form>
-        </GridItem>
-        {/* <GridItem column='1 / 7' row='1'>
           <Form title='Mission Data' icon={<FiEdit />}>
             <Input onChange={handleChange} name='flightDate' label='Flight Date:' />
             <Input onChange={handleChange} name='taskNumber' label='Task #:' placeholder='TR2222' />
@@ -106,7 +80,7 @@ export default function Flightplanner({ match }) {
               multiline
             />
           </Form>
-        </GridItem> */}
+        </GridItem>
         <GridItem column='1 / 3' row='2'>
           <Form title='Departure' icon={<MdFlightTakeoff />}>
             <AirfieldSelector
