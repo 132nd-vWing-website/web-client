@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Page from '../ui/Page';
 import Form from '../ui/Form';
+import Table from '../ui/Table';
 
 
 import airports from './airfields.json';
@@ -133,7 +134,7 @@ export default function Flightplanner({ match }) {
         </GridItem>
         <GridItem column="1 / 7" row="4">
           <Form title="Flight Data" icon={<MdAirplanemodeActive />}>
-            <Input multiline />
+            <Table centered />
           </Form>
           <Form title="Package" icon={<MdPeople />}>
             <Input multiline />
