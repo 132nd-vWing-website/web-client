@@ -65,16 +65,16 @@ const testColumns = [
   },
 ];
 
-const TableContainer = styled.table`
+export const TableContainer = styled.table`
   width: 100%;
   /* border: 1px solid rgba(0, 0, 0, 0.20); */
 `;
 
-const Tr = styled.tr`
+export const Tr = styled.tr`
   text-align: ${(attr) => (attr.centered ? 'center' : 'inherit')};
 `;
 
-const Th = styled.th`
+export const Th = styled.th`
   /* background: rgba(0, 0, 0, 0.05); */
   margin-bottom: 2px;
   border: 1px solid rgba(0, 0, 0, 0.2);
@@ -82,7 +82,7 @@ const Th = styled.th`
   text-align: ${(attr) => (attr.centered ? 'center' : 'inherit')};
 `;
 
-const Td = styled.td`
+export const Td = styled.td`
   margin-bottom: 2px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   padding-left: 0.5em;
