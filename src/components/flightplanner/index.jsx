@@ -23,12 +23,12 @@ export default function Flightplanner({ match }) {
   // if (match.params.id) setTaskingId(match.params.id);
 
   /**
-   * createObjectFromName - This function allows us to name a HTML element in the same way we would reference our targetObj (name="parent.someObject.someKey") and expect that key to be updated onChange
+   * connectHtmlElementValueToObject  - This function allows us to name a HTML element in the same way we would reference our targetObj (name="parent.someObject.someKey") and expect that key to be updated onChange
    * @param {string} name       Name of the html element, like "parentObj.someObj.somekey"
    * @param {string} value      The value we want to store
    * @param {object} targetObj  The object we need to store this data in
    */
-  const createObjectFromName = (name, value, targetObj) => {
+  const connectHtmlElementValueToObject = (name, value, targetObj) => {
     let path = name.split('.')
 
     // Create a tree if the name contains multiple parts
@@ -37,7 +37,7 @@ export default function Flightplanner({ match }) {
       let next = path.slice(1, path.length).join('.')
 
       // Repeat recursivly
-      let res = createObjectFromName(next, value)
+      let res = connectHtmlElementValueToObject(next, value)
 
       // We need to know the key to populate
       let key = path.shift()
@@ -54,7 +54,7 @@ export default function Flightplanner({ match }) {
   }
 
   const handleChange = (e) => {
-    let change = createObjectFromName(e.target.name, e.target.value, flightplan)
+    let change = connectHtmlElementValueToObject(e.target.name, e.target.value, flightplan)
     setFlightplan((prev) => ({ ...prev, ...change }));
   };
 
