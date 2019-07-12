@@ -7,15 +7,6 @@ import './theme.css';
 export default function AirfieldSelector({ name, label, id, placeholder, onChange, data }) {
   const [value, setValue] = React.useState('');
   const [suggestions, setSuggestions] = React.useState([]);
-  React.useEffect(() => {
-    const e = {
-      target: {
-        name,
-        value,
-      },
-    };
-    onChange(e);
-  }, [value]);
 
   // Function for calculating suggestion for any given input value
   const getSuggestions = (input) => {
@@ -38,6 +29,7 @@ export default function AirfieldSelector({ name, label, id, placeholder, onChang
 
   // Handle value updates
   const handleChange = (event, { newValue }) => {
+    console.log(newValue)
     setValue(newValue);
   };
 
@@ -51,6 +43,10 @@ export default function AirfieldSelector({ name, label, id, placeholder, onChang
     setSuggestions([]);
   };
 
+  const onSuggestionSelected = (event, { suggestion }) => {
+    onChange(suggestion)
+  }
+
   // Props to pass down to the input field
   const inputProps = {
     placeholder,
@@ -63,6 +59,7 @@ export default function AirfieldSelector({ name, label, id, placeholder, onChang
       suggestions={suggestions}
       onSuggestionsFetchRequested={onSuggestionsFetchRequested}
       onSuggestionsClearRequested={onSuggestionsClearRequested}
+      onSuggestionSelected={onSuggestionSelected}
       getSuggestionValue={getSuggestionValue}
       renderSuggestion={renderSuggestion}
       inputProps={inputProps}
