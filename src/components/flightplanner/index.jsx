@@ -1,14 +1,15 @@
-import React, { useContext } from 'react';
-import { FlightplanContext } from './FlightplanContext';
-import styled from 'styled-components';
-import { Grid, GridItem } from 'styled-grid-component';
-import Collapsible, { CollapsibleGroup } from '../ui/Collapsible';
-import Input, { InputGroup } from '../ui/Input';
-import Page from '../ui/Page';
-import { FiEdit } from "react-icons/fi";
 import { MdFlightLand, MdFlightTakeoff, MdHelpOutline, MdMyLocation, MdAirplanemodeActive, MdPeople, MdBuild, MdFlare, MdGraphicEq } from "react-icons/md";
 import AirfieldSelector from '../ui/Autocomplete/AirfieldSelector';
+import { FlightplanContext } from './FlightplanContext';
+import { Grid, GridItem } from 'styled-grid-component';
+import Input, { InputGroup } from '../ui/Input';
+import React, { useContext } from 'react';
+import { FiEdit } from "react-icons/fi";
+import styled from 'styled-components';
+import PropTypes from 'prop-types';
+import Page from '../ui/Page';
 import Form from '../ui/Form';
+
 
 import airports from './airfields.json';
 
@@ -21,8 +22,39 @@ export default function Flightplanner({ match }) {
 
   // if (match.params.id) setTaskingId(match.params.id);
 
+  /**
+   * createObjectFromName - This function allows us to name a HTML element in the same way we would reference our object (name="parent.someObject.someKey") and expect that key to be updated onChange
+   * @param {string} name 
+   * @param {string} value 
+   */
+  const createObjectFromName = (name, value, object) => {
+    let path = name.split('.')
+
+    // Create a tree if the name contains multiple parts
+    if (path.length > 1) {
+      // // Remove the first node of the tree so that we can create a new name string
+      let next = path.slice(1, path.length).join('.')
+
+      // Repeat recursivly
+      let res = createObjectFromName(next, value)
+
+      // We need to know the key to populate
+      let key = path.shift()
+
+      // And we also need a copy of the current parent so that we can merge our result to it
+      let copy = object[key]
+
+      // Merge the copy with res, and add them to the parent key
+      return { [key]: { ...copy, ...res } }
+    } else {
+      // If we don't have a path-string, then just return a key-value pair
+      return { [name]: value }
+    }
+
+  }
+
   const handleChange = (e) => {
-    const change = { [e.target.name]: e.target.value };
+    let change = createObjectFromName(e.target.name, e.target.value, flightplan)
     setFlightplan((prev) => ({ ...prev, ...change }));
   };
 
@@ -52,10 +84,6 @@ export default function Flightplanner({ match }) {
         autoRows="minmax(100px, auto)"
       >
         <GridItem column="1 / 7" row="1">
-          <Form title="Autocomplete Test" icon={<FiEdit />}>
-            <AirfieldSelector onChange={handleChange} name="depAirfield" label="Airfield:" data={airports} placeholder="Label..." />
-            <AirfieldSelector onChange={handleChange} name="depAirfield" data={airports} placeholder="No label..." />
-          </Form>
           <Form title="Mission Data" icon={<FiEdit />}>
             <Input onChange={handleChange} name="flightDate" label="Flight Date:" />
             <Input onChange={handleChange} name="taskNumber" label="Task #:" placeholder="TR2222" />
@@ -67,35 +95,35 @@ export default function Flightplanner({ match }) {
         </GridItem>
         <GridItem column="1 / 3" row="2">
           <Form title="Departure" icon={<MdFlightTakeoff />}>
-            <Input onChange={handleChange} name="depAirfield" label="Airfield:" placeholder="UGKO" />
-            <Input onChange={handleChange} name="depTcn" label="TCN:" />
-            <Input onChange={handleChange} name="depGnd" label="GND:" />
-            <Input onChange={handleChange} name="depTwr" label="TWR:" />
-            <Input onChange={handleChange} name="depRwy" label="RWY:" />
-            <Input onChange={handleChange} name="depIls" label="ILS:" />
-            <Input onChange={handleChange} name="depElev" label="ELEV:" />
+            <AirfieldSelector onChange={handleChange} name="depAirfield" label="Airfield:" data={airports} placeholder="Type to search..." />
+            <Input onChange={handleChange} name="depAirfield.af_tcn" label="TCN:" value={flightplan.hasOwnProperty('depAirfield') ? flightplan.depAirfield.af_tcn : ''} />
+            <Input onChange={handleChange} name="depAirfield.af_gnd" label="GND:" value={flightplan.hasOwnProperty('depAirfield') ? flightplan.depAirfield.af_gnd : ''} />
+            <Input onChange={handleChange} name="depAirfield.af_twr" label="TWR:" value={flightplan.hasOwnProperty('depAirfield') ? flightplan.depAirfield.af_twr : ''} />
+            <Input onChange={handleChange} name="depAirfield.af_rwy" label="RWY:" value={flightplan.hasOwnProperty('depAirfield') ? flightplan.depAirfield.af_rwy : ''} />
+            <Input onChange={handleChange} name="depAirfield.af_ils" label="ILS:" value={flightplan.hasOwnProperty('depAirfield') ? flightplan.depAirfield.af_ils : ''} />
+            <Input onChange={handleChange} name="depAirfield.af_elev" label="ELEV:" value={flightplan.hasOwnProperty('depAirfield') ? flightplan.depAirfield.af_elev : ''} />
           </Form>
         </GridItem>
         <GridItem column="3 / 5" row="2">
           <Form title="Arrival" icon={<MdFlightLand />}>
-            <Input onChange={handleChange} name="arrAirfield" label="Airfield:" placeholder="UGKO" />
-            <Input onChange={handleChange} name="arrTcn" label="TCN:" />
-            <Input onChange={handleChange} name="arrGnd" label="GND:" />
-            <Input onChange={handleChange} name="arrTwr" label="TWR:" />
-            <Input onChange={handleChange} name="arrRwy" label="RWY:" />
-            <Input onChange={handleChange} name="arrIls" label="ILS:" />
-            <Input onChange={handleChange} name="arrElev" label="ELEV:" />
+            <AirfieldSelector onChange={handleChange} name="arrAirfield" label="Airfield:" data={airports} placeholder="Type to search..." />
+            <Input onChange={handleChange} name="arrAirfield.af_tcn" label="TCN:" value={flightplan.hasOwnProperty('arrAirfield') ? flightplan.arrAirfield.af_tcn : ''} />
+            <Input onChange={handleChange} name="arrAirfield.af_gnd" label="GND:" value={flightplan.hasOwnProperty('arrAirfield') ? flightplan.arrAirfield.af_gnd : ''} />
+            <Input onChange={handleChange} name="arrAirfield.af_twr" label="TWR:" value={flightplan.hasOwnProperty('arrAirfield') ? flightplan.arrAirfield.af_twr : ''} />
+            <Input onChange={handleChange} name="arrAirfield.af_rwy" label="RWY:" value={flightplan.hasOwnProperty('arrAirfield') ? flightplan.arrAirfield.af_rwy : ''} />
+            <Input onChange={handleChange} name="arrAirfield.af_ils" label="ILS:" value={flightplan.hasOwnProperty('arrAirfield') ? flightplan.arrAirfield.af_ils : ''} />
+            <Input onChange={handleChange} name="arrAirfield.af_elev" label="ELEV:" value={flightplan.hasOwnProperty('arrAirfield') ? flightplan.arrAirfield.af_elev : ''} />
           </Form>
         </GridItem>
         <GridItem column="5 / 7" row="2">
           <Form title="Alternate" icon={<MdHelpOutline />}>
-            <Input onChange={handleChange} name="altAirfield" label="Airfield:" placeholder="UGKO" />
-            <Input onChange={handleChange} name="altTcn" label="TCN:" />
-            <Input onChange={handleChange} name="altGnd" label="GND:" />
-            <Input onChange={handleChange} name="altTwr" label="TWR:" />
-            <Input onChange={handleChange} name="altRwy" label="RWY:" />
-            <Input onChange={handleChange} name="altIls" label="ILS:" />
-            <Input onChange={handleChange} name="altElev" label="ELEV:" />
+            <AirfieldSelector onChange={handleChange} name="altAirfield" label="Airfield:" data={airports} placeholder="Type to search..." />
+            <Input onChange={handleChange} name="altAirfield.af_tcn" label="TCN:" value={flightplan.hasOwnProperty('altAirfield') ? flightplan.altAirfield.af_tcn : ''} />
+            <Input onChange={handleChange} name="altAirfield.af_gnd" label="GND:" value={flightplan.hasOwnProperty('altAirfield') ? flightplan.altAirfield.af_gnd : ''} />
+            <Input onChange={handleChange} name="altAirfield.af_twr" label="TWR:" value={flightplan.hasOwnProperty('altAirfield') ? flightplan.altAirfield.af_twr : ''} />
+            <Input onChange={handleChange} name="altAirfield.af_rwy" label="RWY:" value={flightplan.hasOwnProperty('altAirfield') ? flightplan.altAirfield.af_rwy : ''} />
+            <Input onChange={handleChange} name="altAirfield.af_ils" label="ILS:" value={flightplan.hasOwnProperty('altAirfield') ? flightplan.altAirfield.af_ils : ''} />
+            <Input onChange={handleChange} name="altAirfield.af_elev" label="ELEV:" value={flightplan.hasOwnProperty('altAirfield') ? flightplan.altAirfield.af_elev : ''} />
           </Form>
         </GridItem>
         <GridItem column="1 / 7" row="3">
@@ -127,3 +155,11 @@ export default function Flightplanner({ match }) {
     </Page>
   );
 }
+
+Flightplanner.propTypes = {
+  flightplan: PropTypes.array,
+};
+
+Flightplanner.defaultProps = {
+  flightplan: [],
+};
