@@ -8,6 +8,7 @@ import Page from '../ui/Page';
 import { FiEdit } from "react-icons/fi";
 import { MdFlightLand, MdFlightTakeoff, MdHelpOutline, MdMyLocation, MdAirplanemodeActive, MdPeople, MdBuild, MdFlare, MdGraphicEq } from "react-icons/md";
 import AirfieldSelector from '../ui/Autocomplete/AirfieldSelector';
+import Form from '../ui/Form';
 
 import airports from './airfields.json';
 
@@ -51,20 +52,21 @@ export default function Flightplanner({ match }) {
         autoRows="minmax(100px, auto)"
       >
         <GridItem column="1 / 7" row="1">
-          <InputGroup title="Autocomplete Test" icon={<FiEdit />}>
-            <AirfieldSelector onChange={handleChange} name="depAirfield" label="Airfield:" data={airports} placeholder="Type to search..." />
-          </InputGroup>
-          <InputGroup title="Mission Data" icon={<FiEdit />}>
+          <Form title="Autocomplete Test" icon={<FiEdit />}>
+            <AirfieldSelector onChange={handleChange} name="depAirfield" label="Airfield:" data={airports} placeholder="Label..." />
+            <AirfieldSelector onChange={handleChange} name="depAirfield" data={airports} placeholder="No label..." />
+          </Form>
+          <Form title="Mission Data" icon={<FiEdit />}>
             <Input onChange={handleChange} name="flightDate" label="Flight Date:" />
             <Input onChange={handleChange} name="taskNumber" label="Task #:" placeholder="TR2222" />
             <Input onChange={handleChange} name="tasking" label="Tasking:" />
             <Input onChange={handleChange} name="packageName" label="Package:" />
             <Input onChange={handleChange} name="callsign" label="Callsign:" />
             <Input onChange={handleChange} name="missionObjective" label="Mission Objective:" multiline />
-          </InputGroup>
+          </Form>
         </GridItem>
         <GridItem column="1 / 3" row="2">
-          <InputGroup title="Departure" icon={<MdFlightTakeoff />}>
+          <Form title="Departure" icon={<MdFlightTakeoff />}>
             <Input onChange={handleChange} name="depAirfield" label="Airfield:" placeholder="UGKO" />
             <Input onChange={handleChange} name="depTcn" label="TCN:" />
             <Input onChange={handleChange} name="depGnd" label="GND:" />
@@ -72,10 +74,10 @@ export default function Flightplanner({ match }) {
             <Input onChange={handleChange} name="depRwy" label="RWY:" />
             <Input onChange={handleChange} name="depIls" label="ILS:" />
             <Input onChange={handleChange} name="depElev" label="ELEV:" />
-          </InputGroup>
+          </Form>
         </GridItem>
         <GridItem column="3 / 5" row="2">
-          <InputGroup title="Arrival" icon={<MdFlightLand />}>
+          <Form title="Arrival" icon={<MdFlightLand />}>
             <Input onChange={handleChange} name="arrAirfield" label="Airfield:" placeholder="UGKO" />
             <Input onChange={handleChange} name="arrTcn" label="TCN:" />
             <Input onChange={handleChange} name="arrGnd" label="GND:" />
@@ -83,10 +85,10 @@ export default function Flightplanner({ match }) {
             <Input onChange={handleChange} name="arrRwy" label="RWY:" />
             <Input onChange={handleChange} name="arrIls" label="ILS:" />
             <Input onChange={handleChange} name="arrElev" label="ELEV:" />
-          </InputGroup>
+          </Form>
         </GridItem>
         <GridItem column="5 / 7" row="2">
-          <InputGroup title="Alternate" icon={<MdHelpOutline />}>
+          <Form title="Alternate" icon={<MdHelpOutline />}>
             <Input onChange={handleChange} name="altAirfield" label="Airfield:" placeholder="UGKO" />
             <Input onChange={handleChange} name="altTcn" label="TCN:" />
             <Input onChange={handleChange} name="altGnd" label="GND:" />
@@ -94,32 +96,32 @@ export default function Flightplanner({ match }) {
             <Input onChange={handleChange} name="altRwy" label="RWY:" />
             <Input onChange={handleChange} name="altIls" label="ILS:" />
             <Input onChange={handleChange} name="altElev" label="ELEV:" />
-          </InputGroup>
+          </Form>
         </GridItem>
         <GridItem column="1 / 7" row="3">
-          <InputGroup title="Enroute Intentions" icon={<FiEdit />}>
+          <Form title="Enroute Intentions" icon={<FiEdit />}>
             <Input multiline onChange={handleChange} name="enr" />
-          </InputGroup>
+          </Form>
         </GridItem>
         <GridItem column="1 / 7" row="4">
-          <InputGroup title="Flight Data" icon={<MdAirplanemodeActive />}>
+          <Form title="Flight Data" icon={<MdAirplanemodeActive />}>
             <Input multiline />
-          </InputGroup>
-          <InputGroup title="Package" icon={<MdPeople />}>
+          </Form>
+          <Form title="Package" icon={<MdPeople />}>
             <Input multiline />
-          </InputGroup>
-          <InputGroup title="Support" icon={<MdGraphicEq />}>
+          </Form>
+          <Form title="Support" icon={<MdGraphicEq />}>
             <Input multiline />
-          </InputGroup>
-          <InputGroup title="Configuration" icon={<MdBuild />}>
+          </Form>
+          <Form title="Configuration" icon={<MdBuild />}>
             <Input multiline />
-          </InputGroup>
-          <InputGroup title="Delivery" icon={<MdFlare />}>
+          </Form>
+          <Form title="Delivery" icon={<MdFlare />}>
             <Input multiline />
-          </InputGroup>
-          <InputGroup title="Navigation" icon={<MdMyLocation />}>
+          </Form>
+          <Form title="Navigation" icon={<MdMyLocation />}>
             <Input multiline />
-          </InputGroup>
+          </Form>
         </GridItem>
       </Grid>
     </Page>
