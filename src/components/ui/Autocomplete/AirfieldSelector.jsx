@@ -30,7 +30,6 @@ export default function AirfieldSelector({ name, label, id, placeholder, onChang
 
   // Handle value updates
   const handleChange = (event, { newValue }) => {
-    console.log(newValue)
     setValue(newValue);
   };
 
