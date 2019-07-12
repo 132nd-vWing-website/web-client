@@ -23,15 +23,6 @@ import './theme.css';
 export default function Autocomplete({ name, label, id, placeholder, onChange, data }) {
   const [value, setValue] = React.useState('');
   const [suggestions, setSuggestions] = React.useState([]);
-  React.useEffect(() => {
-    const e = {
-      target: {
-        name,
-        value,
-      },
-    };
-    onChange(e);
-  }, [value]);
 
   // Function for calculating suggestion for any given input value
   const getSuggestions = (value) => {
@@ -64,6 +55,16 @@ export default function Autocomplete({ name, label, id, placeholder, onChange, d
     setSuggestions([]);
   };
 
+  const onSuggestionSelected = (event, { suggestion }) => {
+    const e = {
+      target: {
+        name,
+        value: suggestion,
+      },
+    };
+    onChange(e);
+  }
+
   // Props to pass down to the input field
   const inputProps = {
     placeholder,
@@ -76,6 +77,7 @@ export default function Autocomplete({ name, label, id, placeholder, onChange, d
       suggestions={suggestions}
       onSuggestionsFetchRequested={onSuggestionsFetchRequested}
       onSuggestionsClearRequested={onSuggestionsClearRequested}
+      onSuggestionSelected={onSuggestionSelected}
       getSuggestionValue={getSuggestionValue}
       renderSuggestion={renderSuggestion}
       inputProps={inputProps}

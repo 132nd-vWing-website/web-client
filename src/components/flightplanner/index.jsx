@@ -8,24 +8,8 @@ import Page from '../ui/Page';
 import { FiEdit } from "react-icons/fi";
 import { MdFlightLand, MdFlightTakeoff, MdHelpOutline, MdMyLocation, MdAirplanemodeActive, MdPeople, MdBuild, MdFlare, MdGraphicEq } from "react-icons/md";
 import AirfieldSelector from '../ui/Autocomplete/AirfieldSelector';
-import Autocomplete from '../ui/Autocomplete';
 
 import airports from './airfields.json';
-
-const testData = [
-  {
-    name: 'Paris'
-  },
-  {
-    name: 'Prague'
-  },
-  {
-    name: 'London'
-  },
-  {
-    name: 'Oslo'
-  },
-]
 
 const PageIngress = styled.div`
   margin-bottom: 1em;
@@ -37,14 +21,9 @@ export default function Flightplanner({ match }) {
   // if (match.params.id) setTaskingId(match.params.id);
 
   const handleChange = (e) => {
-    // console.log(e);
     const change = { [e.target.name]: e.target.value };
     setFlightplan((prev) => ({ ...prev, ...change }));
   };
-
-  const handleAutocompleteChange = (e) => {
-    console.log({ [e.target.name]: e.target.value })
-  }
 
   return (
     <Page title="Flightplan - TR2222">
@@ -73,8 +52,7 @@ export default function Flightplanner({ match }) {
       >
         <GridItem column="1 / 7" row="1">
           <InputGroup title="Autocomplete Test" icon={<FiEdit />}>
-            <Autocomplete onChange={handleAutocompleteChange} name="depAirfield" label="Airfield:" data={testData} placeholder="Type to search..." />
-            <AirfieldSelector onChange={handleAutocompleteChange} name="depAirfield" label="Airfield:" data={airports} placeholder="Type to search..." />
+            <AirfieldSelector onChange={handleChange} name="depAirfield" label="Airfield:" data={airports} placeholder="Type to search..." />
           </InputGroup>
           <InputGroup title="Mission Data" icon={<FiEdit />}>
             <Input onChange={handleChange} name="flightDate" label="Flight Date:" />
