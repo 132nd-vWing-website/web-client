@@ -2,36 +2,66 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-const test_source = [
+const testSource = [
   {
     key: '1',
-    name: 'Mike',
-    age: 32,
-    address: '10 Downing Street',
+    position: '1',
+    pilot: 'Maverick',
+    tcn: '53X',
+    laser: '1601',
+    mode: '4211',
   },
   {
     key: '2',
-    name: 'John',
-    age: 42,
-    address: '10 Downing Street',
+    position: '2',
+    pilot: 'Goose',
+    tcn: '116X',
+    laser: '1602',
+    mode: '4212',
+  },
+  {
+    key: '3',
+    position: '3',
+    pilot: 'Iceman',
+    tcn: '116X',
+    laser: '1603',
+    mode: '4213',
+  },
+  {
+    key: '4',
+    position: '4',
+    pilot: 'Slider',
+    tcn: '116X',
+    laser: '1604',
+    mode: '4214',
   },
 ];
 
-const test_columns = [
+const testColumns = [
   {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
+    title: '#',
+    dataIndex: 'position',
+    key: 'position',
   },
   {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
+    title: 'Pilot',
+    dataIndex: 'pilot',
+    key: 'pilot',
   },
   {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
+    title: 'TCN',
+    dataIndex: 'tcn',
+    key: 'tcn',
+  },
+  {
+    title: 'Laser',
+    dataIndex: 'laser',
+    key: 'laser',
+  },
+  {
+    title: 'Mode',
+    dataIndex: 'mode',
+    key: 'mode',
   },
 ];
 
@@ -40,64 +70,100 @@ const TableContainer = styled.table`
   /* border: 1px solid rgba(0, 0, 0, 0.20); */
 `;
 
-const Tr = styled.tr``;
+const Tr = styled.tr`
+  text-align: ${(attr) => (attr.centered ? 'center' : 'inherit')};
+`;
 
 const Th = styled.th`
   /* background: rgba(0, 0, 0, 0.05); */
   margin-bottom: 2px;
-  border: 1px solid rgba(0, 0, 0, 0.20);
-  padding-left: .5em;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding-left: 0.5em;
   text-align: ${(attr) => (attr.centered ? 'center' : 'inherit')};
 `;
 
 const Td = styled.td`
   margin-bottom: 2px;
-  border: 1px solid rgba(0, 0, 0, 0.20);
-  padding-left: .5em;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding-left: 0.5em;
 `;
 
-export default function Table({ children, source, columns, centered }) {
-
-  const headers = columns.map((col) => <Th centered key={col.key}>{col.title}</Th>)
+/** TABLE HEADERS */
+export function TableHeaders({ columns, centered }) {
+  const tableHeaders = columns.map((col) => (
+    <Th centered={centered} key={col.key}>
+      {col.title}
+    </Th>
+  ));
 
   return (
-    <TableContainer>
-      <thead>
-        <Tr>
-          {headers}
-          {/* <Th centered={centered}>ID</Th>
-          <Th centered={centered}>Pilot</Th>
-          <Th centered={centered}>TCN</Th>
-          <Th centered={centered}>Laser</Th>
-          <Th centered={centered}>Mode</Th> */}
-        </Tr>
-      </thead>
-      <tbody>
-        <Tr>
-          <Td>1 FL</Td>
-          <Td>DEX</Td>
-          <Td>53X</Td>
-          <Td>1600</Td>
-          <Td>4211</Td>
-        </Tr>
-        <Tr>
-          <Td>2 WM</Td>
-          <Td>GOOSE</Td>
-          <Td>116X</Td>
-          <Td>1601</Td>
-          <Td>4212</Td>
-        </Tr>
-      </tbody>
-    </TableContainer>
-  )
+    <thead>
+      <Tr>{tableHeaders}</Tr>
+    </thead>
+  );
 }
 
+TableHeaders.propTypes = {
+  columns: PropTypes.array,
+  centered: PropTypes.bool,
+};
+
+TableHeaders.defaultProps = {
+  columns: testColumns,
+  centered: false,
+};
+
+/** TABLE BODY */
+export function TableBody({ source }) {
+  const rows = source.map((row) => <TableRow key={row.key} rowData={row} />);
+
+  return <tbody>{rows}</tbody>;
+}
+
+TableBody.propTypes = {
+  source: PropTypes.array,
+};
+
+TableBody.defaultProps = {
+  source: testSource,
+};
+
+/** TABLE ROW */
+export function TableRow({ rowData, centered }) {
+  const keys = Object.keys(rowData).filter((cell) => cell !== 'key');
+  const cells = keys.map((key) => <Td key={key}>{rowData[key]}</Td>);
+
+  return <Tr centered={centered}>{cells}</Tr>;
+}
+
+TableRow.propTypes = {
+  rowData: PropTypes.object,
+  centered: PropTypes.bool,
+};
+
+TableRow.defaultProps = {
+  rowData: {},
+  centered: false,
+};
+
+/** TABLE */
+export default function Table({ source, columns, centered }) {
+  return (
+    <TableContainer>
+      <TableHeaders columns={columns} centered={centered} />
+      <TableBody source={source} centered={centered} />
+    </TableContainer>
+  );
+}
 
 Table.propTypes = {
-  children: PropTypes.array,
   columns: PropTypes.array,
-}
+  source: PropTypes.array,
+  centered: PropTypes.bool,
+};
 
 Table.defaultProps = {
-  columns: []
+  source: testSource,
+  columns: testColumns,
+  centered: false,
 };
