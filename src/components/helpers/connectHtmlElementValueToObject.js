@@ -3,7 +3,10 @@
  * @param {string} name       Name of the html element, like "parentObj.someObj.somekey"
  * @param {string} value      The value we want to store
  * @param {object} targetObj  The object we need to store this data in
+ *
+ * NOTE: This function can not change keys inside an array of objects! Only object of objects
  */
+
 const connectHtmlElementValueToObject = (name, value, targetObj) => {
   const path = name.split('.');
 
