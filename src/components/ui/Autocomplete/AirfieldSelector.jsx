@@ -47,17 +47,28 @@ export default function AirfieldSelector({ name, label, id, placeholder, onChang
     const e = {
       target: {
         name,
-        value: suggestion
-      }
-    }
-    onChange(e)
-  }
+        value: suggestion,
+      },
+    };
+    onChange(e);
+  };
+
+  const handleBlur = (event, { highlightedSuggestion }) => {
+    const e = {
+      target: {
+        name,
+        value: highlightedSuggestion,
+      },
+    };
+    onChange(e);
+  };
 
   // Props to pass down to the input field
   const inputProps = {
     placeholder,
     value,
     onChange: handleChange,
+    onBlur: handleBlur,
   };
 
   return (
