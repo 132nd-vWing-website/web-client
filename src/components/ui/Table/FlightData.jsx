@@ -4,8 +4,6 @@ import styled from 'styled-components';
 import { InputField } from '../Input';
 import { TableContainer, TableHeaders, Tr, Td } from '.';
 
-import connectHtmlElementValueToObject from '../../helpers/connectHtmlElementValueToObject';
-
 const defaultSource = [
   {
     key: '0',
