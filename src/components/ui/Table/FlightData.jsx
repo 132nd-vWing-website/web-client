@@ -7,32 +7,36 @@ import { TableContainer, TableHeaders, Tr, Td } from '.';
 const defaultSource = [
   {
     key: '0',
-    position: '1',
+    position: '',
     pilot: '',
+    rio: '',
     tcn: '',
     laser: '',
     mode: '',
   },
   {
     key: '1',
-    position: '2',
+    position: '',
     pilot: '',
+    rio: '',
     tcn: '',
     laser: '',
     mode: '',
   },
   {
     key: '2',
-    position: '3',
+    position: '',
     pilot: '',
+    rio: '',
     tcn: '',
     laser: '',
     mode: '',
   },
   {
     key: '3',
-    position: '4',
+    position: '',
     pilot: '',
+    rio: '',
     tcn: '',
     laser: '',
     mode: '',
@@ -49,6 +53,11 @@ const columns = [
     title: 'Pilot',
     dataIndex: 'pilot',
     key: 'pilot',
+  },
+  {
+    title: 'RIO',
+    dataIndex: 'rio',
+    key: 'rio',
   },
   {
     title: 'TCN',
@@ -82,8 +91,8 @@ const InputCell = styled(InputField)`
   border: none !important;
 `;
 
-/** Flight Data Row */
-export function FlightDataRow({ data, name, onChange }) {
+/** Data Row */
+export function DataRow({ data, name, onChange }) {
   const handleChange = (e) => {
     // Merge the changed data with the flight's data into an object of objects (See default source)
     const change = { ...data, ...{ [e.target.name]: e.target.value } };
@@ -108,13 +117,13 @@ export function FlightDataRow({ data, name, onChange }) {
   return <TableRow>{cells}</TableRow>;
 }
 
-FlightDataRow.propTypes = {
+DataRow.propTypes = {
   data: PropTypes.object,
   name: PropTypes.string,
   onChange: PropTypes.func,
 };
 
-FlightDataRow.defaultProps = {
+DataRow.defaultProps = {
   data: {},
   name: '',
   onChange: () => null,
@@ -146,7 +155,7 @@ export default function FlightData({ value, name, onChange }) {
   };
 
   const rows = value.map((item) => (
-    <FlightDataRow key={item.key} name={`${item.key}`} data={item} onChange={handleChange} />
+    <DataRow key={item.key} name={`${item.key}`} data={item} onChange={handleChange} />
   ));
 
   return (

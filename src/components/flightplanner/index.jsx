@@ -24,6 +24,7 @@ import FlightData from '../ui/Table/FlightData';
 
 import connectHtmlElementValueToObject from '../helpers/connectHtmlElementValueToObject';
 
+// Dummy data - Should be provided from API via hooks
 import airports from './airfields.json';
 
 const PageIngress = styled.div`
@@ -41,7 +42,7 @@ export default function Flightplanner({ match }) {
   };
 
   return (
-    <Page title='Flightplan - TR2222'>
+    <Page title='Flightplan'>
       <PageIngress>
         <p>
           Flight plan mandatory for all missions with a departure, area of operations or recovery
@@ -61,18 +62,13 @@ export default function Flightplanner({ match }) {
       </PageIngress>
       <Grid width='100%' templateColumns='repeat(6, 1fr)' gap='10px' autoRows='minmax(100px, auto)'>
         <GridItem column='1 / 7' row='1'>
-          <Form title='Flight Data (Component)' icon={<MdAirplanemodeActive />}>
-            <FlightData onChange={handleChange} name='flightData' value={flightplan.flightData} />
-          </Form>
-          <Form title='Flight Data (Table)' icon={<MdAirplanemodeActive />}>
-            <Table centered />
-          </Form>
           <Form title='Mission Data' icon={<FiEdit />}>
             <Input onChange={handleChange} name='flightDate' label='Flight Date:' />
             <Input onChange={handleChange} name='taskNumber' label='Task #:' placeholder='TR2222' />
             <Input onChange={handleChange} name='tasking' label='Tasking:' />
             <Input onChange={handleChange} name='packageName' label='Package:' />
             <Input onChange={handleChange} name='callsign' label='Callsign:' />
+            <Input onChange={handleChange} name='aircraft' label='Aircraft:' />
             <Input
               onChange={handleChange}
               name='missionObjective'
@@ -229,7 +225,7 @@ export default function Flightplanner({ match }) {
         </GridItem>
         <GridItem column='1 / 7' row='4'>
           <Form title='Flight Data' icon={<MdAirplanemodeActive />}>
-            <Table centered />
+            <FlightData onChange={handleChange} name='flight' value={flightplan.flight} />
           </Form>
           <Form title='Package' icon={<MdPeople />}>
             <Input multiline />
