@@ -7,6 +7,8 @@
     "@mapbox/togeojson": "^0.16.0",
     "antd": "^3.13.2",
     "axios": "^0.18.1",
+    "browserlist": "^1.0.1",
+    "caniuse-lite": "^1.0.30000989",
     "classnames": "^2.2.6",
     "jwt-decode": "^2.2.0",
     "moment": "^2.24.0",
