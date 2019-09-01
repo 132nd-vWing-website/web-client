@@ -21,9 +21,18 @@ export const InputFieldMultiline = styled.textarea`
   min-height: 3em;
 `;
 
-export default function Input({ name, label, id, placeholder, multiline, onChange, value }) {
+export default function Input({
+  name,
+  label,
+  id,
+  placeholder,
+  multiline,
+  onChange,
+  required,
+  value,
+}) {
   return (
-    <FormItem label={label} id={id}>
+    <FormItem label={label} id={id} required={required}>
       {multiline ? (
         <InputFieldMultiline
           onChange={onChange}
@@ -39,6 +48,7 @@ export default function Input({ name, label, id, placeholder, multiline, onChang
           id={`input-${id}`}
           placeholder={placeholder}
           value={value}
+          required={required}
         />
       )}
     </FormItem>
@@ -52,6 +62,7 @@ Input.propTypes = {
   placeholder: PropTypes.string,
   multiline: PropTypes.bool,
   onChange: PropTypes.func,
+  required: PropTypes.bool,
 };
 
 Input.defaultProps = {
@@ -61,4 +72,5 @@ Input.defaultProps = {
   placeholder: null,
   multiline: false,
   onChange: () => null,
+  required: false,
 };
