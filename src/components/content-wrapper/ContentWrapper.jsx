@@ -7,6 +7,9 @@ import Landing from '../landing/Landing';
 import PDFPagesProvider from '../pdf/PDFPagesProvider';
 import Taskings from '../taskings/Taskings';
 
+import Register from '../registration/Register'; // OLD!!
+import RegisterAccount from '../register-account';
+
 import { FlightplanProvider } from '../flightplanner/FlightplanContext';
 
 const { Content } = Layout;
@@ -20,13 +23,14 @@ export default function ContentsWrapper() {
     <Content style={{ margin: '1em 1em 0' }}>
       <Switch>
         <Route exact path='/' component={Landing} />
-        {/* <Route exact path='/register' component={Register} /> */}
+        <Route exact path='/register' component={RegisterAccount} />
+        <Route exact path='/login' component={Register} />
         {/* <Route exact path='/login' component={Login} /> */}
+
         {/* <Route path='/events' component={Events} /> */}
         <Route path='/events' component={TaskingEditor} />
         {/* <Route path='/taskings' component={Taskings} /> */}
         <Route path='/taskings' component={FlightplanProvider} />
-
         {/* <Route
           path='/taskings'
           render={() => (
