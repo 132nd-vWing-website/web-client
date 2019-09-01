@@ -3,12 +3,25 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { FormItem } from '../Form';
 
+const ErrorMessage = styled.small`
+  color: #f5222d;
+`;
+
 export const InputField = styled.input`
   width: 100%;
   margin-bottom: 2px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 2px;
   padding-left: 0.5em;
+
+  /* :valid {
+    background: lightcyan;
+  } */
+
+  :invalid {
+    background: lavenderblush;
+    /* border-color: #f5222d; */
+  }
 `;
 
 export const InputFieldMultiline = styled.textarea`
@@ -22,6 +35,7 @@ export const InputFieldMultiline = styled.textarea`
 `;
 
 export default function Input({
+  type,
   name,
   label,
   id,
@@ -29,6 +43,10 @@ export default function Input({
   multiline,
   onChange,
   required,
+  pattern,
+  minlength,
+  maxlength,
+  error,
   value,
 }) {
   return (
@@ -40,22 +58,32 @@ export default function Input({
           id={id}
           placeholder={placeholder}
           value={value}
+          required={required}
+          pattern={pattern}
+          max={maxlength}
+          min={minlength}
         />
       ) : (
         <InputField
+          type={type}
           onChange={onChange}
           name={name}
           id={`input-${id}`}
           placeholder={placeholder}
           value={value}
           required={required}
+          pattern={pattern}
+          max={maxlength}
+          min={minlength}
         />
       )}
+      <ErrorMessage>{error}</ErrorMessage>
     </FormItem>
   );
 }
 
 Input.propTypes = {
+  type: PropTypes.string,
   name: PropTypes.string,
   label: PropTypes.string,
   id: PropTypes.string,
@@ -63,9 +91,15 @@ Input.propTypes = {
   multiline: PropTypes.bool,
   onChange: PropTypes.func,
   required: PropTypes.bool,
+  pattern: PropTypes.string,
+  minlength: PropTypes.number,
+  maxlength: PropTypes.number,
+  error: PropTypes.string,
+  value: PropTypes.any,
 };
 
 Input.defaultProps = {
+  type: null,
   name: Date.now().toString(),
   label: null,
   id: Date.now().toString(),
@@ -73,4 +107,9 @@ Input.defaultProps = {
   multiline: false,
   onChange: () => null,
   required: false,
+  pattern: null,
+  minlength: null,
+  maxlength: null,
+  error: null,
+  value: null,
 };
