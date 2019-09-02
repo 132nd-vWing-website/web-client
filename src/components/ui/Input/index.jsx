@@ -19,8 +19,7 @@ export const InputField = styled.input`
   } */
 
   :invalid {
-    background: lavenderblush;
-    /* border-color: #f5222d; */
+    border-color: ${(props) => (props.error ? '#f5222d' : 'inherit')};
   }
 `;
 
@@ -62,6 +61,7 @@ export default function Input({
           pattern={pattern}
           max={maxlength}
           min={minlength}
+          error={error}
         />
       ) : (
         <InputField
@@ -75,6 +75,7 @@ export default function Input({
           pattern={pattern}
           max={maxlength}
           min={minlength}
+          error={error}
         />
       )}
       <ErrorMessage>{error}</ErrorMessage>
