@@ -5,6 +5,7 @@ import Button from '../ui/Button';
 import { RegisterAccountProvider } from './RegisterAccountContext';
 
 import RegisterStep from './RegisterStep';
+import LoginStep from './LoginStep';
 
 export default function RegisterAccount() {
   const [current, setCurrent] = React.useState(0);
@@ -15,7 +16,7 @@ export default function RegisterAccount() {
 
   const steps = [
     {
-      title: 'Register Account',
+      title: 'Register',
       content: (
         <RegisterAccountProvider>
           <RegisterStep stepKey={0} currentStep={current} onNext={onNext} />
@@ -23,15 +24,30 @@ export default function RegisterAccount() {
       ),
     },
     {
-      title: 'Notice on confirming email',
+      title: 'Confirming email',
       content: (
         <React.Fragment>
           <p>
             Registration succsessful! Please click the link in the registration email before
             continuing
           </p>
+          <Button type='primary' onClick={() => onNext(0)}>
+            Next
+          </Button>
+        </React.Fragment>
+      ),
+    },
+    {
+      title: 'Log In',
+      content: <LoginStep stepKey={2} currentStep={current} onNext={onNext} />,
+    },
+    {
+      title: 'Create Profile',
+      content: (
+        <React.Fragment>
+          <p>Create Profile</p>
           <Button type='primary' onClick={() => setCurrent(0)}>
-            DEBUG - RESET
+            RESET
           </Button>
         </React.Fragment>
       ),
