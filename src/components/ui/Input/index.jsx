@@ -93,8 +93,8 @@ Input.propTypes = {
   onChange: PropTypes.func,
   required: PropTypes.bool,
   pattern: PropTypes.string,
-  minlength: PropTypes.number,
-  maxlength: PropTypes.number,
+  minlength: PropTypes.string,
+  maxlength: PropTypes.string,
   error: PropTypes.string,
   value: PropTypes.any,
 };
@@ -112,5 +112,5 @@ Input.defaultProps = {
   minlength: null,
   maxlength: null,
   error: null,
-  value: null,
+  value: undefined,
 };
