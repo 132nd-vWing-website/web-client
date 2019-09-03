@@ -5,14 +5,17 @@ import Form from '../ui/Form';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
 
-import { UserContext } from '../user/UserContext';
+// Contexts
+import { AuthContext } from '../auth/AuthContext';
 
+// Styled-Components
 const PageIngress = styled.div`
   margin-bottom: 1em;
 `;
 
+// LoginStep
 export default function LoginStep({ stepKey, currentStep, onNext }) {
-  const { email, password, setEmail, setPassword, userLogin } = React.useContext(UserContext);
+  const { email, password, setEmail, setPassword, userLogin } = React.useContext(AuthContext);
 
   const [errors, setErrors] = React.useState(null);
 
@@ -58,7 +61,7 @@ export default function LoginStep({ stepKey, currentStep, onNext }) {
   return (
     <React.Fragment>
       <PageIngress>
-        <p>Log in to your new account to continue:</p>
+        <p>Log in to your account:</p>
       </PageIngress>
       <Form title='Log In'>
         <Input

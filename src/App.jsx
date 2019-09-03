@@ -14,6 +14,9 @@ import store from './store';
 import setAuthToken from './utils/setAuthToken';
 import Spinner from './components/loaders/Spinner';
 
+// Contexts
+import { AuthProvider } from './components/auth/AuthContext';
+
 // Antd components
 const { Footer } = Layout;
 
@@ -60,22 +63,24 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <MissionDataProvider>
-        <Router>
-          <Layout style={{ minHeight: '100vh' }}>
-            <Sidebar />
-            <Layout style={{ background: '#272727' }}>
-              <React.Suspense fallback={<Spinner />}>
-                {/* <HeaderComponent /> */}
-                <ContentsWrapper />
-                <Footer style={{ textAlign: 'center', background: '#272727', color: '#aaa' }}>
-                  132nd Virtual Wing ©2019
-                </Footer>
-              </React.Suspense>
+      <AuthProvider>
+        <MissionDataProvider>
+          <Router>
+            <Layout style={{ minHeight: '100vh' }}>
+              <Sidebar />
+              <Layout style={{ background: '#272727' }}>
+                <React.Suspense fallback={<Spinner />}>
+                  {/* <HeaderComponent /> */}
+                  <ContentsWrapper />
+                  <Footer style={{ textAlign: 'center', background: '#272727', color: '#aaa' }}>
+                    132nd Virtual Wing ©2019
+                  </Footer>
+                </React.Suspense>
+              </Layout>
             </Layout>
-          </Layout>
-        </Router>
-      </MissionDataProvider>
+          </Router>
+        </MissionDataProvider>
+      </AuthProvider>
     </Provider>
   );
 }

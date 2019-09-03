@@ -8,13 +8,13 @@ import setAuthToken from '../../utils/setAuthToken';
 import API_ROOT from '../../api-config';
 
 /**
- * UserContext
+ * AuthContext
  * @array flightplan - An array containing a set of key:value pairs that make up the flightplan
  * @function setFlightplan - Updates the current Flightplan (Replaces it!)
  * @function setTaskingID - Sets a database-id for what will be used to populate the initial Flightplan
  */
 
-export const UserContext = React.createContext({
+export const AuthContext = React.createContext({
   email: '',
   password: '',
   currentUser: null,
@@ -26,9 +26,9 @@ export const UserContext = React.createContext({
   userLogout: () => null,
 });
 
-export const UserConsumer = UserContext.Consumer;
+export const AuthConsumer = AuthContext.Consumer;
 
-export function UserProvider({ children }) {
+export function AuthProvider({ children }) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [currentUser, setCurrentUser] = React.useState(null);
@@ -59,24 +59,25 @@ export function UserProvider({ children }) {
     });
 
   return (
-    <UserContext.Provider
+    <AuthContext.Provider
       value={{
         email,
         password,
         currentUser,
         setEmail,
         setPassword,
+        setCurrentUser,
         userLogin,
       }}>
       {children}
-    </UserContext.Provider>
+    </AuthContext.Provider>
   );
 }
 
-UserProvider.propTypes = {
+AuthProvider.propTypes = {
   children: PropTypes.any,
 };
 
-UserProvider.defaultProps = {
+AuthProvider.defaultProps = {
   children: {},
 };
