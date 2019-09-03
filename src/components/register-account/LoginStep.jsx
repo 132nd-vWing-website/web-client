@@ -5,28 +5,33 @@ import Form from '../ui/Form';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
 
-import { UserLoginContext } from '../user-login/UserLoginContext';
+import { UserContext } from '../user/UserContext';
 
 const PageIngress = styled.div`
   margin-bottom: 1em;
 `;
 
 export default function LoginStep({ stepKey, currentStep, onNext }) {
-  const { name, email, password, password2, setEmail, setPassword, userLogin } = React.useContext(
-    UserLoginContext,
-  );
+  const { email, password, setEmail, setPassword, userLogin } = React.useContext(UserContext);
 
   const [errors, setErrors] = React.useState(null);
 
+  // if (auth.isAuthenticated) {
+  //   // Send the user to the next page if he is allready logged in
+  //   onNext();
+  // }
+
   const handleSubmit = () => {
-    const newAccount = { name, email, password, password2 };
-    const status = userLogin(newAccount);
+    const userData = { email, password };
+    const status = userLogin(userData);
+
+    console.log('submitting...');
 
     status.then((res) => {
+      console.log(res);
       switch (res.status) {
         case 200:
           // All is ok - lets move on!
-          console.log('alles gut!');
           onNext();
           break;
         case 400:
@@ -76,12 +81,12 @@ export default function LoginStep({ stepKey, currentStep, onNext }) {
           minlength='6'
         />
       </Form>
-      {/* <Button type='primary' disabled={blockNext} onClick={() => handleSubmit()}>
-        Next
-      </Button> */}
-      <Button type='primary' disabled={blockNext} onClick={() => onNext()}>
+      <Button type='primary' disabled={blockNext} onClick={() => handleSubmit()}>
         Next
       </Button>
+      {/* <Button type='primary' disabled={blockNext} onClick={() => onNext()}>
+        Next
+      </Button> */}
     </React.Fragment>
   );
 }

@@ -3,6 +3,7 @@ import Page from '../ui/Page';
 import Button from '../ui/Button';
 
 import { RegisterAccountProvider } from './RegisterAccountContext';
+import { UserProvider } from '../user/UserContext';
 
 import RegisterStep from './RegisterStep';
 import LoginStep from './LoginStep';
@@ -25,21 +26,15 @@ export default function RegisterAccount() {
     },
     {
       title: 'Confirming email',
-      content: (
-        <React.Fragment>
-          <p>
-            Registration succsessful! Please click the link in the registration email before
-            continuing
-          </p>
-          <Button type='primary' onClick={() => onNext(0)}>
-            Next
-          </Button>
-        </React.Fragment>
-      ),
+      content: <CheckEmailVerification stepKey={1} currentStep={current} onNext={onNext} />,
     },
     {
       title: 'Log In',
-      content: <LoginStep stepKey={2} currentStep={current} onNext={onNext} />,
+      content: (
+        <UserProvider>
+          <LoginStep stepKey={2} currentStep={current} onNext={onNext} />
+        </UserProvider>
+      ),
     },
     {
       title: 'Create Profile',
@@ -55,4 +50,18 @@ export default function RegisterAccount() {
   ];
 
   return <Page title='Register Account'>{steps[current].content}</Page>;
+}
+
+function CheckEmailVerification({ onNext }) {
+  return (
+    <React.Fragment>
+      <p>
+        Registration succsessful! Please click the link in the registration email before continuing
+      </p>
+
+      <Button type='primary' onClick={() => onNext(0)}>
+        Next
+      </Button>
+    </React.Fragment>
+  );
 }
