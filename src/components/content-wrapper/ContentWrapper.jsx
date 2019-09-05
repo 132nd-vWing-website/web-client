@@ -28,7 +28,7 @@ export default function ContentsWrapper() {
         {/* <Route exact path='/login' component={Login} /> */}
 
         {/* <Route path='/events' component={Events} /> */}
-        <Route path='/events' component={TaskingEditor} />
+        <Route path='/events' component={() => TaskingEditor} />
         {/* <Route path='/taskings' component={Taskings} /> */}
         <Route path='/taskings' component={FlightplanProvider} />
         {/* <Route
