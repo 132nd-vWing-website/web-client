@@ -46,8 +46,7 @@ if (localStorage.jwtToken) {
   const decoded = jwtDecode(localStorage.jwtToken);
 
   // Check for expired token
-  // const currentTime = Date.now() / 1000;
-  const currentTime = 2567708353;
+  const currentTime = Date.now() / 1000;
   if (decoded.exp < currentTime) {
     localStorage.removeItem('jwtToken');
     isAuthenticated(false);
