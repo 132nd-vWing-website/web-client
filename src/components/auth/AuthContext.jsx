@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
+import { Redirect } from 'react-router-dom';
 import setAuthToken from '../../utils/setAuthToken';
 
 import API_ROOT from '../../api-config';
@@ -16,22 +17,48 @@ import API_ROOT from '../../api-config';
 export const AuthContext = React.createContext({
   email: '',
   password: '',
-  currentUser: null,
+  isAuth: false,
+  currentUser: false,
   setEmail: () => null,
   setPassword: () => null,
+  setisAuth: () => null,
   setCurrentUser: () => null,
   clearUser: () => null,
-  userLogin: () => null,
-  userLogout: () => null,
+  loginUser: () => null,
+  logoutUser: () => null,
 });
 
 // CONSUMER COMPONENT
 export const AuthConsumer = AuthContext.Consumer;
 
 // TODO - Possibly less-than-optimal way of setting current user outside the AuthProvider
-let currentUserData = null;
+let currentUserData = false;
 export function isAuthenticated(decoded) {
   currentUserData = decoded;
+}
+
+/** Check local storage for JWT Token to keep a loged in user authenticated */
+if (localStorage.jwtToken) {
+  // Set auth token header
+  setAuthToken(localStorage.jwtToken);
+
+  // Decode token and get user info
+  const decoded = jwtDecode(localStorage.jwtToken);
+
+  // Check for expired token
+  // const currentTime = Date.now() / 1000;
+  const currentTime = 2567708353;
+  if (decoded.exp < currentTime) {
+    localStorage.removeItem('jwtToken');
+    isAuthenticated(false);
+    window.location.href = '/login';
+  } else {
+    // Set user and isAuthenticated
+    isAuthenticated(decoded);
+
+    // Get all NOTAMs
+    // store.dispatch(getUnreadNotams());
+  }
 }
 
 // PROVIDER COMPONENT
@@ -40,7 +67,7 @@ export function AuthProvider({ children }) {
   const [password, setPassword] = React.useState('');
   const [currentUser, setCurrentUser] = React.useState(currentUserData);
 
-  const userLogin = (userData) =>
+  const loginUser = (userData) =>
     new Promise((resolve) => {
       axios
         .post(`${API_ROOT}/users/login`, userData)
@@ -55,7 +82,7 @@ export function AuthProvider({ children }) {
           // Decode token to get user data
           const decoded = jwtDecode(token);
 
-          // Set current user
+          // Set current user and authStatus
           setCurrentUser(decoded);
 
           // TODO: Get unread NOTAMS for user
@@ -64,6 +91,12 @@ export function AuthProvider({ children }) {
         })
         .catch((err) => resolve({ status: err.response.status, data: err.response.data }));
     });
+
+  const logoutUser = () => {
+    localStorage.removeItem('jwtToken');
+    setCurrentUser(false);
+    window.location.href = '/';
+  };
 
   return (
     <AuthContext.Provider
@@ -74,7 +107,8 @@ export function AuthProvider({ children }) {
         setEmail,
         setPassword,
         setCurrentUser,
-        userLogin,
+        loginUser,
+        logoutUser,
       }}>
       {children}
     </AuthContext.Provider>

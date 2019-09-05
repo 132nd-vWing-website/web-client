@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom';
 import App from './App';
 // import registerServiceWorker from './registerServiceWorker';
 
+import { AuthProvider } from './components/auth/AuthContext';
+
 // const App = React.lazy(() => import('./App'));
 // const LoadingComponent = (
 //   <div className='loading-screen'>
@@ -37,5 +39,10 @@ import App from './App';
 
 // ReactDOM.render(<Main />, document.getElementById('root'));
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+  <AuthProvider>
+    <App />
+  </AuthProvider>,
+  document.getElementById('root'),
+);
 // registerServiceWorker();

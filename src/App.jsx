@@ -1,21 +1,13 @@
 import Layout from 'antd/lib/layout';
 import 'antd/lib/layout/style/css';
-import jwtDecode from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { logoutUser, setCurrentUser } from './actions/authActions';
-import { getUnreadNotams } from './actions/postActions';
-import { clearCurrentProfile } from './actions/profileActions';
 import './App.css';
 import Sidebar from './components/sidebar/Sidebar';
 import MissionDataProvider from './contexts/MissionData';
 import store from './store';
-import setAuthToken from './utils/setAuthToken';
 import Spinner from './components/loaders/Spinner';
-
-// Contexts
-import { AuthProvider, isAuthenticated } from './components/auth/AuthContext';
 
 // Antd components
 const { Footer } = Layout;
@@ -23,32 +15,33 @@ const { Footer } = Layout;
 // Lazy Loading
 const ContentsWrapper = React.lazy(() => import('./components/content-wrapper/ContentWrapper'));
 
-/**
- * Check for token to keep a loged in user authenticated
- */
-if (localStorage.jwtToken) {
-  // Set auth token header
-  setAuthToken(localStorage.jwtToken);
+// /**
+//  * Check for token to keep a loged in user authenticated
+//  */
+// if (localStorage.jwtToken) {
+//   // Set auth token header
+//   setAuthToken(localStorage.jwtToken);
 
-  // Decode token and get user info
-  const decoded = jwtDecode(localStorage.jwtToken);
+//   // Decode token and get user info
+//   const decoded = jwtDecode(localStorage.jwtToken);
 
-  // Set user and isAuthenticated
-  store.dispatch(setCurrentUser(decoded));
-  isAuthenticated(decoded);
+//   // Set user and isAuthenticated
+//   store.dispatch(setCurrentUser(decoded));
+//   isAuthenticated(decoded);
 
-  // Get all NOTAMs
-  store.dispatch(getUnreadNotams());
+//   // Get all NOTAMs
+//   store.dispatch(getUnreadNotams());
 
-  // Check for expired token
-  const currentTime = Date.now() / 1000;
-  if (decoded.exp < currentTime) {
-    store.dispatch(logoutUser());
-    store.dispatch(clearCurrentProfile());
-    // Redirect to login
-    window.location.href = '/login';
-  }
-}
+//   // Check for expired token
+//   const currentTime = Date.now() / 1000;
+//   if (decoded.exp < currentTime) {
+//     store.dispatch(logoutUser());
+//     store.dispatch(clearCurrentProfile());
+//     // Redirect to login
+//     // window.location.href = '/login';
+//     return <Redirect to='/' />;
+//   }
+// }
 
 /**
  * App Component
@@ -64,24 +57,22 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <AuthProvider>
-        <MissionDataProvider>
-          <Router>
-            <Layout style={{ minHeight: '100vh' }}>
-              <Sidebar />
-              <Layout style={{ background: '#272727' }}>
-                <React.Suspense fallback={<Spinner />}>
-                  {/* <HeaderComponent /> */}
-                  <ContentsWrapper />
-                  <Footer style={{ textAlign: 'center', background: '#272727', color: '#aaa' }}>
-                    132nd Virtual Wing ©2019
-                  </Footer>
-                </React.Suspense>
-              </Layout>
+      <MissionDataProvider>
+        <Router>
+          <Layout style={{ minHeight: '100vh' }}>
+            <Sidebar />
+            <Layout style={{ background: '#272727' }}>
+              <React.Suspense fallback={<Spinner />}>
+                {/* <HeaderComponent /> */}
+                <ContentsWrapper />
+                <Footer style={{ textAlign: 'center', background: '#272727', color: '#aaa' }}>
+                  132nd Virtual Wing ©2019
+                </Footer>
+              </React.Suspense>
             </Layout>
-          </Router>
-        </MissionDataProvider>
-      </AuthProvider>
+          </Layout>
+        </Router>
+      </MissionDataProvider>
     </Provider>
   );
 }
