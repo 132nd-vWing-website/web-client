@@ -1,8 +1,7 @@
-/* eslint camelcase: 0 */
 import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import jwt_decode from 'jwt-decode';
+import jwtDecode from 'jwt-decode';
 import setAuthToken from '../../utils/setAuthToken';
 
 import API_ROOT from '../../api-config';
@@ -21,17 +20,25 @@ export const AuthContext = React.createContext({
   setEmail: () => null,
   setPassword: () => null,
   setCurrentUser: () => null,
-  clearCurrentUser: () => null,
+  clearUser: () => null,
   userLogin: () => null,
   userLogout: () => null,
 });
 
+// CONSUMER COMPONENT
 export const AuthConsumer = AuthContext.Consumer;
 
+// TODO - Possibly less-than-optimal way of setting current user outside the AuthProvider
+let currentUserData = null;
+export function isAuthenticated(decoded) {
+  currentUserData = decoded;
+}
+
+// PROVIDER COMPONENT
 export function AuthProvider({ children }) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const [currentUser, setCurrentUser] = React.useState(null);
+  const [currentUser, setCurrentUser] = React.useState(currentUserData);
 
   const userLogin = (userData) =>
     new Promise((resolve) => {
@@ -46,7 +53,7 @@ export function AuthProvider({ children }) {
           setAuthToken(token);
 
           // Decode token to get user data
-          const decoded = jwt_decode(token);
+          const decoded = jwtDecode(token);
 
           // Set current user
           setCurrentUser(decoded);

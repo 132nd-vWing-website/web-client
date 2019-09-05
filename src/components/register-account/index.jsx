@@ -2,9 +2,10 @@ import React from 'react';
 import Page from '../ui/Page';
 import Button from '../ui/Button';
 
+// Contexts
 import { RegisterAccountProvider } from './RegisterAccountContext';
-import { UserProvider } from '../user/UserContext';
 
+// Step Components
 import RegisterStep from './RegisterStep';
 import LoginStep from './LoginStep';
 
@@ -30,11 +31,7 @@ export default function RegisterAccount() {
     },
     {
       title: 'Log In',
-      content: (
-        <UserProvider>
-          <LoginStep stepKey={2} currentStep={current} onNext={onNext} />
-        </UserProvider>
-      ),
+      content: <LoginStep stepKey={2} currentStep={current} onNext={onNext} />,
     },
     {
       title: 'Create Profile',

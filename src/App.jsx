@@ -15,7 +15,7 @@ import setAuthToken from './utils/setAuthToken';
 import Spinner from './components/loaders/Spinner';
 
 // Contexts
-import { AuthProvider } from './components/auth/AuthContext';
+import { AuthProvider, isAuthenticated } from './components/auth/AuthContext';
 
 // Antd components
 const { Footer } = Layout;
@@ -35,6 +35,7 @@ if (localStorage.jwtToken) {
 
   // Set user and isAuthenticated
   store.dispatch(setCurrentUser(decoded));
+  isAuthenticated(decoded);
 
   // Get all NOTAMs
   store.dispatch(getUnreadNotams());
