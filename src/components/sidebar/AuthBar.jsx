@@ -12,7 +12,7 @@ import { AuthContext } from '../auth/AuthContext';
 export default function AuthBar() {
   const { currentUser, logoutUser } = React.useContext(AuthContext);
 
-  const { name } = currentUser || '';
+  const { callsign } = currentUser || '';
   // const { roles } = currentUser || []; // TODO - use this to enable/disable options
 
   return (
@@ -26,7 +26,7 @@ export default function AuthBar() {
         <Link to='/dashboard'>
           <span style={{ textTransform: 'uppercase', fontWeight: 'bold' }}>
             <Icon type='user' />
-            {name}
+            {callsign}
           </span>
         </Link>
       </Menu.Item>
