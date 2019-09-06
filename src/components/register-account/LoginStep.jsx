@@ -15,23 +15,22 @@ const PageIngress = styled.div`
 
 // LoginStep
 export default function LoginStep({ stepKey, currentStep, onNext }) {
-  const { email, password, setEmail, setPassword, userLogin } = React.useContext(AuthContext);
+  const { email, password, setEmail, setPassword, loginUser, currentUser } = React.useContext(
+    AuthContext,
+  );
 
   const [errors, setErrors] = React.useState(null);
 
-  // if (auth.isAuthenticated) {
-  //   // Send the user to the next page if he is allready logged in
-  //   onNext();
-  // }
+  if (currentUser) {
+    // Send the user to the next page if he is allready logged in
+    onNext();
+  }
 
   const handleSubmit = () => {
     const userData = { email, password };
-    const status = userLogin(userData);
-
-    console.log('submitting...');
+    const status = loginUser(userData);
 
     status.then((res) => {
-      console.log(res);
       switch (res.status) {
         case 200:
           // All is ok - lets move on!
@@ -87,9 +86,6 @@ export default function LoginStep({ stepKey, currentStep, onNext }) {
       <Button type='primary' disabled={blockNext} onClick={() => handleSubmit()}>
         Next
       </Button>
-      {/* <Button type='primary' disabled={blockNext} onClick={() => onNext()}>
-        Next
-      </Button> */}
     </React.Fragment>
   );
 }

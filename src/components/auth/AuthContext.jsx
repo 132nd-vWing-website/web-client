@@ -37,7 +37,7 @@ export function isAuthenticated(decoded) {
   currentUserData = decoded;
 }
 
-/** Check local storage for JWT Token to keep a loged in user authenticated */
+// Check local storage for JWT Token to keep a loged in user authenticated
 if (localStorage.jwtToken) {
   // Set auth token header
   setAuthToken(localStorage.jwtToken);
