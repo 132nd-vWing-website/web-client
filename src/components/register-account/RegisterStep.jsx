@@ -13,11 +13,11 @@ const PageIngress = styled.div`
 
 export default function RegisterStep({ stepKey, currentStep, onNext }) {
   const {
-    name,
+    callsign,
     email,
     password,
     password2,
-    setName,
+    setCallsign,
     setEmail,
     setPassword,
     setPassword2,
@@ -27,7 +27,7 @@ export default function RegisterStep({ stepKey, currentStep, onNext }) {
   const [errors, setErrors] = React.useState(null);
 
   const handleSubmit = () => {
-    const newAccount = { name, email, password, password2 };
+    const newAccount = { callsign, email, password, password2 };
     const status = registerAccount(newAccount);
 
     status.then((res) => {
@@ -69,12 +69,12 @@ export default function RegisterStep({ stepKey, currentStep, onNext }) {
       </PageIngress>
       <Form title='Account Information'>
         <Input
-          id='account-name'
+          id='account-callsign'
           required
-          onChange={(e) => setName(e.target.value)}
-          name='accountName'
-          label='Account Name:'
-          error={getError('name')}
+          onChange={(e) => setCallsign(e.target.value)}
+          name='accountCallsign'
+          label='Callsign:'
+          error={getError('callsign')}
         />
         <Input
           id='account-username'
@@ -106,12 +106,12 @@ export default function RegisterStep({ stepKey, currentStep, onNext }) {
           minlength='6'
         />
       </Form>
-      {/* <Button type='primary' disabled={blockNext} onClick={() => handleSubmit()}>
-        Next
-      </Button> */}
-      <Button type='primary' disabled={blockNext} onClick={() => onNext()}>
+      <Button type='primary' disabled={blockNext} onClick={() => handleSubmit()}>
         Next
       </Button>
+      {/* <Button type='primary' disabled={blockNext} onClick={() => onNext()}>
+        Next
+      </Button> */}
     </React.Fragment>
   );
 }

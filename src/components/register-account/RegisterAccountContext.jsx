@@ -12,11 +12,11 @@ import API_ROOT from '../../api-config';
  */
 
 export const RegisterAccountContext = React.createContext({
-  name: '',
+  callsign: '',
   email: '',
   password: '',
   password2: '',
-  setName: () => null,
+  setCallsign: () => null,
   setEmail: () => null,
   setPassword: () => null,
   setPassword2: () => null,
@@ -26,7 +26,7 @@ export const RegisterAccountContext = React.createContext({
 export const RegisterAccountConsumer = RegisterAccountContext.Consumer;
 
 export function RegisterAccountProvider({ children }) {
-  const [name, setName] = React.useState('');
+  const [callsign, setCallsign] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [password2, setPassword2] = React.useState('');
@@ -57,11 +57,11 @@ export function RegisterAccountProvider({ children }) {
   return (
     <RegisterAccountContext.Provider
       value={{
-        name,
+        callsign,
         email,
         password,
         password2,
-        setName,
+        setCallsign,
         setEmail,
         setPassword,
         setPassword2,
