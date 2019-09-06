@@ -7,6 +7,7 @@ import { RegisterAccountProvider } from './RegisterAccountContext';
 
 // Step Components
 import RegisterStep from './RegisterStep';
+import CheckEmailVerification from './CheckEmailVerification';
 import LoginStep from './LoginStep';
 
 export default function RegisterAccount() {
@@ -47,18 +48,4 @@ export default function RegisterAccount() {
   ];
 
   return <Page title='Register Account'>{steps[current].content}</Page>;
-}
-
-function CheckEmailVerification({ onNext }) {
-  return (
-    <React.Fragment>
-      <p>
-        Registration succsessful! Please click the link in the registration email before continuing
-      </p>
-
-      <Button type='primary' onClick={() => onNext(0)}>
-        Next
-      </Button>
-    </React.Fragment>
-  );
 }
