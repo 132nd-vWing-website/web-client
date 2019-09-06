@@ -117,7 +117,7 @@ export default function Form({ children, title, icon }) {
 Form.propTypes = {
   children: PropTypes.any,
   title: PropTypes.string,
-  icon: PropTypes.string,
+  icon: PropTypes.object,
 };
 
 Form.defaultProps = {
