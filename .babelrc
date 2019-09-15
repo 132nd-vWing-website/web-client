@@ -15,6 +15,12 @@
         "libraryDirectory": "es",
         "style": "css"
       }
+    ],
+    [
+      "@babel/plugin-transform-runtime",
+      {
+        "regenerator": true
+      }
     ]
   ],
   "presets": [
