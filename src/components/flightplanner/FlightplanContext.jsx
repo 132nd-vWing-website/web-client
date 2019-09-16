@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import Flightplaner from '.';
 
 /**
@@ -17,11 +17,11 @@ export const FlightplanContext = React.createContext({
 
 export const FlightplanConsumer = FlightplanContext.Consumer;
 
-export function FlightplanProvider({ children }) {
+export function FlightplanProvider() {
   const [flightplan, setFlightplan] = React.useState([]);
-  React.useEffect(() => {
-    console.log(flightplan)
-  }, [flightplan])
+  // React.useEffect(() => {
+  //   console.log(flightplan);
+  // }, [flightplan]);
 
   const [taskingId, setTaskingId] = React.useState(null);
 
@@ -32,10 +32,10 @@ export function FlightplanProvider({ children }) {
   );
 }
 
-FlightplanProvider.propTypes = {
-  children: PropTypes.object,
-};
+// FlightplanProvider.propTypes = {
+//   children: PropTypes.object,
+// };
 
-FlightplanProvider.defaultProps = {
-  children: {},
-};
+// FlightplanProvider.defaultProps = {
+//   children: {},
+// };

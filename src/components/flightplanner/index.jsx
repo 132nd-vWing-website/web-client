@@ -19,8 +19,8 @@ import { FlightplanContext } from './FlightplanContext';
 import AirfieldSelector from '../ui/Autocomplete/AirfieldSelector';
 import Page from '../ui/Page';
 import Form from '../ui/Form';
-import Table from '../ui/Table';
 import FlightData from '../ui/Table/FlightData';
+import PackageData from '../ui/datagrid/PackageData';
 
 import connectHtmlElementValueToObject from '../helpers/connectHtmlElementValueToObject';
 
@@ -62,6 +62,9 @@ export default function Flightplanner({ match }) {
       </PageIngress>
       <Grid width='100%' templateColumns='repeat(6, 1fr)' gap='10px' autoRows='minmax(100px, auto)'>
         <GridItem column='1 / 7' row='1'>
+          <Form title='Package' icon={<MdPeople />}>
+            <PackageData name='package' onChange={handleChange} value={flightplan.package} />
+          </Form>
           <Form title='Mission Data' icon={<FiEdit />}>
             <Input onChange={handleChange} name='flightDate' label='Flight Date:' />
             <Input onChange={handleChange} name='taskNumber' label='Task #:' placeholder='TR2222' />

@@ -18,8 +18,8 @@ const ImageUploadContainer = styled.div``;
 export default function Image({ label }) {
   const { currentUser } = React.useContext(AuthContext);
 
-  const [uploadedFile, setUploadedFile] = React.useState({});
   const [uploadPercentage, setUploadPercentage] = React.useState(0);
+  const [uploadedFile, setUploadedFile] = React.useState({});
 
   const onSubmit = (file) => {
     const formObj = new FormData();
@@ -37,10 +37,15 @@ export default function Image({ label }) {
       })
       .then((res) => {
         const { fileName, filePath } = res.data;
-        setUploadedFile({ fileName, filePath });
+
+        // TODO - Remove the setTimeout() in production?
+        setTimeout(() => {
+          setUploadedFile({ fileName, filePath });
+        }, 1000);
       })
       .catch((err) => {
         if (err.response.status === 500) {
+          // TODO - This should generate an error message in the field?
           console.log('There was a problem with the server');
         } else {
           console.log(err.response.data.msg);
@@ -48,50 +53,16 @@ export default function Image({ label }) {
       });
   };
 
-  // const onSubmit = (file) => {
-  // const onSubmit = async (file) => {
-  //   const formData = new FormData();
-  //   formData.append('file', file);
-  //   formData.append('foo', 'bar');
-
-  //   console.info('onSubmit:formData.file: ', formData.get('file'));
-
-  //   // TEST - Show objects appended to formData
-  //   // for (const pair of formData.entries()) {
-  //   //   console.log(`${pair[0]}, ${pair[1]}`);
-  //   // }
-
-  //   try {
-  //     const res = await axios.post(`${API_ROOT}/image/upload`, formData, {
-  //       headers: {
-  //         'Content-Type': 'multipart/form-data',
-  //       },
-  //     });
-
-  //     console.log('RES!? ', res.data);
-
-  //     const { fileName, filePath } = res.data;
-  //     setUploadedFile({ fileName, filePath });
-  //   } catch (err) {
-  //     if (err.response.status === 500) {
-  //       console.log('There was a problem with the server');
-  //     } else {
-  //       console.log(err.response.data.msg);
-  //     }
-  //   }
-  // };
-
   return (
     <ImageUploadContainer>
       <FileBrowser label={label} onSubmit={onSubmit} />
       <ProgressBar percentage={uploadPercentage} />
       {uploadedFile ? (
-        <div>
-          <div>
-            <h3>{uploadedFile.fileName}</h3>
-            <img style={{ width: 'auto' }} src={`${FILE_SERVER}/${uploadedFile.filePath}`} alt='' />
-          </div>
-        </div>
+        <img
+          style={{ width: 'auto' }}
+          src={`${FILE_SERVER}/${uploadedFile.filePath}-100.png`}
+          alt=''
+        />
       ) : null}
     </ImageUploadContainer>
   );
