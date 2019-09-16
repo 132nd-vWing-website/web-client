@@ -4,10 +4,13 @@ import { MdInsertEmoticon } from 'react-icons/md';
 import { Grid, GridItem } from 'styled-grid-component';
 import Form from '../ui/Form';
 
+import Image from '../uploader/Image';
+
 export default function RegisterPilot() {
   return (
     <Form title='Add Pilot' icon={<MdInsertEmoticon />}>
       <p>Pilot form...</p>
+      <Image />
     </Form>
   );
 }

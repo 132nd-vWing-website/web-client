@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
-import { Redirect } from 'react-router-dom';
 import setAuthToken from '../../utils/setAuthToken';
 
 import API_ROOT from '../../api-config';
@@ -26,6 +25,7 @@ export const AuthContext = React.createContext({
   clearUser: () => null,
   loginUser: () => null,
   logoutUser: () => null,
+  checkAuth: () => null,
 });
 
 // CONSUMER COMPONENT
@@ -65,6 +65,27 @@ export function AuthProvider({ children }) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [currentUser, setCurrentUser] = React.useState(currentUserData);
+
+  const checkAuth = () => {
+    // Check if currentUser is false
+    if (!currentUser) {
+      window.location.href = '/login';
+      return false;
+    }
+
+    // Decode and check for expired token
+    const decoded = jwtDecode(localStorage.jwtToken);
+    const currentTime = Date.now() / 1000;
+    if (decoded.exp < currentTime) {
+      localStorage.removeItem('jwtToken');
+      setCurrentUser(false);
+      window.location.href = '/login';
+      return false;
+    }
+
+    // And if none of the above checks fail, the user is probably ok :)
+    return true;
+  };
 
   const loginUser = (userData) =>
     new Promise((resolve) => {
@@ -108,6 +129,7 @@ export function AuthProvider({ children }) {
         setCurrentUser,
         loginUser,
         logoutUser,
+        checkAuth,
       }}>
       {children}
     </AuthContext.Provider>

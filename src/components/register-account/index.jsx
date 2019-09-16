@@ -9,9 +9,10 @@ import { RegisterAccountProvider } from './RegisterAccountContext';
 import RegisterStep from './RegisterStep';
 import CheckEmailVerification from './CheckEmailVerification';
 import LoginStep from './LoginStep';
+import AddPilotStep from './AddPilotStep';
 
 export default function RegisterAccount() {
-  const [current, setCurrent] = React.useState(0);
+  const [current, setCurrent] = React.useState(1); // TODO set this to 0
 
   const onNext = () => {
     setCurrent(current + 1);
@@ -36,14 +37,7 @@ export default function RegisterAccount() {
     },
     {
       title: 'Create Profile',
-      content: (
-        <React.Fragment>
-          <p>Create Profile</p>
-          <Button type='primary' onClick={() => setCurrent(0)}>
-            RESET
-          </Button>
-        </React.Fragment>
-      ),
+      content: <AddPilotStep stepKey={3} currentStep={current} onNext={onNext} />,
     },
   ];
 
