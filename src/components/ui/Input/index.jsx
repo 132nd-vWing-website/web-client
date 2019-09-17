@@ -9,7 +9,7 @@ const ErrorMessage = styled.small`
 
 export const InputField = styled.input`
   width: 100%;
-  margin-bottom: 2px;
+  margin-bottom: 0.25em;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 2px;
   padding-left: 0.5em;

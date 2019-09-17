@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const Container = styled.div`
-  margin-top: 5px;
+  margin-top: 0.25em;
   display: flex;
   height: 1rem;
   overflow: hidden;

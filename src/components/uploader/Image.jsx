@@ -13,13 +13,21 @@ import ProgressBar from './ProgressBar';
 import { AuthContext } from '../auth/AuthContext';
 
 // Styled Components
-const ImageUploadContainer = styled.div``;
+const ImageUploadContainer = styled.div`
+  margin: 0;
+  margin-bottom: 2px;
+`;
 
-export default function Image({ label }) {
+export default function Image({ label, onChange }) {
   const { currentUser } = React.useContext(AuthContext);
 
   const [uploadPercentage, setUploadPercentage] = React.useState(0);
-  const [uploadedFile, setUploadedFile] = React.useState({});
+  const [uploadedFile, setUploadedFile] = React.useState();
+  React.useEffect(() => {
+    if (uploadedFile) {
+      onChange(uploadedFile);
+    }
+  }, [uploadedFile]);
 
   const onSubmit = (file) => {
     const formObj = new FormData();
@@ -56,22 +64,17 @@ export default function Image({ label }) {
   return (
     <ImageUploadContainer>
       <FileBrowser label={label} onSubmit={onSubmit} />
-      <ProgressBar percentage={uploadPercentage} />
-      {uploadedFile ? (
-        <img
-          style={{ width: 'auto' }}
-          src={`${FILE_SERVER}/${uploadedFile.filePath}-100.png`}
-          alt=''
-        />
-      ) : null}
+      {uploadPercentage > 0 ? <ProgressBar percentage={uploadPercentage} /> : null}
     </ImageUploadContainer>
   );
 }
 
 Image.propTypes = {
   label: PropTypes.string,
+  onChange: PropTypes.func,
 };
 
 Image.defaultProps = {
   label: 'Upload Image...',
+  onChange: () => null,
 };

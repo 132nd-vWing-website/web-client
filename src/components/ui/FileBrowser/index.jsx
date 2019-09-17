@@ -6,8 +6,7 @@ const Container = styled.div`
   position: relative;
   display: inline-block;
   width: 100%;
-  height: calc(1.5em + 0.75rem + 2px);
-  margin-bottom: 0;
+  margin: 0;
 
   ::after,
   ::before {
@@ -15,26 +14,8 @@ const Container = styled.div`
   }
 `;
 
-// const Input = styled.input`
-//   position: relative;
-//   z-index: 2;
-//   width: 100%;
-//   height: calc(1.5em + 0.75rem + 2px);
-//   margin: 0;
-//   opacity: 0;
-
-//   overflow: visible;
-
-//   align-items: baseline;
-//   -webkit-writing-mode: horizontal-tb !important;
-//   writing-mode: horizontal-tb !important;
-
-//   :invalid {
-//     border-color: ${(props) => (props.error ? '#f5222d' : 'inherit')};
-//   }
-// `;
-
 const Input = styled.input`
+  height: 0;
   width: 100%;
   margin-bottom: 2px;
   border: 1px solid rgba(0, 0, 0, 0.2);
@@ -65,7 +46,7 @@ const Label = styled.label`
   font-size: inherit;
 
   display: inline-block;
-  margin-bottom: 0.5rem;
+  margin: 0;
 
   ::after,
   ::before {
