@@ -1,16 +1,19 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
 import { MdInsertEmoticon } from 'react-icons/md';
-import { Grid, GridItem } from 'styled-grid-component';
-import Form from '../ui/Form';
+import Form, { FormItem } from '../ui/Form';
+import Input from '../ui/Input';
 
 import Image from '../uploader/Image';
 
 export default function RegisterPilot() {
   return (
+
     <Form title='Add Pilot' icon={<MdInsertEmoticon />}>
-      <p>Pilot form...</p>
-      <Image />
+      <FormItem label={'Profile Picture:'}>
+        <Image />
+      </FormItem>
+      <Input onChange={() => console.log('yolo')} name='aircraft' label='Aircraft:' />
     </Form>
   );
 }

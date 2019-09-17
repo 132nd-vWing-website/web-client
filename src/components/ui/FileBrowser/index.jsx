@@ -15,19 +15,37 @@ const Container = styled.div`
   }
 `;
 
+// const Input = styled.input`
+//   position: relative;
+//   z-index: 2;
+//   width: 100%;
+//   height: calc(1.5em + 0.75rem + 2px);
+//   margin: 0;
+//   opacity: 0;
+
+//   overflow: visible;
+
+//   align-items: baseline;
+//   -webkit-writing-mode: horizontal-tb !important;
+//   writing-mode: horizontal-tb !important;
+
+//   :invalid {
+//     border-color: ${(props) => (props.error ? '#f5222d' : 'inherit')};
+//   }
+// `;
+
 const Input = styled.input`
-  position: relative;
-  z-index: 2;
   width: 100%;
-  height: calc(1.5em + 0.75rem + 2px);
-  margin: 0;
+  margin-bottom: 2px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+  padding-left: 0.5em;
+
   opacity: 0;
 
-  overflow: visible;
-
-  align-items: baseline;
-  -webkit-writing-mode: horizontal-tb !important;
-  writing-mode: horizontal-tb !important;
+  :invalid {
+    border-color: ${(props) => (props.error ? '#f5222d' : 'inherit')};
+  }
 `;
 
 const Label = styled.label`
@@ -36,8 +54,9 @@ const Label = styled.label`
   right: 0;
   left: 0;
   z-index: 1;
-  height: calc(1.5em + 0.75rem + 2px);
-  padding: 0.375rem 0.75rem;
+  /* height: calc(1.5em + 0.75rem + 2px); */
+  /* padding: 0.375rem 0.75rem; */
+  padding-left: 0.375rem;
   font-weight: 400;
   line-height: 1.5;
   color: #495057;
