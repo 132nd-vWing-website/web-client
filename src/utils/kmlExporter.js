@@ -1,4 +1,4 @@
-import toKml from 'tokml';
+import toKml from '@maphubs/tokml';
 
 export const testGeoJson = {
   type: 'FeatureCollection',
