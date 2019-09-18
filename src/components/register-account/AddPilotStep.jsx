@@ -14,10 +14,9 @@ export default function AddPilotStep() {
 
   return (
     <React.Fragment>
-      <h1>Welcome!</h1>
       <p>
-        Your account is now created and you are successfully logged into your account. Next step is
-        to create a Pilot profile and apply for a squadron.
+        Welcome! Your account is now created and you are successfully logged into your account. Next
+        step is to create a Pilot profile and apply for a squadron.
       </p>
       <RegisterPilot />
     </React.Fragment>
