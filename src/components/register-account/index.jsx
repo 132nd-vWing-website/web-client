@@ -1,6 +1,6 @@
 import React from 'react';
 import Page from '../ui/Page';
-import Button from '../ui/Button';
+import Steps from '../ui/Steps';
 
 // Contexts
 import { RegisterAccountProvider } from './RegisterAccountContext';
@@ -28,7 +28,7 @@ export default function RegisterAccount() {
       ),
     },
     {
-      title: 'Confirming email',
+      title: 'Confirm E-mail',
       content: <CheckEmailVerification stepKey={1} currentStep={current} onNext={onNext} />,
     },
     {
@@ -36,10 +36,15 @@ export default function RegisterAccount() {
       content: <LoginStep stepKey={2} currentStep={current} onNext={onNext} />,
     },
     {
-      title: 'Create Profile',
+      title: 'Add Pilot',
       content: <AddPilotStep stepKey={3} currentStep={current} onNext={onNext} />,
     },
   ];
 
-  return <Page title='Register Account'>{steps[current].content}</Page>;
+  return (
+    <Page title='Register Account'>
+      <Steps current={current} steps={steps} />
+      {steps[current].content}
+    </Page>
+  );
 }
