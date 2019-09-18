@@ -90,8 +90,6 @@ export default function Steps({ current, steps }) {
     ),
   );
 
-  console.log('YOLO...?');
-
   return <Container>{items}</Container>;
 }
 
