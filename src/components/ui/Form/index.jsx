@@ -102,13 +102,15 @@ const FormBody = styled.div`
 export default function Form({ children, title, icon }) {
   return (
     <FormContainer>
-      <FormHead>
-        <FormHeadWrapper>
-          <FormHeadTitle>
-            {icon ? <FormHeadIcon>{icon}</FormHeadIcon> : null} {title}
-          </FormHeadTitle>
-        </FormHeadWrapper>
-      </FormHead>
+      {title ? (
+        <FormHead>
+          <FormHeadWrapper>
+            <FormHeadTitle>
+              {icon ? <FormHeadIcon>{icon}</FormHeadIcon> : null} {title}
+            </FormHeadTitle>
+          </FormHeadWrapper>
+        </FormHead>
+      ) : null}
       <FormBody>{children}</FormBody>
     </FormContainer>
   );
