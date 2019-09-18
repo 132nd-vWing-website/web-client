@@ -1,6 +1,6 @@
 // import PropTypes from 'prop-types';
 import React from 'react';
-import { MdInsertEmoticon, MdPerson } from 'react-icons/md';
+import { MdPerson } from 'react-icons/md';
 import styled from 'styled-components';
 import Form, { FormItem } from '../ui/Form';
 import Input from '../ui/Input';
@@ -40,7 +40,7 @@ export default function RegisterPilot() {
   const [profileImage, setProfileImage] = React.useState();
 
   return (
-    <Form title='Add Pilot' icon={<MdInsertEmoticon />}>
+    <Form>
       <ProfileImagePreviewContainer>
         <ProfileImagePreview>
           {profileImage ? (

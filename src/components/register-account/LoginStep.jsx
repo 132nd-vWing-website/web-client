@@ -62,7 +62,7 @@ export default function LoginStep({ stepKey, currentStep, onNext }) {
       <PageIngress>
         <p>Log in to your account:</p>
       </PageIngress>
-      <Form title='Log In'>
+      <Form>
         <Input
           id='account-username'
           required
